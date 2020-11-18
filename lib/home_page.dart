@@ -21,9 +21,8 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
-      drawer: SafeArea(
-        child: SideBar(),
-      ),
+      drawer: SideBar(),
+
       body: Center(
         child: Container(
           child: Text(
