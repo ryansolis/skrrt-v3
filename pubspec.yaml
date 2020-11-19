@@ -23,7 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  intl: ^0.15.8
+  image_picker:
   # Google Maps Dependency. For more information, check https://pub.dev/packages/google_maps_flutter
   google_maps_flutter: ^1.0.6
 

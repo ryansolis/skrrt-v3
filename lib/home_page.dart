@@ -1,96 +1,273 @@
+import 'dart:async';
+import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:ui' as ui;
 
-class MyHomePage extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  List<Marker> allMarkers = [];
-
-  GoogleMapController _controller;
+class _HomeState extends State<Home> {
+  Set<Marker> _markers ={};
+  BitmapDescriptor mapMarker;
+  BitmapDescriptor selectedMarker;
 
   @override
-  void initState() {
-    // TODO: implement initState
+  void initState(){
     super.initState();
-    allMarkers.add(Marker(
-        markerId: MarkerId('myMarker'),
-        draggable: true,
-        onTap: () {
-          print('Marker Tapped');
-        },
-        position: LatLng(40.7128, -74.0060)));
+    setCustomMarker();
   }
+
+  void setCustomMarker() async{
+    selectedMarker = await getBitmapDescriptorFromAssetBytes("assets/skrrt_selected1.png", 200);
+    mapMarker = await getBitmapDescriptorFromAssetBytes("assets/skrrt_marker1.png", 150);
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+  }
+
+  Future<BitmapDescriptor> getBitmapDescriptorFromAssetBytes(String path, int width) async {
+    final Uint8List imageData = await getBytesFromAsset(path, width);
+    return BitmapDescriptor.fromBytes(imageData);
+  }
+
+  void _onMapCreated(GoogleMapController controller){
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId('id-1'),
+          position: LatLng(10.295666, 123.880472),
+          icon: mapMarker,
+        )
+      );
+      _markers.add(
+          Marker(
+            markerId: MarkerId('id-2'),
+            position: LatLng(10.295235, 123.880835),
+            icon: selectedMarker,
+          )
+      );
+      _markers.add(
+          Marker(
+            markerId: MarkerId('id-3'),
+            position: LatLng(10.296086, 123.880536),
+            icon: mapMarker,
+          )
+      );
+      _markers.add(
+          Marker(
+            markerId: MarkerId('id-4'),
+            position: LatLng(10.295484, 123.880038),
+            icon: mapMarker,
+          )
+      );
+    });
+  }
+  Color _color = Colors.white;
+  Color _color1 = Colors.white;
+
+  bool isSelected1 = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Maps'),
-      ),
-      body: Stack(
-          children: [Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: GoogleMap(
-              initialCameraPosition:
-              CameraPosition(target: LatLng(40.7128, -74.0060), zoom: 12.0),
-              markers: Set.from(allMarkers),
-              onMapCreated: mapCreated,
-            ),
-          ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: InkWell(
-                onTap: movetoBoston,
-                child: Container(
-                  height: 40.0,
-                  width: 40.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: Colors.green
+        body: SafeArea(
+            child: Stack(
+                children: [
+                  Column(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: GoogleMap(
+                            onMapCreated: _onMapCreated,
+                            markers: _markers,
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(10.295235, 123.880835),
+                              zoom: 18.5,
+                            ),
+                          ),
+                        ),
+                      ]
                   ),
-                  child: Icon(Icons.forward, color: Colors.white),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: InkWell(
-                onTap: movetoNewYork,
-                child: Container(
-                  height: 40.0,
-                  width: 40.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: Colors.red
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(flex: 4, child: SizedBox(),),
+                      Flexible(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                          child: Card(
+                            color: Color(0xFFFFFFFF),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left:10, top:10),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text('Models in ',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Quicksand',
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text('Library Station',
+                                            style: TextStyle(
+                                              color: Color(0xff00A8E5),
+                                              fontFamily: 'Quicksand',
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ]
+                                    ),
+                                  ),
+                                  SizedBox(height:20),
+                                  Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState((){
+                                            //isSelected = false;
+                                            _color = Color(0xff00A8E5) ;
+                                            _color1 = Colors.white ;
+                                          });
+                                        },
+                                        child: FlatButton(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Icon(Icons.electric_scooter_rounded,
+                                                color: Color(0xff00A8E5),
+                                              ),
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('PHOENIX',
+                                                    style: TextStyle(
+                                                      color: Color(0xff00A8E5),
+                                                      fontFamily: 'Quicksand',
+                                                      fontSize: 15.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  Text('regular scooter',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: 'Quicksand',
+                                                      fontSize: 14.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              ),
+                                              Icon(Icons.check_circle,
+                                                color: _color,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                  ),
+                                  Divider(
+                                    color: Colors.grey
+                                  ),
+                                  Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState((){
+                                            //isSelected = false;
+                                            _color = Colors.white ;
+                                            _color1 = Color(0xff00A8E5) ;
+                                          });
+                                        },
+                                        child: FlatButton(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Icon(Icons.electric_scooter_rounded,
+                                                color: Color(0xff00A8E5),
+                                              ),
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('    YAMI',
+                                                    style: TextStyle(
+                                                      color: Color(0xff00A8E5),
+                                                      fontFamily: 'Quicksand',
+                                                      fontSize: 15.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  Text('    carry heavy loads',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: 'Quicksand',
+                                                      fontSize: 14.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              ),
+                                              Icon(Icons.check_circle,
+                                                color: _color1,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height:15),
+                      Expanded(
+                          child: MaterialButton(
+                            onPressed: () {},
+                            color: Color(0xff00A8E5),
+                            textColor: Colors.white,
+                            child: Text(''
+                                'RIDE',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color:Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            padding: EdgeInsets.all(16),
+                            shape: CircleBorder(),
+                          )
+                      ),
+                      SizedBox(height:20),
+                    ],
                   ),
-                  child: Icon(Icons.backspace, color: Colors.white),
-                ),
-              ),
+                ]
             )
-          ]
-      ),
+        )
     );
   }
-
-  void mapCreated(controller) {
-    setState(() {
-      _controller = controller;
-    });
-  }
-
-  movetoBoston() {
-    _controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: LatLng(42.3601, -71.0589), zoom: 14.0, bearing: 45.0, tilt: 45.0),
-    ));
-  }
-
-  movetoNewYork() {
-    _controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: LatLng(40.7128, -74.0060), zoom: 12.0),
-    ));
-  }
 }
+
+

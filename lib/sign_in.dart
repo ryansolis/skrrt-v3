@@ -149,7 +149,7 @@ class _SignInState extends State<SignIn> {
                                 onPressed: () {
                                     Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                                        MaterialPageRoute(builder: (context) => Home()),
                                     );
                                     /*
                                     if(!formKey.currentState.validate()){
