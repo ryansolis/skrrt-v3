@@ -32,7 +32,7 @@ class _NavigationState extends State<Navigation> {
                 Expanded(
                   flex: 1,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,7 +82,7 @@ class _NavigationState extends State<Navigation> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 60.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 60.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -158,7 +158,7 @@ class _NavigationState extends State<Navigation> {
                                 ),
                               ],
                             ),
-                            Icon(Icons.headset,
+                            Icon(Icons.volume_up_rounded,
                               color: Color(0xFF0E0E0E),
                             ),
                           ],

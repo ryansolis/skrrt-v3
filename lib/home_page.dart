@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
+import 'sidebar_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Set<Marker> _markers ={};
   BitmapDescriptor mapMarker;
   BitmapDescriptor selectedMarker;
@@ -101,6 +103,19 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            color: Colors.black,
+            onPressed: (){
+              _scaffoldKey.currentState.openDrawer();
+            },
+          ),
+        ),
+        drawer: SideBar(),
         body: SafeArea(
             child: Stack(
                 children: [

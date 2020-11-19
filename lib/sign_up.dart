@@ -70,7 +70,7 @@ class _SignUpState extends State<SignUp> {
   DateTime bday;
   Color radcolor1 = Colors.black54;
   Color radcolor2 = Colors.black54;
-  
+
   @override
   void initState(){
     super.initState();
@@ -96,11 +96,14 @@ class _SignUpState extends State<SignUp> {
   int currentStep = 0;
   bool complete = false;
 
+  void fieldFin(){
+    complete = true;
+    setState(() =>  currentStep += 1);
+  }
   next() {
     currentStep + 1 != steps.length
         ? goTo(currentStep + 1)
-        : setState(() =>  currentStep += 1);
-    dateCtl = TextEditingController();
+        : fieldFin();
   }
 
   goTo(int step) {
@@ -460,6 +463,83 @@ class _SignUpState extends State<SignUp> {
           SizedBox(height:30),
         ],
       ),
+
+    ),
+    Step(
+      title: const Text(''),
+      isActive: currentStep>=3,
+      state: currentStep >= 3 ? StepState.complete : StepState.disabled,
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+
+        children: <Widget>[
+          Text(
+            'Verify Phone',
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 18.0,
+              letterSpacing: 1.0,
+            ),
+          ),
+          SizedBox(height:20),
+          Text(
+            'Code is sent to',
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              letterSpacing: 1.0,
+            ),
+          ),
+                      //Vince started here
+          Text(
+            '+63 936 396 7814',     //current dummy text for phone number
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              letterSpacing: 1.0,
+            ),
+          ),
+          SizedBox(height:20),
+          TextFormField(
+            decoration: InputDecoration(
+                hintText: 'Verification Code',
+                hintStyle: TextStyle(
+                  fontFamily: 'Quicksand',
+                  fontSize: 16.0,
+                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                )
+            ),
+          ),
+          SizedBox(height:30),
+          Text(
+            'Didn’t receive a code?',
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              letterSpacing: 1.0,
+            ),
+          ),
+          Text(
+            'Request again',
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              letterSpacing: 1.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+            ),
+          ),
+          Text(
+            'Get via Call',
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              letterSpacing: 1.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+            ),
+          ),
+          SizedBox(height:40),
+        ],
+      ),
     ),
   ];
 
@@ -478,7 +558,7 @@ class _SignUpState extends State<SignUp> {
              children: [
                SizedBox(height: 50),
                Image(
-                 image: AssetImage("assets/skrrt_logo1.jpg"),
+                 image: currentStep!=3 ? AssetImage("assets/skrrt_logo1.jpg") : AssetImage("assets/mblverif.png"),
                  height: 100,
                  width: 100,
                ),
@@ -493,7 +573,32 @@ class _SignUpState extends State<SignUp> {
                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                    )
                ),
-               Expanded(
+
+               complete ? Expanded(
+                 child: Center(
+                   child: AlertDialog(
+                       title: Row(
+                         children:[
+                         Text('Sign up Successful!',
+                           style: TextStyle(
+                           fontFamily: 'Montserrat',
+                           fontSize: 14.0,
+                           fontWeight: FontWeight.bold,
+                           letterSpacing: 1.0,
+                           color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                         )
+                     )],),
+                     content: new Text("Start your ride now!",),
+                     actions: <Widget>[
+                       new FlatButton(
+                         child: new Text("Close"),
+                         onPressed: () => Navigator.pop(context),
+                       )
+                     ]
+                   )
+                 )
+                ):
+                    Expanded(
                  child: Stepper(
                      steps: steps,
                      type: StepperType.horizontal,

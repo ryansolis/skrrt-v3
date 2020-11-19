@@ -6,6 +6,7 @@ import 'launch_page.dart';
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: "Skrrt",
     home: LaunchPage()
   ));
