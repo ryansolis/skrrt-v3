@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'sign_up.dart';
+import 'home_page.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -19,7 +20,6 @@ class _SignInState extends State<SignIn> {
               hintStyle: TextStyle(
                 fontFamily: 'Quicksand',
                 fontSize: 16.0,
-                color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
             ),
             prefixIcon: Padding(
               padding: EdgeInsets.only(right: 15),
@@ -30,6 +30,7 @@ class _SignInState extends State<SignIn> {
               ),
             )
       ),
+      style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
       /*
       validator: (String value){
@@ -54,7 +55,6 @@ class _SignInState extends State<SignIn> {
           hintStyle: TextStyle(
             fontFamily: 'Quicksand',
             fontSize: 16.0,
-            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
           ),
           prefixIcon: Padding(
             padding: EdgeInsets.only(right: 15),
@@ -65,7 +65,7 @@ class _SignInState extends State<SignIn> {
             ),
           ),
       ),
-
+      style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
       obscureText: true,
       /*
@@ -134,38 +134,34 @@ class _SignInState extends State<SignIn> {
                               _buildPassword(),
                               SizedBox(height:30),
                               RaisedButton(
-                                  padding: EdgeInsets.all(12.0),
-                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                  textColor: Colors.white,
-                                  color: Color(0xff00A8E5),
-                                  child: Text(''
-                                      'LOG IN',
-                                    style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color:Colors.white,
-                                      fontSize: 16,
-                                    ),
-
+                                padding: EdgeInsets.all(12.0),
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                color: Color(0xff00A8E5),
+                                disabledColor: Colors.blue,//add this to your code
+                                child: Text(''
+                                    'LOG IN',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color:Colors.white,
+                                    fontSize: 16,
                                   ),
-                                  onPressed: () {
-                                    /*
+                                ),
+                                onPressed: () {
                                     Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => SignUp()),
-                                    );*/
+                                        context,
+                                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                                    );
+                                    /*
+                                    if(!formKey.currentState.validate()){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => LaunchPage()),
+                                      )
+                                    }
+                                    else{
+                                      formKey.currentState.save()
+                                    }*/
                                   }
-                                /*
-                            onPressed: () => {
-                              if(!formKey.currentState.validate()){
-                                  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => LaunchPage()),
-                                )
-                              }
-                              else{
-                                formKey.currentState.save()
-                              }
-                            }*/
                               ),
                               SizedBox(height:10),
                               Center(
