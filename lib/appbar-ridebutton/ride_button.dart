@@ -19,7 +19,7 @@ class RideButton extends StatelessWidget {
         ),
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return HomeScreen();
+            return Home();
           }));
         },
       ),

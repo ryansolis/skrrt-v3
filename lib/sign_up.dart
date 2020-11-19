@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -9,18 +11,85 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  TextEditingController dateCtl = TextEditingController();
+  TextEditingController cam = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  PickedFile imageFile;
+
+
+  _openGallery (BuildContext context) async {
+    // ignore: deprecated_member_use
+    var picture = await ImagePicker().getImage(source: ImageSource.gallery);
+    this.setState(() {
+      imageFile = picture;
+      if(imageFile != null)
+        cam.text = "Done";
+    });
+    Navigator.of(context).pop();
+  }
+
+  _openCamera(BuildContext context) async{
+    var picture = await ImagePicker().getImage(source: ImageSource.camera);
+    this.setState(() {
+      imageFile = picture;
+      if(imageFile != null)
+        cam.text = "Done";
+    });
+    Navigator.of(context).pop();
+  }
+
+  Future<void> _showChoiceDialaog(BuildContext context){
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Choose"),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              GestureDetector(
+                child: Text("Gallery"),
+                onTap: (){
+                  _openGallery(context);
+                }
+              ),
+              SizedBox(height: 15,),
+              GestureDetector(
+                child: Text("Camera"),
+                onTap: (){
+                _openCamera(context);
+                }
+              )
+            ],
+          )
+        )
+      );
+    });
+  }
+
   int selectedRadio;
-  String course;
-  String year;
+  String fname,lname,username,password, course,year;
+  DateTime bday;
+  Color radcolor1 = Colors.black54;
+  Color radcolor2 = Colors.black54;
 
   @override
   void initState(){
     super.initState();
     selectedRadio = 0;
+    pass.text ="";
   }
+
   setSelectedRadio(int val){
     setState(() {
       selectedRadio = val;
+      if(val == 1){
+        radcolor1 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
+        radcolor2 = Colors.black54;
+      }
+      else{
+        radcolor2 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
+        radcolor1 = Colors.black54;
+      }
+
     });
   }
 
@@ -66,14 +135,18 @@ class _SignUpState extends State<SignUp> {
           ),
           SizedBox(height:20),
           TextFormField(
+            cursorColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
             decoration: InputDecoration(
-                hintText: 'First Name',
-                hintStyle: TextStyle(
-                fontFamily: 'Quicksand',
-                fontSize: 16.0,
-                color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                  hintText: 'First Name',
+                  hintStyle: TextStyle(
+                  fontFamily: 'Quicksand',
+                  fontSize: 16.0,
                 )
             ),
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           TextFormField(
             decoration: InputDecoration(
@@ -81,32 +154,39 @@ class _SignUpState extends State<SignUp> {
                 hintStyle: TextStyle(
                   fontFamily: 'Quicksand',
                   fontSize: 16.0,
-                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                 )
             ),
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           TextFormField(
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: 'Phone Number',
                 hintStyle: TextStyle(
                   fontFamily: 'Quicksand',
                   fontSize: 16.0,
-                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                 )
             ),
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           TextFormField(
+              controller: dateCtl,
               decoration: InputDecoration(
                   hintText: 'Birthday',
                   hintStyle: TextStyle(
                   fontFamily: 'Quicksand',
                   fontSize: 16.0,
-                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                 ),
               suffixIcon:  IconButton(
                 icon: Icon(Icons.calendar_today_rounded),
                 iconSize: 20,
-                ),
+              ),
                 /*
                 onPressed: () {
                   setState(() {
@@ -114,6 +194,21 @@ class _SignUpState extends State<SignUp> {
                   });
                 },*/
               ),
+              onTap: () async{
+              DateTime date = DateTime(1900);
+              FocusScope.of(context).requestFocus(new FocusNode());
+
+              date = await showDatePicker(
+                  context: context,
+                  initialDate:DateTime.now(),
+                  firstDate:DateTime(1900),
+                  lastDate: DateTime(2100));
+              dateCtl.text = DateFormat("dd/MM/yyyy").format(date).toString();
+              },
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
             ),
           SizedBox(height:30),
         ],
@@ -150,9 +245,6 @@ class _SignUpState extends State<SignUp> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: [
                   Radio(
                     value:1,
                     groupValue: selectedRadio,
@@ -166,7 +258,7 @@ class _SignUpState extends State<SignUp> {
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 16.0,
-                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                        color: radcolor1,
                       )
                   ),
                   Radio(
@@ -182,11 +274,9 @@ class _SignUpState extends State<SignUp> {
                       style: TextStyle(
                         fontFamily: 'Quicksand',
                         fontSize: 16.0,
-                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                        color: radcolor2,
                       )
                   ),
-                ],
-              )
             ],
           ),
           Row(
@@ -197,7 +287,7 @@ class _SignUpState extends State<SignUp> {
                       style:TextStyle(
                         fontSize: 16,
                         fontFamily: 'Quicksand',
-                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),) ),
+                        ) ),
                   isExpanded: true,
                   value: course,
                   icon: Icon(Icons.arrow_drop_down_rounded, color: Colors.grey,),
@@ -209,8 +299,8 @@ class _SignUpState extends State<SignUp> {
                     color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                   ),
                   underline: Container(
-                    height: 2,
-                    color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                    height: 1.1,
+                    color: Colors.grey,
                   ),
                   onChanged: (String newValue) {
                     setState(() {
@@ -234,7 +324,7 @@ class _SignUpState extends State<SignUp> {
                       style:TextStyle(
                         fontSize: 16,
                         fontFamily: 'Quicksand',
-                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),) ),
+                        ) ),
                   isExpanded: true,
                   value: year,
                   icon: Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
@@ -246,8 +336,8 @@ class _SignUpState extends State<SignUp> {
                     color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                   ),
                   underline: Container(
-                    height: 2,
-                    color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                    height: 1.1,
+                    color: Colors.grey,
                   ),
                   onChanged: (String newValue) {
                     setState(() {
@@ -267,16 +357,26 @@ class _SignUpState extends State<SignUp> {
             ],
           ),
           TextFormField(
+            controller: dateCtl,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
                   hintText: 'ID Number',
                   hintStyle: TextStyle(
                   fontFamily: 'Quicksand',
                   fontSize: 16.0,
-                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                 )
             ),
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           TextFormField(
+            onTap: () async{
+              _showChoiceDialaog(context);
+            },
+            readOnly: true,
+            controller: cam,
             textAlign: TextAlign.start,
             decoration:
             InputDecoration(
@@ -284,27 +384,24 @@ class _SignUpState extends State<SignUp> {
                   hintStyle: TextStyle(
                   fontFamily: 'Quicksand',
                   fontSize: 16.0,
-                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                 ),
             suffixIcon:  IconButton(
                 icon: Icon(Icons.camera_alt_rounded,
                   ),
-                /*
-                onPressed: () {
-                  setState(() {
-                    _volume += 10;
-                  });
-                },*/
               ),
-            )
+            ),
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           SizedBox(height:30),
         ],
       ),
     ),
     Step(
-      isActive: currentStep>=2,
-      state: currentStep >= 2 ? StepState.complete : StepState.disabled,
+      isActive: currentStep==2,
+      state: currentStep == 2 ? StepState.complete : StepState.disabled,
       title: const Text(''),
       content: Column(
         children: <Widget>[
@@ -318,12 +415,12 @@ class _SignUpState extends State<SignUp> {
           ),
           SizedBox(height:20),
           TextFormField(
+            autofocus: true,
             decoration: InputDecoration(
                 hintText: 'Username',
                 hintStyle: TextStyle(
                   fontFamily: 'Quicksand',
                   fontSize: 16.0,
-                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                 ),
                 prefixIcon: Padding(
                   padding: EdgeInsets.only(right: 15),
@@ -334,15 +431,20 @@ class _SignUpState extends State<SignUp> {
                   ),
                 )
               ),
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           SizedBox(height:10),
           TextFormField(
+            controller: pass,
+            obscureText: true,
             decoration: InputDecoration(
               hintText: 'Password',
               hintStyle: TextStyle(
                 fontFamily: 'Quicksand',
                 fontSize: 16.0,
-                color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
               ),
               prefixIcon: Padding(
                 padding: EdgeInsets.only(right: 15),
@@ -353,6 +455,10 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           SizedBox(height:30),
         ],
@@ -443,7 +549,7 @@ class _SignUpState extends State<SignUp> {
      backgroundColor: Colors.white,
      body: Center(
        child: Padding(
-         padding:EdgeInsets.symmetric(horizontal: 30),
+         padding:EdgeInsets.symmetric(horizontal: 40),
          child: Theme(
            data: ThemeData(  canvasColor: Colors.white, shadowColor: Colors.transparent ),
            child: Column(

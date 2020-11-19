@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'navigation.dart';
 
 class RentScooter extends StatelessWidget {
   @override
@@ -316,10 +317,10 @@ class RentScooter extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            /*Navigator.push(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => Navigation()),
-                            );*/
+                            );
                           }
                       ),
                     ),
