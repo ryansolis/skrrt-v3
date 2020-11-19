@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 import 'sign_up.dart';
 
 class SignIn extends StatefulWidget {
@@ -59,7 +60,7 @@ class _SignInState extends State<SignIn> {
           prefixIcon: Padding(
             padding: EdgeInsets.only(right: 15),
             child: Icon(
-                Icons.lock_rounded ,
+                Icons.lock_rounded,
                 color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                 size: 15,
             ),
@@ -148,11 +149,12 @@ class _SignInState extends State<SignIn> {
 
                                   ),
                                   onPressed: () {
-                                    /*
+
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => SignUp()),
-                                    );*/
+                                      MaterialPageRoute(builder: (context) => HomeScreen()),
+
+                                    );
                                   }
                                 /*
                             onPressed: () => {
