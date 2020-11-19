@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
 import 'sidebar_page.dart';
+import 'rent_scooter.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -121,22 +122,6 @@ class _HomeState extends State<Home> {
                 children: [
                   Column(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(
-                                Icons.view_headline_rounded,
-                                color: Colors.black,
-                                size: 40,
-                              ),
-                              Image(
-                                  image: AssetImage('assets/user.png')
-                              )
-                            ],
-                          ),
-                        ),
                         Expanded(
                           flex: 1,
                           child: GoogleMap(
@@ -313,10 +298,10 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  /*Navigator.push(
+                                  Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Navigation()),
-                                );*/
+                                  MaterialPageRoute(builder: (context) => RentScooter()),
+                                );
                                 }
                             ),
                           ),
