@@ -206,7 +206,7 @@ class _HomeState extends State<Home> {
                                                       style: TextStyle(
                                                         color: Color(0xff00A8E5),
                                                         fontFamily: 'Quicksand',
-                                                        fontSize: 15.0,
+                                                        fontSize: 14.0,
                                                       ),
                                                       textAlign: TextAlign.center,
                                                     ),
@@ -214,7 +214,7 @@ class _HomeState extends State<Home> {
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Quicksand',
-                                                        fontSize: 14.0,
+                                                        fontSize: 12.0,
                                                       ),
                                                       textAlign: TextAlign.center,
                                                     ),
@@ -254,7 +254,7 @@ class _HomeState extends State<Home> {
                                                       style: TextStyle(
                                                         color: Color(0xff00A8E5),
                                                         fontFamily: 'Quicksand',
-                                                        fontSize: 15.0,
+                                                        fontSize: 14.0,
                                                       ),
                                                       textAlign: TextAlign.center,
                                                     ),
@@ -262,7 +262,7 @@ class _HomeState extends State<Home> {
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Quicksand',
-                                                        fontSize: 14.0,
+                                                        fontSize: 12.0,
                                                       ),
                                                       textAlign: TextAlign.center,
                                                     ),
