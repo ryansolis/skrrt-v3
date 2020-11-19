@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 
 import 'package:flutter/material.dart';
+import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
+import 'package:skrrt_app/appbar-ridebutton/skrrt-appbar.dart';
 import 'sidebar_page.dart';
 
 class SkrrtWallet extends StatefulWidget {
@@ -30,6 +32,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
             _scaffoldKey.currentState.openDrawer();
           },
         ),
+        flexibleSpace: AppbarImage(),
       ),
       drawer:  SideBar(),
 
@@ -207,6 +210,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
           ],
         ),
       ),
+      floatingActionButton: RideButton(),
 
     );
   }

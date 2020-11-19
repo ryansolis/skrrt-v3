@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 
 import 'package:flutter/material.dart';
+import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
 import 'sidebar_page.dart';
 
 class Account extends StatelessWidget {
@@ -280,6 +281,7 @@ class Account extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: RideButton(),
 
     );
   }

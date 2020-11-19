@@ -3,25 +3,23 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
+import 'package:skrrt_app/appbar-ridebutton/skrrt-appbar.dart';
 import 'sidebar_page.dart';
 
 class PastRides extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Widget _buildRideWidget(String name, int distance, int seconds, int amount,String date,int num){
+  Widget _buildRideWidget(String name, int distance, int seconds, int amount,String date){
     var _color,_color2;
     double min = seconds/60;
     int mins = min.toInt();
     int secs = (seconds - (60*mins)) ;
     //String dist = distance.toString() + "km";
-    if(num%2 == 1){
-      _color = 0xFF48CEFF;
-      _color2 = 0xFFFFFFFF;
-    }
-    else{
-      _color = 0xFFE7E7E7;
-      _color2 = 0xFF7D7D7D;
-    }
+
+    _color = 0xFFE7E7E7;
+    _color2 = 0xFF7D7D7D;
+
     return Container(
       margin: EdgeInsets.fromLTRB(30,12,20,12),
       padding: EdgeInsets.all(10),
@@ -132,7 +130,7 @@ class PastRides extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                "travelled",
+                                "time",
                                 style: TextStyle(
                                   color: Color(0xFf7D7D7D),
                                   fontSize: 12,
@@ -190,15 +188,16 @@ class PastRides extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          color: Colors.black,
-          onPressed: (){
-            _scaffoldKey.currentState.openDrawer();
-          },
-        ),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            color: Colors.black,
+            onPressed: (){
+              _scaffoldKey.currentState.openDrawer();
+            },
+          ),
+        flexibleSpace: AppbarImage(),
       ),
       drawer:  SideBar(),
 
@@ -219,15 +218,15 @@ class PastRides extends StatelessWidget {
                 ),
               ),
             ),
-            _buildRideWidget('Phoenix', 20, 230, 30, '10-20-2020', 1),
-            _buildRideWidget('Sage', 25, 350, 35, '08-15-2020', 2),
-            _buildRideWidget('Reyna', 3, 181, 25, '08-13-2020', 3),
-            _buildRideWidget('Jett', 2, 350, 40, '07-07-2020', 4),
-            _buildRideWidget('Raze', 4, 350, 40, '06-09-2020', 5),
+            _buildRideWidget('Phoenix', 20, 230, 30, '10-20-2020'),
+            _buildRideWidget('Sage', 25, 350, 35, '08-15-2020'),
+            _buildRideWidget('Reyna', 3, 181, 25, '08-13-2020'),
+            _buildRideWidget('Jett', 2, 350, 40, '07-07-2020'),
+            _buildRideWidget('Raze', 4, 350, 40, '06-09-2020'),
           ],
         ),
       ),
-
+      floatingActionButton: RideButton(),
     );
   }
 }
