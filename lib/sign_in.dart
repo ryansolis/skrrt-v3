@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sign_up.dart';
-import 'home_page.dart';
+//import 'home_page.dart';
+import 'new_user.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -149,7 +150,7 @@ class _SignInState extends State<SignIn> {
                                 onPressed: () {
                                     Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => Home()),
+                                        MaterialPageRoute(builder: (context) => NewUser()),
                                     );
                                     /*
                                     if(!formKey.currentState.validate()){
