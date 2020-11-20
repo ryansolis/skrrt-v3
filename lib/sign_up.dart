@@ -400,8 +400,8 @@ class _SignUpState extends State<SignUp> {
       ),
     ),
     Step(
-      isActive: currentStep==2,
-      state: currentStep == 2 ? StepState.complete : StepState.disabled,
+      isActive: currentStep>=2,
+      state: currentStep >= 2 ? StepState.complete : StepState.disabled,
       title: const Text(''),
       content: Column(
         children: <Widget>[
