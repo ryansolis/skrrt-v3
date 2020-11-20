@@ -468,7 +468,7 @@ class _SignUpState extends State<SignUp> {
     Step(
       title: const Text(''),
       isActive: currentStep>=3,
-      state: currentStep >= 3 ? StepState.complete : StepState.disabled,
+      state: currentStep == 3 ? StepState.complete : StepState.disabled,
       content: Column(
         mainAxisAlignment: MainAxisAlignment.center,
 
@@ -577,24 +577,52 @@ class _SignUpState extends State<SignUp> {
                complete ? Expanded(
                  child: Center(
                    child: AlertDialog(
-                       title: Row(
+                       title: Column(
                          children:[
-                         Text('Sign up Successful!',
+                           Image(
+                             image: AssetImage("assets/user_check.png"),
+                             height: 100,
+                             width: 100,
+                           ),
+                         Text('Successful!',
+
                            style: TextStyle(
+
                            fontFamily: 'Montserrat',
-                           fontSize: 14.0,
+                           fontSize: 25.0,
                            fontWeight: FontWeight.bold,
                            letterSpacing: 1.0,
                            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                         )
-                     )],),
-                     content: new Text("Start your ride now!",),
+                           ),
+                       ),
+                           //SizedBox(height: 30),
+                           Text("Start your ride now!",
+                             textAlign: TextAlign.center,
+                               style: TextStyle(
+                                 fontFamily: 'Montserrat',
+                                 fontSize: 15.0,),
+                           ),
+                           SizedBox(height: 15),
+                           RaisedButton(
+                             padding: EdgeInsets.symmetric(vertical:15.0,horizontal: 24.0),
+                             shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                             color: Color(0xff00A8E5),
+                             disabledColor: Colors.grey,//add this to your code
+                             child: Text('Start Now!',
+                               style: TextStyle(
+                                 fontFamily: 'Montserrat',
+                                 color:Colors.white,
+                                 fontSize: 16,
+                               ),
+                             ),
+                             //child: new Text("Close"),
+                             onPressed: () => Navigator.pop(context),
+                           )
+/*                        */]),
+/*
                      actions: <Widget>[
-                       new FlatButton(
-                         child: new Text("Close"),
-                         onPressed: () => Navigator.pop(context),
-                       )
-                     ]
+                       new
+                     ]*/
                    )
                  )
                 ):
