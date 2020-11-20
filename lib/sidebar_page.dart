@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'account_page.dart';
 import 'past_rides_page.dart';
 import 'skrrt_wallet_page.dart';
+import 'sign_in.dart';
 
 class SideBar extends StatelessWidget {
 
@@ -139,6 +140,11 @@ class SideBar extends StatelessWidget {
                                 child: Image.asset('assets/ic_signout.png'),
                               ),
                               title: Text('Sign out',style: TextStyle(fontSize: 18,color: Colors.white,fontFamily: "Quicksand"),),
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return SignIn();
+                                  }));
+                                },
                             ),
                           ),
                         ),
