@@ -401,7 +401,7 @@ class _SignUpState extends State<SignUp> {
     ),
     Step(
       isActive: currentStep==2,
-      state: currentStep == 2 ? StepState.complete : StepState.disabled,
+      state: currentStep >= 2 ? StepState.complete : StepState.disabled,
       title: const Text(''),
       content: Column(
         children: <Widget>[
@@ -468,7 +468,7 @@ class _SignUpState extends State<SignUp> {
     Step(
       title: const Text(''),
       isActive: currentStep>=3,
-      state: currentStep >= 3 ? StepState.complete : StepState.disabled,
+      state: currentStep == 3 ? StepState.complete : StepState.disabled,
       content: Column(
         mainAxisAlignment: MainAxisAlignment.center,
 
