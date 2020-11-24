@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:skrrt_app/admin_page.dart';
 import 'account_page.dart';
 import 'past_rides_page.dart';
 import 'skrrt_wallet_page.dart';
@@ -124,6 +125,26 @@ class SideBar extends StatelessWidget {
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) {
                             return Account();
+                          }));
+                        },
+                      ),
+                      ListTile(
+                        leading: SizedBox(
+                          height: 35.0,
+                          width: 30.0, // fixed width and height
+                          child: Icon(Icons.addchart_outlined, color: Colors.white),
+                        ),
+                        title: Text(
+                          'Admin',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontFamily: "Quicksand",
+                          ),
+                        ),
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return AdminPage();
                           }));
                         },
                       ),
