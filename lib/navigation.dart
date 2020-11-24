@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:skrrt_app/admin_page.dart';
+import 'package:skrrt_app/payment_page.dart';
 
 class Navigation extends StatefulWidget {
   @override
@@ -99,10 +101,10 @@ class _NavigationState extends State<Navigation> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  /*Navigator.push(
+                                  Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Navigation()),
-                                );*/
+                                  MaterialPageRoute(builder: (context) => PaymentPage()),
+                                );
                                 }
                             ),
                           ],
