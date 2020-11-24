@@ -4,25 +4,25 @@ import 'package:skrrt_app/admin_page.dart';
 import 'sign_in.dart';
 import 'package:flutter/material.dart';
 
-class LaunchPage extends StatefulWidget {
+class SuccessfulRide extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return StartState();
+    return SuccessfulRidePage();
   }
 }
-class StartState extends State<LaunchPage>{
+class SuccessfulRidePage extends State<SuccessfulRide>{
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     startTimer();
   }
-  
+
   startTimer() async {
     var duration = Duration(seconds: 2);
     return Timer(duration, route);
   }
-  
+
   route(){
     Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) => SignIn()
