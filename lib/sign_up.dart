@@ -67,7 +67,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   int selectedRadio;
-  String fname,lname,username,password, course,year;
+  String fname,lname,username,password, drop1value,drop2value;
   DateTime bday;
   Color radcolor1 = Colors.black54;
   Color radcolor2 = Colors.black54;
@@ -86,6 +86,9 @@ class _SignUpState extends State<SignUp> {
     colg = ['CCS', 'CEA', 'CMBA', 'CASE'];
     drop1 =  ['CS', 'IT', 'ME', 'ECE'];
 
+    drop1value = null;
+    drop2value = null;
+
     yr = ['1', '2', '3', '4'];
     dept = ['IT', 'CS', 'ME', 'CE'];
     drop2 = ['1', '2', '3', '4'];
@@ -99,12 +102,16 @@ class _SignUpState extends State<SignUp> {
       if(val == 1){
         radcolor1 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor2 = Colors.black54;
+        drop1value = null;
+        drop2value = null;
         drop1 = crse;
         drop2 = yr;
       }
       else{
         radcolor2 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor1 = Colors.black54;
+        drop1value = null;
+        drop2value = null;
         drop1 = colg;
         drop2 = dept;
       }
@@ -322,7 +329,7 @@ class _SignUpState extends State<SignUp> {
                             fontFamily: 'Quicksand',
                           ) ),
                       isExpanded: true,
-                      value: course,
+                      value: drop1value,
                       icon: Icon(Icons.arrow_drop_down_rounded, color: Colors.grey,),
                       iconSize: 24,
                       elevation: 16,
@@ -337,7 +344,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       onChanged: (String newValue) {
                         setState(() {
-                          course = newValue;
+                          drop1value = newValue;
                         });
                       },
                       items: drop1
@@ -360,7 +367,7 @@ class _SignUpState extends State<SignUp> {
                             fontFamily: 'Quicksand',
                           ) ),
                       isExpanded: true,
-                      value: year,
+                      value: drop2value,
                       icon: Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
                       iconSize: 24,
                       elevation: 16,
@@ -375,7 +382,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       onChanged: (String newValue) {
                         setState(() {
-                          year = newValue;
+                          drop2value = newValue;
                         });
                       },
                       items: drop2
