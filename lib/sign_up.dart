@@ -107,6 +107,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   goTo(int step) {
+    complete = false;
     setState(() => currentStep = step);
   }
 
@@ -551,19 +552,24 @@ class _SignUpState extends State<SignUp> {
        child: Padding(
          padding:EdgeInsets.symmetric(horizontal: 40),
          child: Theme(
-           data: ThemeData(  canvasColor: Colors.white, shadowColor: Colors.transparent ),
+           data: ThemeData(
+               canvasColor: Colors.white,
+               shadowColor: Colors.transparent,
+               accentColor: Colors.black38,
+           ),
            child: Column(
              mainAxisAlignment: MainAxisAlignment.center,
              crossAxisAlignment: CrossAxisAlignment.center,
              children: [
                SizedBox(height: 50),
-               Image(
+               !complete ? Image(
                  image: currentStep!=3 ? AssetImage("assets/skrrt_logo1.jpg") : AssetImage("assets/mblverif.png"),
                  height: 100,
                  width: 100,
-               ),
+               ): SizedBox(height: 80),
                SizedBox(height: 30),
-               Text(
+
+               !complete ? Text(
                    'SIGN UP',
                    style: TextStyle(
                      fontFamily: 'Montserrat',
@@ -572,12 +578,10 @@ class _SignUpState extends State<SignUp> {
                      letterSpacing: 1.0,
                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                    )
-               ),
+               ): SizedBox(height: 70),
 
                complete ? Expanded(
-                 child: Center(
-                   child: AlertDialog(
-                       title: Column(
+                       child: Column(
                          children:[
                            Image(
                              image: AssetImage("assets/user_check.png"),
@@ -589,7 +593,7 @@ class _SignUpState extends State<SignUp> {
                            style: TextStyle(
 
                            fontFamily: 'Montserrat',
-                           fontSize: 25.0,
+                           fontSize: 33.0,
                            fontWeight: FontWeight.bold,
                            letterSpacing: 1.0,
                            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
@@ -600,11 +604,11 @@ class _SignUpState extends State<SignUp> {
                              textAlign: TextAlign.center,
                                style: TextStyle(
                                  fontFamily: 'Montserrat',
-                                 fontSize: 15.0,),
+                                 fontSize: 20.0,),
                            ),
-                           SizedBox(height: 15),
+                           SizedBox(height: 30),
                            RaisedButton(
-                             padding: EdgeInsets.symmetric(vertical:15.0,horizontal: 24.0),
+                             padding: EdgeInsets.symmetric(vertical:17.0,horizontal: 48.0),
                              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
                              color: Color(0xff00A8E5),
                              disabledColor: Colors.grey,//add this to your code
@@ -612,21 +616,16 @@ class _SignUpState extends State<SignUp> {
                                style: TextStyle(
                                  fontFamily: 'Montserrat',
                                  color:Colors.white,
-                                 fontSize: 16,
+                                 fontSize: 23,
                                ),
                              ),
                              //child: new Text("Close"),
                              onPressed: () => Navigator.pop(context),
-                           )
-/*                        */]),
-/*
-                     actions: <Widget>[
-                       new
-                     ]*/
-                   )
+                           )]),
+
                  )
-                ):
-                    Expanded(
+                :
+               Expanded(
                  child: Stepper(
                      steps: steps,
                      type: StepperType.horizontal,
