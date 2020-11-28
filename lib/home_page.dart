@@ -318,7 +318,7 @@ class _HomeState extends State<Home> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Expanded(flex: 6, child: SizedBox(),),
+                          Expanded(flex: 5, child: SizedBox(),),
                           Flexible(
                             flex: 2,
                             child: Padding(
@@ -370,7 +370,7 @@ class _HomeState extends State<Home> {
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                 children: [
-                                                  Padding(padding: EdgeInsets.only(bottom: 10),
+                                                  Padding(padding: EdgeInsets.only(bottom: 50),
                                                     child:
                                                     Icon(Icons.electric_scooter_rounded,
                                                       color: Color(0xff00A8E5),
@@ -398,8 +398,11 @@ class _HomeState extends State<Home> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Icon(Icons.check_circle,
-                                                    color: _color,
+                                                  Padding(padding: EdgeInsets.only(bottom: 50),
+                                                    child:
+                                                    Icon(Icons.check_circle,
+                                                      color: _color,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -414,7 +417,7 @@ class _HomeState extends State<Home> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical:18),
+                              padding: EdgeInsets.symmetric(vertical:12),
                               child: RaisedButton(
                                   padding: EdgeInsets.symmetric(horizontal:100),
                                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
