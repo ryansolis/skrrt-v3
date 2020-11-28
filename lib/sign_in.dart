@@ -88,16 +88,15 @@ class _SignInState extends State<SignIn> {
         backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
-            child: Container(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 60.0, right:60.0),
+            child: Padding(
+                padding: EdgeInsets.only(left: 60.0, right:60.0),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        color: Colors.white,
-                        height: 10.0,
-                      ),
+                      //SizedBox(height: MediaQuery.of(context).size.height * 0.0001,),
                       Container(
                           child: Column(
                               children: [
@@ -106,9 +105,7 @@ class _SignInState extends State<SignIn> {
                                   height: 100,
                                   width: 100,
                                 ),
-                                SizedBox(
-                                  height: 30,
-                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
                                 Text(
                                       'SIGN IN',
                                       style: TextStyle(
@@ -119,21 +116,17 @@ class _SignInState extends State<SignIn> {
                                       color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                                     )
                                 ),
-                                SizedBox(
-                                  height: 30,
-                                ),
                               ]
                           )
                       ),
-
                       Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               _buildUsername(),
-                              SizedBox(height:10),
+                              SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                               _buildPassword(),
-                              SizedBox(height:30),
+                              SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
                               RaisedButton(
                                 padding: EdgeInsets.all(12.0),
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
@@ -164,7 +157,7 @@ class _SignInState extends State<SignIn> {
                                     }*/
                                   }
                               ),
-                              SizedBox(height:10),
+                              SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                               Center(
                                 child: Text(
                                   'Forgot Password',
@@ -180,9 +173,7 @@ class _SignInState extends State<SignIn> {
                             ],
                           )
                       ),
-                      SizedBox(
-                        height: 70,
-                      ),
+                      //SizedBox( height: MediaQuery.of(context).size.height * 0.1,),
                       Container(
                           child: Column(
                             children: [
