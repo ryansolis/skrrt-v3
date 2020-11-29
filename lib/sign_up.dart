@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:skrrt_app/sign_in.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -149,7 +150,7 @@ class _SignUpState extends State<SignUp> {
       content: Padding(
         padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.45,
+          height: MediaQuery.of(context).size.height * 0.41,
           width: MediaQuery.of(context).size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -253,7 +254,7 @@ class _SignUpState extends State<SignUp> {
       content: Padding(
         padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.45,
+          height: MediaQuery.of(context).size.height * 0.41,
           width: MediaQuery.of(context).size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -267,7 +268,7 @@ class _SignUpState extends State<SignUp> {
                   letterSpacing: 1.0,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -522,10 +523,10 @@ class _SignUpState extends State<SignUp> {
       content: Padding(
           padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.47,
+            height: MediaQuery.of(context).size.height * 0.41,
             width: MediaQuery.of(context).size.width,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
@@ -551,7 +552,7 @@ class _SignUpState extends State<SignUp> {
                   style: TextStyle(
                     fontFamily: 'Quicksand',
                     fontSize: 16.0,
-                    letterSpacing: 1.0,
+                    letterSpacing: 2.0,
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
@@ -607,14 +608,30 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
    return new Scaffold(
      backgroundColor: Colors.white,
-     body: Center(
+     body: Container(
        child: Theme(
            data: ThemeData(  canvasColor: Colors.white, shadowColor: Colors.transparent ),
            child: Column(
              mainAxisAlignment: MainAxisAlignment.center,
              crossAxisAlignment: CrossAxisAlignment.center,
              children: [
-               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+               SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+               Align(
+                 alignment: Alignment.topLeft,
+                 child: Padding(
+                   padding: EdgeInsets.only(left: 10),
+                   child:  IconButton(
+                     icon: Icon(Icons.arrow_back_ios_rounded,
+                       size: 20,
+                     ),
+                     onPressed: () {
+                        Navigator.pop(
+                        context,
+                        );
+                     }
+                   )
+                 )
+               ),
                Image(
                  image: AssetImage("assets/skrrt_logo1.jpg"),
                  height: 100,
