@@ -4,6 +4,18 @@ import 'package:flutter/material.dart';
 import 'navigation.dart';
 
 class RentScooter extends StatelessWidget {
+  double uniHeight(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.height*0.1;
+    else
+      return MediaQuery.of(context).size.height*0.45;
+  }
+  double uniWidth(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.width*0.1;
+    else
+      return MediaQuery.of(context).size.width*0.45;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,16 +36,16 @@ class RentScooter extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFF0E0E0E),
                             fontFamily: 'Quicksand',
-                            fontSize: 30.0,
+                            fontSize: uniHeight(context)*.5,//30.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 15.0,),
+                        SizedBox(width: uniWidth(context)*1.2),
                         Text('1 available',
                           style: TextStyle(
                             color: Color(0xFFA62415),
                             fontFamily: 'Quicksand',
-                            fontSize: 15.0,
+                            fontSize: uniHeight(context)*.35,//15.0,
                             fontWeight: FontWeight.bold,
                           ),
                         )
@@ -46,12 +58,12 @@ class RentScooter extends StatelessWidget {
                       style: TextStyle(
                         color: Color(0xFF7D7D7D),
                         fontFamily: 'Quicksand',
-                        fontSize: 25.0,
+                        fontSize: uniHeight(context)*.4,//25.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.0,),
+                  SizedBox(height: uniHeight(context)*.1),
                   Stack(
                     children: [
                       Padding(
@@ -222,7 +234,7 @@ class RentScooter extends StatelessWidget {
                                 style: TextStyle(
                                   color: Color(0xFF0E0E0E),
                                   fontFamily: 'Quicksand',
-                                  fontSize: 25.0,
+                                  fontSize: uniHeight(context)*.35,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -317,6 +329,7 @@ class RentScooter extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
+                            Navigator.pop(context);
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => Navigation()),

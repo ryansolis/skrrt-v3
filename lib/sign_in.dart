@@ -12,24 +12,37 @@ class _SignInState extends State<SignIn> {
   String _username;
   String _password;
 
+  double uniHeight(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.height*0.1;
+    else
+      return MediaQuery.of(context).size.height*0.45;
+  }
+  double uniWidth(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.width*0.1;
+    else
+      return MediaQuery.of(context).size.width*0.45;
+  }
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Widget _buildUsername(){
     return TextFormField(
       decoration: InputDecoration(
-          hintText: 'Username',
-          hintStyle: TextStyle(
-            fontFamily: 'Quicksand',
-            fontSize: 16.0,
-          ),
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: Icon(
-              Icons.face_rounded,
-              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-              size: 15,
+              hintText: 'Username',
+              hintStyle: TextStyle(
+                fontFamily: 'Quicksand',
+                fontSize: uniHeight(context)*.3,
             ),
-          )
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: Icon(
+                Icons.face_rounded,
+                color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                size: 15,
+              ),
+            )
       ),
       style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
@@ -52,19 +65,19 @@ class _SignInState extends State<SignIn> {
   Widget _buildPassword() {
     return TextFormField(
       decoration: InputDecoration(
-        hintText: 'Password',
-        hintStyle: TextStyle(
-          fontFamily: 'Quicksand',
-          fontSize: 16.0,
-        ),
-        prefixIcon: Padding(
-          padding: EdgeInsets.only(right: 15),
-          child: Icon(
-            Icons.lock_rounded ,
-            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-            size: 15,
+          hintText: 'Password',
+          hintStyle: TextStyle(
+            fontFamily: 'Quicksand',
+            fontSize: uniHeight(context)*.3,
           ),
-        ),
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: Icon(
+                Icons.lock_rounded ,
+                color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                size: 15,
+            ),
+          ),
       ),
       style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
@@ -87,65 +100,73 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
-            child: SingleChildScrollView(
-              child: Padding(
-                  padding: EdgeInsets.only(left: 60.0, right:60.0),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        //SizedBox(height: MediaQuery.of(context).size.height * 0.0001,),
-                        Container(
-                            child: Column(
-                                children: [
-                                  Image(
-                                    image: AssetImage("assets/skrrt_logo1.jpg"),
-                                    height: 100,
-                                    width: 100,
-                                  ),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
-                                  Text(
-                                      'SIGN IN',
-                                      style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 1.0,
-                                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                                      )
-                                  ),
-                                ]
-                            )
-                        ),
-                        Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: SingleChildScrollView(
+            child: Container(
+                child: Padding(
+                  padding: EdgeInsets.only(left: uniWidth(context), right:uniWidth(context)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        height: uniHeight(context)*.2,
+                      ),
+                      Container(
+                          child: Column(
                               children: [
-                                _buildUsername(),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                                _buildPassword(),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
-                                RaisedButton(
-                                    padding: EdgeInsets.all(12.0),
-                                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                    color: Color(0xff00A8E5),
-                                    disabledColor: Colors.blue,//add this to your code
-                                    child: Text(''
-                                        'LOG IN',
+                                Image(
+                                  image: AssetImage("assets/skrrt_logo1.jpg"),
+                                  height: uniHeight(context)*2,
+                                  width: uniWidth(context)*3,
+                                ),
+                                SizedBox(
+                                  height: uniHeight(context)*.3,
+                                ),
+                                Text(
+                                      'SIGN IN',
+
                                       style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color:Colors.white,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: uniHeight(context)*.45,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 1.0,
+                                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                                    )
+                                ),
+                                SizedBox(
+                                  height: uniHeight(context)*.3,
+                                ),
+                              ]
+                          )
+                      ),
+
+                      Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              _buildUsername(),
+                              SizedBox(height:uniHeight(context)*.3,),
+                              _buildPassword(),
+                              SizedBox(height:uniHeight(context)*.9,),
+                              RaisedButton(
+                                padding: EdgeInsets.all((uniHeight(context)*uniWidth(context))*.0025),
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                color: Color(0xff00A8E5),
+                                disabledColor: Colors.blue,//add this to your code
+                                child: Text(''
+                                    'LOG IN',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color:Colors.white,
+                                    fontSize: uniHeight(context)*.3,
+                                  ),
+                                ),
+                                onPressed: () {
+                                    Navigator.push(
                                         context,
                                         MaterialPageRoute(builder: (context) => NewUser()),
-                                      );
-                                      /*
+                                    );
+                                    /*
                                     if(!formKey.currentState.validate()){
                                       Navigator.push(
                                         context,
@@ -155,61 +176,63 @@ class _SignInState extends State<SignIn> {
                                     else{
                                       formKey.currentState.save()
                                     }*/
-                                    }
-                                ),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                                Center(
-                                  child: Text(
-                                    'Forgot Password',
-                                    style: TextStyle(
-                                      fontFamily: 'Quicksand',
-                                      fontSize: 16.0,
-                                      decoration: TextDecoration.underline,
-                                      letterSpacing: 1.0,
-                                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                        ),
-                        //SizedBox( height: MediaQuery.of(context).size.height * 0.1,),
-                        Container(
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Don't have any account?",
+                                  }
+                              ),
+                              SizedBox(height:uniHeight(context)*.25),
+                              Center(
+                                child: Text(
+                                  'Forgot Password',
                                   style: TextStyle(
                                     fontFamily: 'Quicksand',
-                                    fontSize: 16.0,
+                                    fontSize: uniHeight(context)*.3,
+                                    decoration: TextDecoration.underline,
                                     letterSpacing: 1.0,
-                                    color: Colors.black,
+                                    color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                                   ),
                                 ),
-                                TextButton(
-                                    child: Text("Sign Up Now",
-                                      style: TextStyle(
-                                        fontFamily: 'Quicksand',
-                                        fontSize: 16.0,
-                                        letterSpacing: 1.0,
-                                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => SignUp()),
-                                      );
-                                    }
+                              )
+                            ],
+                          )
+                      ),
+                      SizedBox(
+                        height: uniHeight(context)*.5,
+                      ),
+                      Container(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Don't have any account?",
+                                style: TextStyle(
+                                  fontFamily: 'Quicksand',
+                                  fontSize: uniHeight(context)*.3,
+                                  letterSpacing: 1.0,
+                                  color: Colors.black,
                                 ),
-                              ],
-                            )
-                        )
-                      ],
-                    ),
-                  )
-              ),
-            )
+                              ),
+                              TextButton(
+                                child: Text("Sign Up Now",
+                                style: TextStyle(
+                                  fontFamily: 'Quicksand',
+                                  fontSize: uniHeight(context)*.3,
+                                  letterSpacing: 1.0,
+                                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                                ),
+                                ),
+                                onPressed: () {
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => SignUp()),
+                                    );
+                                }
+                              ),
+                            ],
+                          )
+                      )
+                    ],
+                  ),
+                )
+            ),
+          )
         )
     );
   }

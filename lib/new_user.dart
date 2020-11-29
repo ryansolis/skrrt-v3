@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+//import 'package:skrrt_app/prj_stepper.dart' as v;
 import 'home_page.dart';
+
 
 class NewUser extends StatefulWidget {
   @override
@@ -32,7 +34,12 @@ class _NewUserState extends State<NewUser> {
       goTo(currentStep - 1);
     }
   }
-
+  double uniHeight(BuildContext context){
+    return MediaQuery.of(context).size.height*0.1;
+  }
+  double uniWidth(BuildContext context){
+    return MediaQuery.of(context).size.width*0.1;
+  }
 
 
 
@@ -49,7 +56,7 @@ class _NewUserState extends State<NewUser> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Montserrat',
-                    fontSize: 16.0,
+                    fontSize: uniHeight(context)*0.30,
 
                     //fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -57,22 +64,22 @@ class _NewUserState extends State<NewUser> {
                   )
               ),
               SizedBox(
-                height: 5,
+                height:  uniHeight(context)*0.15,
               ),
               Image(
                 image: AssetImage("assets/newuser_nav.png"),
-                height: 175,
-                width: 200,
+                height: uniHeight(context)+(uniHeight(context)/0.1*0.15),
+                width: uniWidth(context)+(uniWidth(context)/0.1*0.9),
               ),
               SizedBox(
-                height: 10,
+                height: uniHeight(context)*0.15,
               ),
               Text(
                   'Navigate to your destination easily!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Montserrat',
-                    fontSize: 16.0,
+                    fontSize: uniHeight(context)*0.25,
 
                     //fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -95,19 +102,18 @@ class _NewUserState extends State<NewUser> {
         children: <Widget>[
           Image(
             image: AssetImage("assets/skrrt-wallet-img_w.png"),
-            height: 175,
-            width: 200,
+            height: uniHeight(context)+(uniHeight(context)/0.1*0.15),
+            width: uniWidth(context)+(uniWidth(context)/0.1*0.9),
           ),
           SizedBox(
-            height: 10,
+            height: uniHeight(context)*0.15,
           ),
           Text(
               'Pay easily using SKRRT Wallet!',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                fontSize: 16.0,
-
+                fontSize: uniHeight(context)*0.25,
                 //fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
                 color: Colors.white,
@@ -126,20 +132,23 @@ class _NewUserState extends State<NewUser> {
       content: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          SizedBox(
+            height: uniHeight(context)*.15,
+          ),
           Image(
             image: AssetImage("assets/useronscooter.png"),
-            height: 175,
-            width: 200,
+            height: uniHeight(context)+(uniHeight(context)/0.1*0.15),
+            width: uniWidth(context)+(uniWidth(context)/0.1*0.9),
           ),
           SizedBox(
-            height: 10,
+            height: uniHeight(context)*.15,
           ),
           Text(
               'Rent a scooter and start your ride!',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                fontSize: 16.0,
+                fontSize: uniHeight(context)*.25,
 
                 //fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
@@ -147,7 +156,7 @@ class _NewUserState extends State<NewUser> {
               )
           ),
           SizedBox(
-            height: 30,
+            height: uniHeight(context)*.5
           ),
 
         ],
@@ -157,7 +166,110 @@ class _NewUserState extends State<NewUser> {
 
   @override
   Widget build(BuildContext context) {
+
     return new Scaffold(
+        backgroundColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+        body: Center(
+            child: Padding(
+              padding:EdgeInsets.symmetric(horizontal: uniWidth(context)*7/10),
+                child: Theme(
+                    data: ThemeData(
+                        canvasColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                        primaryColor: Colors.black,
+                        backgroundColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                        accentColor: Colors.white,
+                        shadowColor: Colors.transparent,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: uniHeight(context)*0.5),
+                        Image(
+                          image: AssetImage("assets/skrrt_logo.png"),
+                          height: uniHeight(context),
+                          width: uniWidth(context)*2,
+                        ),
+                        SizedBox(
+                        height: uniHeight(context)*0.5,
+                        ),
+                        Text(
+                          'Your on-campus scooter on the go',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: uniHeight(context)*0.25,
+                            //fontWeight: FontWeight.bold,
+                            letterSpacing: 1.0,
+                            color: Colors.white,
+                          )
+                        ),
+                        complete ? Expanded(
+                          child: Stepper(
+                              steps: steps,
+                              type: StepperType.horizontal,
+                              currentStep: currentStep,
+                              onStepCancel: cancel,
+                              onStepTapped: (step) => goTo(step),
+                              controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
+                                  Container(
+                                    child: RaisedButton(
+                                        padding: EdgeInsets.all((uniHeight(context)*uniWidth(context))*.005),
+                                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                        textColor: Color(0xff00A8E5),
+                                        color: Colors.white,
+                                        child: Text(''
+                                            'RIDE NOW',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color:Color(0xff00A8E5),
+                                            fontSize: uniHeight(context)*0.25,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Home()),
+                                          );
+                                        }
+                                    ),
+                                  )
+                          ),
+                        ):
+                        Expanded(
+                          child: Stepper(
+                              steps: steps,
+                              type: StepperType.horizontal,
+                              currentStep: currentStep,
+                              onStepCancel: cancel,
+                              onStepTapped: (step) => goTo(step),
+
+                              controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
+                                  Container(
+                                    child: RaisedButton(
+                                      padding: EdgeInsets.all((uniHeight(context)*uniWidth(context))*.005),
+                                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                      textColor: Color(0xff00A8E5),
+                                      color: Colors.white,
+                                      onPressed: next,
+                                      child: Text(''
+                                          'NEXT',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color:Color(0xff00A8E5),
+                                          fontSize: uniHeight(context)*0.25,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                          ),
+                        ),
+                      ],),
+                )
+            )
+        ),
+      /*
       backgroundColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
         body: LayoutBuilder(
         builder: (context, constraints) {//still testing this portion, will change the
@@ -168,11 +280,11 @@ class _NewUserState extends State<NewUser> {
           }
         }
 
-      ),
+      ),*/
     );
 
   }
-
+/*
   Widget _buildWideContainers() {
     return Center(
         child: Padding(
@@ -380,5 +492,5 @@ class _NewUserState extends State<NewUser> {
     );
   }
 
-
+*/
 }

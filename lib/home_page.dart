@@ -21,6 +21,8 @@ class _HomeState extends State<Home> {
   bool _visible = false;
   bool _visible1 = false;
 
+
+
   @override
   void initState(){
     super.initState();
