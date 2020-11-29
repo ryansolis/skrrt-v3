@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class SignUp extends StatefulWidget {
   @override
@@ -11,10 +14,32 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  TextEditingController fname = TextEditingController();
+  TextEditingController lname = TextEditingController();
+  TextEditingController idno = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController phone = TextEditingController();
   TextEditingController dateCtl = TextEditingController();
   TextEditingController cam = TextEditingController();
   TextEditingController pass = TextEditingController();
   PickedFile imageFile;
+
+ Future registerData() async {
+   var url = "http://192.168.1.11/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   await http.post(url, body:{
+           "fname": fname.text,
+           "lname": lname.text,
+           "idNo": idno.text,
+           "status": status,
+           "username": username.text,
+           "password": pass.text,
+           "phoneNo": phone.text,
+           "birthday": dateCtl.text,
+           "course": course,
+           "year": year,
+           "dept": "Computer Science",
+         });
+  }
 
 
   _openGallery (BuildContext context) async {
@@ -66,7 +91,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   int selectedRadio;
-  String fname,lname,username,password, course,year;
+  String course,year,status;
   DateTime bday;
   Color radcolor1 = Colors.black54;
   Color radcolor2 = Colors.black54;
@@ -84,12 +109,13 @@ class _SignUpState extends State<SignUp> {
       if(val == 1){
         radcolor1 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor2 = Colors.black54;
+        status = "student";
       }
       else{
         radcolor2 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor1 = Colors.black54;
+        status = "faculty";
       }
-
     });
   }
 
@@ -99,6 +125,7 @@ class _SignUpState extends State<SignUp> {
   void fieldFin(){
     complete = true;
     setState(() =>  currentStep += 1);
+    registerData();
   }
   next() {
     currentStep + 1 != steps.length
@@ -107,7 +134,6 @@ class _SignUpState extends State<SignUp> {
   }
 
   goTo(int step) {
-    complete = false;
     setState(() => currentStep = step);
   }
 
@@ -136,6 +162,7 @@ class _SignUpState extends State<SignUp> {
           ),
           SizedBox(height:20),
           TextFormField(
+            controller: fname,
             cursorColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
             decoration: InputDecoration(
                   hintText: 'First Name',
@@ -150,6 +177,7 @@ class _SignUpState extends State<SignUp> {
               color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           TextFormField(
+            controller: lname,
             decoration: InputDecoration(
                 hintText: 'Last Name',
                 hintStyle: TextStyle(
@@ -163,6 +191,7 @@ class _SignUpState extends State<SignUp> {
               color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           TextFormField(
+            controller: phone,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: 'Phone Number',
@@ -358,7 +387,7 @@ class _SignUpState extends State<SignUp> {
             ],
           ),
           TextFormField(
-            controller: dateCtl,
+            controller: idno,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                   hintText: 'ID Number',
@@ -416,6 +445,7 @@ class _SignUpState extends State<SignUp> {
           ),
           SizedBox(height:20),
           TextFormField(
+            controller: username,
             autofocus: true,
             decoration: InputDecoration(
                 hintText: 'Username',
@@ -552,24 +582,19 @@ class _SignUpState extends State<SignUp> {
        child: Padding(
          padding:EdgeInsets.symmetric(horizontal: 40),
          child: Theme(
-           data: ThemeData(
-               canvasColor: Colors.white,
-               shadowColor: Colors.transparent,
-               accentColor: Colors.black38,
-           ),
+           data: ThemeData(  canvasColor: Colors.white, shadowColor: Colors.transparent ),
            child: Column(
              mainAxisAlignment: MainAxisAlignment.center,
              crossAxisAlignment: CrossAxisAlignment.center,
              children: [
                SizedBox(height: 50),
-               !complete ? Image(
+               Image(
                  image: currentStep!=3 ? AssetImage("assets/skrrt_logo1.jpg") : AssetImage("assets/mblverif.png"),
                  height: 100,
                  width: 100,
-               ): SizedBox(height: 80),
+               ),
                SizedBox(height: 30),
-
-               !complete ? Text(
+               Text(
                    'SIGN UP',
                    style: TextStyle(
                      fontFamily: 'Montserrat',
@@ -578,10 +603,12 @@ class _SignUpState extends State<SignUp> {
                      letterSpacing: 1.0,
                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                    )
-               ): SizedBox(height: 70),
+               ),
 
                complete ? Expanded(
-                       child: Column(
+                 child: Center(
+                   child: AlertDialog(
+                       title: Column(
                          children:[
                            Image(
                              image: AssetImage("assets/user_check.png"),
@@ -593,7 +620,7 @@ class _SignUpState extends State<SignUp> {
                            style: TextStyle(
 
                            fontFamily: 'Montserrat',
-                           fontSize: 33.0,
+                           fontSize: 25.0,
                            fontWeight: FontWeight.bold,
                            letterSpacing: 1.0,
                            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
@@ -604,11 +631,11 @@ class _SignUpState extends State<SignUp> {
                              textAlign: TextAlign.center,
                                style: TextStyle(
                                  fontFamily: 'Montserrat',
-                                 fontSize: 20.0,),
+                                 fontSize: 15.0,),
                            ),
-                           SizedBox(height: 30),
+                           SizedBox(height: 15),
                            RaisedButton(
-                             padding: EdgeInsets.symmetric(vertical:17.0,horizontal: 48.0),
+                             padding: EdgeInsets.symmetric(vertical:15.0,horizontal: 24.0),
                              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
                              color: Color(0xff00A8E5),
                              disabledColor: Colors.grey,//add this to your code
@@ -616,16 +643,23 @@ class _SignUpState extends State<SignUp> {
                                style: TextStyle(
                                  fontFamily: 'Montserrat',
                                  color:Colors.white,
-                                 fontSize: 23,
+                                 fontSize: 16,
                                ),
                              ),
                              //child: new Text("Close"),
-                             onPressed: () => Navigator.pop(context),
-                           )]),
-
+                             onPressed: () {
+                               Navigator.pop(context);
+                             }
+                           )
+/*                        */]),
+/*
+                     actions: <Widget>[
+                       new
+                     ]*/
+                   )
                  )
-                :
-               Expanded(
+                ):
+                    Expanded(
                  child: Stepper(
                      steps: steps,
                      type: StepperType.horizontal,
