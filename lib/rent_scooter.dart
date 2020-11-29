@@ -1,24 +1,57 @@
 import 'dart:ui';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
+import 'sidebar_page.dart';
 import 'navigation.dart';
 
-class RentScooter extends StatelessWidget {
-  double uniHeight(BuildContext context){
-    if(MediaQuery.of(context).size.width<=600)
-      return MediaQuery.of(context).size.height*0.1;
-    else
-      return MediaQuery.of(context).size.height*0.45;
+class RentScooter extends StatefulWidget {
+  @override
+  _RentScooterState createState() => _RentScooterState();
+}
+
+class _RentScooterState extends State<RentScooter> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  String _cameraScanResult = '';
+
+  Future _scan() async {
+    //Start scan-blocking until scan
+    String barcode = await scanner.scan();
+    _cameraScanResult = barcode;
+    toNavigation(context);
   }
-  double uniWidth(BuildContext context){
-    if(MediaQuery.of(context).size.width<=600)
-      return MediaQuery.of(context).size.width*0.1;
-    else
-      return MediaQuery.of(context).size.width*0.45;
+
+  void toNavigation(BuildContext context){
+    if (_cameraScanResult.isNotEmpty){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Navigation()),
+      );
+    }
+  }
+
+  @override
+  initState() {
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          color: Colors.black,
+          onPressed: (){
+            _scaffoldKey.currentState.openDrawer();
+          },
+        ),
+      ),
+      drawer: SideBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -36,16 +69,16 @@ class RentScooter extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFF0E0E0E),
                             fontFamily: 'Quicksand',
-                            fontSize: uniHeight(context)*.5,//30.0,
+                            fontSize: 30.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: uniWidth(context)*1.2),
+                        SizedBox(width: 15.0,),
                         Text('1 available',
                           style: TextStyle(
                             color: Color(0xFFA62415),
                             fontFamily: 'Quicksand',
-                            fontSize: uniHeight(context)*.35,//15.0,
+                            fontSize: 15.0,
                             fontWeight: FontWeight.bold,
                           ),
                         )
@@ -58,12 +91,12 @@ class RentScooter extends StatelessWidget {
                       style: TextStyle(
                         color: Color(0xFF7D7D7D),
                         fontFamily: 'Quicksand',
-                        fontSize: uniHeight(context)*.4,//25.0,
+                        fontSize: 25.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(height: uniHeight(context)*.1),
+                  SizedBox(height: 20.0,),
                   Stack(
                     children: [
                       Padding(
@@ -140,33 +173,31 @@ class RentScooter extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          Container(
-                                            child: Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(15.0),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(10.0),
-                                                child: Column(
-                                                  children: [
-                                                    Text('380',
-                                                      style: TextStyle(
-                                                        color: Color(0xFF0E0E0E),
-                                                        fontFamily: 'Quicksand',
-                                                        fontSize: 15.0,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
+                                          Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                children: [
+                                                  Text('380',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF0E0E0E),
+                                                      fontFamily: 'Quicksand',
+                                                      fontSize: 15.0,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
-                                                    Text('mah',
-                                                      style: TextStyle(
-                                                        color: Color(0xFF7D7D7D),
-                                                        fontFamily: 'Quicksand',
-                                                        fontSize: 15.0,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
+                                                  ),
+                                                  Text('mah',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF7D7D7D),
+                                                      fontFamily: 'Quicksand',
+                                                      fontSize: 15.0,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -187,6 +218,34 @@ class RentScooter extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Text('km/h',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF7D7D7D),
+                                                      fontFamily: 'Quicksand',
+                                                      fontSize: 15.0,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                children: [
+                                                  Text('QXCSS',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF0E0E0E),
+                                                      fontFamily: 'Quicksand',
+                                                      fontSize: 15.0,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text('code',
                                                     style: TextStyle(
                                                       color: Color(0xFF7D7D7D),
                                                       fontFamily: 'Quicksand',
@@ -234,7 +293,7 @@ class RentScooter extends StatelessWidget {
                                 style: TextStyle(
                                   color: Color(0xFF0E0E0E),
                                   fontFamily: 'Quicksand',
-                                  fontSize: uniHeight(context)*.35,
+                                  fontSize: 25.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -242,26 +301,6 @@ class RentScooter extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Column(
-                                  children: [
-                                    Text('QXCSS',
-                                      style: TextStyle(
-                                        color: Color(0xFF0E0E0E),
-                                        fontFamily: 'Quicksand',
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text('code',
-                                      style: TextStyle(
-                                        color: Color(0xFF7D7D7D),
-                                        fontFamily: 'Quicksand',
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
                                 Column(
                                   children: [
                                     Text('ST Bldg.',
@@ -329,11 +368,13 @@ class RentScooter extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Navigation()),
-                            );
+                            _scan();
+                            if (_cameraScanResult.isNotEmpty){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Navigation()),
+                              );
+                            }
                           }
                       ),
                     ),
