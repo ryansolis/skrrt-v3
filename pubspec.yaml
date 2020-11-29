@@ -27,6 +27,7 @@ dependencies:
   image_picker:
   # Google Maps Dependency. For more information, check https://pub.dev/packages/google_maps_flutter
   google_maps_flutter: ^1.0.6
+  location: ^3.0.2
   # QR Code Scanner Dependency.
   qrscan: ^0.2.19
 
