@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class SignUp extends StatefulWidget {
   @override
@@ -11,10 +14,32 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  TextEditingController fname = TextEditingController();
+  TextEditingController lname = TextEditingController();
+  TextEditingController idno = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController phone = TextEditingController();
   TextEditingController dateCtl = TextEditingController();
   TextEditingController cam = TextEditingController();
   TextEditingController pass = TextEditingController();
   PickedFile imageFile;
+
+ Future registerData() async {
+   var url = "http://192.168.1.11/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   await http.post(url, body:{
+           "fname": fname.text,
+           "lname": lname.text,
+           "idNo": idno.text,
+           "status": status,
+           "username": username.text,
+           "password": pass.text,
+           "phoneNo": phone.text,
+           "birthday": dateCtl.text,
+           "course": course,
+           "year": year,
+           "dept": "Computer Science",
+         });
+  }
 
 
   _openGallery (BuildContext context) async {
@@ -66,7 +91,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   int selectedRadio;
-  String fname,lname,username,password, course,year;
+  String course,year,status;
   DateTime bday;
   Color radcolor1 = Colors.black54;
   Color radcolor2 = Colors.black54;
@@ -84,12 +109,13 @@ class _SignUpState extends State<SignUp> {
       if(val == 1){
         radcolor1 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor2 = Colors.black54;
+        status = "student";
       }
       else{
         radcolor2 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor1 = Colors.black54;
+        status = "faculty";
       }
-
     });
   }
 
@@ -99,6 +125,7 @@ class _SignUpState extends State<SignUp> {
   void fieldFin(){
     complete = true;
     setState(() =>  currentStep += 1);
+    registerData();
   }
   next() {
     currentStep + 1 != steps.length
@@ -135,6 +162,7 @@ class _SignUpState extends State<SignUp> {
           ),
           SizedBox(height:20),
           TextFormField(
+            controller: fname,
             cursorColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
             decoration: InputDecoration(
                   hintText: 'First Name',
@@ -149,6 +177,7 @@ class _SignUpState extends State<SignUp> {
               color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           TextFormField(
+            controller: lname,
             decoration: InputDecoration(
                 hintText: 'Last Name',
                 hintStyle: TextStyle(
@@ -162,6 +191,7 @@ class _SignUpState extends State<SignUp> {
               color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
           ),
           TextFormField(
+            controller: phone,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: 'Phone Number',
@@ -357,7 +387,7 @@ class _SignUpState extends State<SignUp> {
             ],
           ),
           TextFormField(
-            controller: dateCtl,
+            controller: idno,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                   hintText: 'ID Number',
@@ -415,6 +445,7 @@ class _SignUpState extends State<SignUp> {
           ),
           SizedBox(height:20),
           TextFormField(
+            controller: username,
             autofocus: true,
             decoration: InputDecoration(
                 hintText: 'Username',
@@ -616,7 +647,9 @@ class _SignUpState extends State<SignUp> {
                                ),
                              ),
                              //child: new Text("Close"),
-                             onPressed: () => Navigator.pop(context),
+                             onPressed: () {
+                               Navigator.pop(context);
+                             }
                            )
 /*                        */]),
 /*

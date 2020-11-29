@@ -8,6 +8,7 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: "Skrrt",
-    home: LaunchPage()
+    home: LaunchPage(),
   ));
 }
+
