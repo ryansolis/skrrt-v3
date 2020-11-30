@@ -188,7 +188,7 @@ class PastRides extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.white10,
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.menu),
