@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'dart:convert';
 
 class SignUp extends StatefulWidget {
   @override
@@ -25,11 +26,12 @@ class _SignUpState extends State<SignUp> {
   PickedFile imageFile;
 
 
- Future registerData() async {
-   var url = "http://192.168.1.4/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
-   await http.post(url, body:{
-           "fname": fname.text,
-           "lname": lname.text,
+ void registerData() async {
+   //print("YES1");
+   var url = "http://192.168.1.11/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   var data = {
+           "first": fname.text,
+           "last": lname.text,
            "idNo": idno.text,
            "status": status,
            "username": username.text,
@@ -38,8 +40,18 @@ class _SignUpState extends State<SignUp> {
            "birthday": dateCtl.text,
            "course": drop1value,
            "year": drop2value,
-           "dept": "Computer Science",
-         });
+           //"dept": "aw",//drop2value,
+         };
+   //print("YES2");
+   var res = await http.post(url,body: data);
+   //print("YES3");
+   if(jsonDecode(res.body) == "okay"){
+     print("YESSSSSSS");
+   }
+   else{
+     print("NOOOOOO");
+   }
+
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -103,7 +115,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   int selectedRadio;
-  String course,year,status,drop1value,drop2value;
+  String course,year,status = "student",drop1value,drop2value;
   DateTime bday;
   Color radcolor1 = Colors.black54;
   Color radcolor2 = Colors.black54;
@@ -126,7 +138,7 @@ class _SignUpState extends State<SignUp> {
 
     drop1value = null;
     drop2value = null;
-    status = "student";
+
     yr = ['1', '2', '3', '4'];
     dept = ['IT', 'CS', 'ME', 'CE'];
     drop2 = ['1', '2', '3', '4'];
@@ -156,9 +168,10 @@ class _SignUpState extends State<SignUp> {
   bool complete = false;
 
   void fieldFin(){
+    registerData();
     complete = true;
     setState(() =>  currentStep += 1);
-    registerData();
+
   }
   next() {
     currentStep + 1 != steps.length
@@ -288,7 +301,7 @@ class _SignUpState extends State<SignUp> {
                     textInputAction: TextInputAction.done,
                     validator: (value){
                       if(value.isEmpty){
-                        return 'Birthday is required.';
+                        return 'Birthday is Required.';
                       }
                       else if(!RegExp('[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}').hasMatch(value)){
                         return 'Must be MM/dd/yyyy in format (ex: 12/20/2020)';
@@ -598,6 +611,7 @@ class _SignUpState extends State<SignUp> {
                         return null;
                     },
                     onSaved: (name)=> username.text = name,
+                    autofocus: false,
                     decoration: InputDecoration(
                         hintText: 'Username',
                         hintStyle: TextStyle(
