@@ -9,6 +9,17 @@ class _NewUserState extends State<NewUser> {
   int currentStep = 0;
   bool complete = false;
 
+  double uniHeight(BuildContext context){
+    return MediaQuery.of(context).size.height*0.1;
+  }
+  double uniWidth(BuildContext context){
+    return MediaQuery.of(context).size.width*0.1;
+  }
+
+  bool _tabletSized(BuildContext context){
+    return MediaQuery.of(context).size.width > 700;
+  }
+
   void fieldFin(){
     complete = true;
     setState(() =>  currentStep+1);
@@ -23,8 +34,7 @@ class _NewUserState extends State<NewUser> {
   }
 
   goTo(int step) {
-    if(step == 2) complete = true;
-    else complete = false;
+    complete = false;
     setState(() => currentStep = step);
   }
 
@@ -37,101 +47,100 @@ class _NewUserState extends State<NewUser> {
 
   List<Step> get steps => [
     Step(
-      isActive: currentStep>=0,
-      state: StepState.complete,
-      title: const Text(''),
-      content: Padding(
-        padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Image(
-              image: AssetImage("assets/useronscooter.png"),
-              height: MediaQuery.of(context).size.height * 0.40,
-            ),
-            SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
-            Text(
-                'Rent a scooter and start your ride!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Quicksand',
-                  fontSize: 18.0,
-                  //fontWeight: FontWeight.bold,
-                  letterSpacing: 1.0,
-                  color: Colors.white,
-                )
-            ),
-            SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
-          ],
-        ),
-      )
+        isActive: currentStep>=0,
+        state: StepState.complete,
+        title: const Text(''),
+        content: Padding(
+          padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image(
+                image: AssetImage("assets/userscooter1.jpg"),
+                height: MediaQuery.of(context).size.height * 0.40,
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+              Text(
+                  'Rent a scooter and start your ride!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontSize: uniHeight(context)*0.25,
+                    //fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
+                    color: Colors.white,
+                  )
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+            ],
+          ),
+        )
     ),
     Step(
         isActive: currentStep>=1,
         state: StepState.complete,
         title: const Text(''),
         content:Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Image(
-                    image: AssetImage("assets/navigate.jpg"),
-                    height: 200,
-                    width: 200,
-                  ),
-                  SizedBox( height: MediaQuery.of(context).size.height * 0.07,),
-                  Text(
-                      'Navigate to your destination easily!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 18.0,
-                        //fontWeight: FontWeight.bold,
-                        letterSpacing: 1.0,
-                        color: Colors.white,
-                      )
-                  ),
-                  SizedBox( height: MediaQuery.of(context).size.height * 0.05,),
-                ],
-            ),
+          padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image(
+                image: AssetImage("assets/navigate.jpg"),
+                height: MediaQuery.of(context).size.height * 0.40,
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+              Text(
+                  'Navigate to your destination easily!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontSize: uniHeight(context)*0.25,
+                    //fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
+                    color: Colors.white,
+                  )
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+            ],
+          ),
         )
     ),
     Step(
-      isActive: currentStep>=2,
-      state: StepState.complete,
-      title: const Text(''),
-      content: Padding(
+        isActive: currentStep>=2,
+        state: StepState.complete,
+        title: const Text(''),
+        content: Padding(
           padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
           child:Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image(
-                  image: AssetImage("assets/wallet.png"),
-                  height: 175,
-                  width: 200,
-                ),
-                SizedBox( height: MediaQuery.of(context).size.height * 0.07,),
-                Text(
-                    'Pay easily using your \n SKRRT Wallet or school ID!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 18.0,
-                      //fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
-                      color: Colors.white,
-                    )
-                ),
-                SizedBox( height: MediaQuery.of(context).size.height * 0.05,),
-              ],
-            ),
+            children: <Widget>[
+              Image(
+                image: AssetImage("assets/wallet.png"),
+                height: MediaQuery.of(context).size.height * 0.40,
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+              Text(
+                  'Pay easily using your \n SKRRT Wallet or school ID!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontSize: uniHeight(context)*0.25,
+                    //fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
+                    color: Colors.white,
+                  )
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+            ],
+          ),
         )
     ),
   ];
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,11 @@
 import 'dart:async';
-
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:skrrt_app/admin_page.dart';
 import 'package:skrrt_app/payment_page.dart';
 
@@ -12,10 +15,91 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
+  Set<Marker> _markers ={};
+  bool _visible = false;
+  bool _visible1 = false;
+  GoogleMapController _controller;
+  Location _location = Location();
+
   static final CameraPosition _cameraPosition = CameraPosition(
     target: LatLng(10.295666, 123.880472),
     zoom: 18.5,
   );
+
+  double uniHeight(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.height*0.1;
+    else
+      return MediaQuery.of(context).size.height*0.45;
+  }
+  double uniWidth(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.width*0.1;
+    else
+      return MediaQuery.of(context).size.width*0.45;
+  }
+
+  void _onMapCreated(GoogleMapController controller){
+    setState(() {
+      _markers.add(
+          Marker(
+            markerId: MarkerId('id-1'),
+            position: LatLng(10.295666, 123.880472),
+            infoWindow: InfoWindow(
+              title: 'CIT Parking Area',
+            ),
+          )
+      );
+      _markers.add(
+          Marker(
+              markerId: MarkerId('id-2'),
+              position: LatLng(10.295235, 123.880835),
+              infoWindow: InfoWindow(
+                  title: 'CIT Main Library',
+              ),
+          )
+      );
+      _markers.add(
+          Marker(
+              markerId: MarkerId('id-3'),
+              position: LatLng(10.296086, 123.880536),
+              infoWindow: InfoWindow(
+                  title: 'Main Canteen',
+              ),
+              onTap: () {
+                setState(() {
+                  _visible1 = true;
+                  _visible = false;
+                });
+              }
+          )
+      );
+      _markers.add(
+          Marker(
+            markerId: MarkerId('id-4'),
+            position: LatLng(10.295484, 123.880038),
+          )
+      );
+    });
+    _controller = controller;
+    _location.onLocationChanged.listen((l) {
+      _controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude, l.longitude),zoom: 18.5,),
+        ),
+      );
+      _markers.removeWhere((element) => element.markerId.value == 'current-loc');
+      _markers.add(
+          Marker(
+            markerId: MarkerId('current-loc'),
+            position: LatLng(l.latitude, l.longitude),
+            infoWindow: InfoWindow(
+              title: 'You',
+            ),
+          )
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +113,9 @@ class _NavigationState extends State<Navigation> {
                   flex: 2,
                   child: GoogleMap(
                     initialCameraPosition: _cameraPosition,
+                    onMapCreated: _onMapCreated,
+                    markers: _markers,
+                    myLocationEnabled: true,
                   ),
                 ),
                 Expanded(
@@ -101,6 +188,7 @@ class _NavigationState extends State<Navigation> {
                                   ),
                                 ),
                                 onPressed: () {
+                                  Navigator.pop(context);
                                   Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => PaymentPage()),
