@@ -49,6 +49,14 @@ class _AccountState extends State<Account> {
     setState(() {});
   }
 
+  String getLengthPass(){
+    int l = pass.length;
+    String _hidePass = "";
+    for(int i = 0; i < l ;i++){
+      _hidePass += "●";
+    }
+    return _hidePass;
+  }
 
   Widget _buildUsername(){
     return TextFormField(
@@ -89,10 +97,10 @@ class _AccountState extends State<Account> {
           borderSide: BorderSide(color: Colors.white,),
         ),
         //labelText: pass,
-        hintText: pass,
+        hintText: getLengthPass(),
         hintStyle: TextStyle(
           fontFamily: 'Quicksand',
-          fontSize: 18.0,
+          fontSize: 16.0,
           color: Colors.white,
         ),
         prefixIcon: Padding(
@@ -113,8 +121,8 @@ class _AccountState extends State<Account> {
     // TODO: implement initState
     super.initState();
     getUserData();
-
   }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -123,7 +131,7 @@ class _AccountState extends State<Account> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white10,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.menu),
