@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'sign_up.dart';
 import 'new_user.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class SignIn extends StatefulWidget {
   @override
@@ -13,8 +17,37 @@ class _SignInState extends State<SignIn> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  TextEditingController _user = TextEditingController();
+  TextEditingController _pass = TextEditingController();
+
+  void userLogin() async{
+    var url = "http://192.168.1.11/skrrt/login.php";
+    var data = {
+    "username": _user.text,
+    "pass":_pass.text,
+    };
+
+    var res = await http.post(url,body: data);
+    if(jsonDecode(res.body) == "No account"){
+      Fluttertoast.showToast(msg: "Account doesn't exist!",toastLength: Toast.LENGTH_SHORT);
+    }
+    else{
+      if(jsonDecode(res.body) == "false"){
+        Fluttertoast.showToast(msg: "Incorrect password",toastLength: Toast.LENGTH_SHORT);
+      }
+      else{
+        print(jsonDecode(res.body));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NewUser()),
+        );
+      }
+    }
+  }
+
   Widget _buildUsername(){
     return TextFormField(
+      controller: _user,
       decoration: InputDecoration(
           hintText: 'Username',
           hintStyle: TextStyle(
@@ -33,14 +66,14 @@ class _SignInState extends State<SignIn> {
       style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
       validator: (username){
-        Pattern pattern =
-            r'^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$';
-        RegExp regex = new RegExp(pattern);
+//        Pattern pattern =
+//            r'^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$';
+//        RegExp regex = new RegExp(pattern);
         if (username.isEmpty) {
           return 'Username is required.';
         }
-        else if (!regex.hasMatch(username))
-          return 'Invalid Username.';
+//        else if (!regex.hasMatch(username))
+//          return 'Invalid Username.';
         else
           return null;
       },
@@ -50,6 +83,7 @@ class _SignInState extends State<SignIn> {
 
   Widget _buildPassword() {
     return TextFormField(
+      controller: _pass,
       decoration: InputDecoration(
         hintText: 'Password',
         hintStyle: TextStyle(
@@ -69,14 +103,14 @@ class _SignInState extends State<SignIn> {
       keyboardType: TextInputType.text,
       obscureText: true,
       validator: (password){
-        Pattern pattern =
-            r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
-        RegExp regex = new RegExp(pattern);
+//        Pattern pattern =
+//            r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+//        RegExp regex = new RegExp(pattern);
         if (password.isEmpty) {
           return 'Password is required.';
         }
-        else if (!regex.hasMatch(password))
-          return 'Invalid Password.';
+//        else if (!regex.hasMatch(password))
+//          return 'Invalid Password.';
         else
           return null;
       },
@@ -147,10 +181,7 @@ class _SignInState extends State<SignIn> {
                                       onPressed: () {
                                         if(_formKey.currentState.validate()){
                                           _formKey.currentState.save();
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => NewUser()),
-                                          );
+                                          userLogin();
                                         }
 
                                       }
