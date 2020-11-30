@@ -144,9 +144,7 @@ class SideBar extends StatelessWidget {
                           ),
                         ),
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return AdminPage();
-                          }));
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                         },
                       ),
                       Expanded(

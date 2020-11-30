@@ -369,7 +369,7 @@ class _RentScooterState extends State<RentScooter> {
                             ),
                           ),
                           onPressed: () {
-                            //_scan();
+                            _scan();
                             //if (_cameraScanResult.isNotEmpty){
                               Navigator.pop(context);
                               Navigator.push(
