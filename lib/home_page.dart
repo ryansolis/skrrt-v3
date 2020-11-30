@@ -18,10 +18,20 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Set<Marker> _markers ={};
   BitmapDescriptor mapMarker;
+  BitmapDescriptor selectedMarker;
   bool _visible = false;
   bool _visible1 = false;
 
+  double uniHeight(BuildContext context){
+    return MediaQuery.of(context).size.height*0.1;
+  }
+  double uniWidth(BuildContext context){
+    return MediaQuery.of(context).size.width*0.1;
+  }
 
+  bool _tabletSized(BuildContext context){
+    return MediaQuery.of(context).size.width > 700;
+  }
 
   @override
   void initState(){
@@ -30,6 +40,7 @@ class _HomeState extends State<Home> {
   }
 
   void setCustomMarker() async{
+    selectedMarker = await getBitmapDescriptorFromAssetBytes("assets/skrrt_selected1.png", 200);
     mapMarker = await getBitmapDescriptorFromAssetBytes("assets/skrrt_marker1.png", 150);
   }
 
@@ -147,14 +158,14 @@ class _HomeState extends State<Home> {
                         Flexible(
                           flex: 2,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                            padding: EdgeInsets.symmetric(horizontal: uniWidth(context)*.3),//const EdgeInsets.symmetric(horizontal: 50.0),
                             child: Card(
                               color: Color(0xFFFFFFFF),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
                               child: Container(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: EdgeInsets.all(uniWidth(context)*.2),//const EdgeInsets.all(10.0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
@@ -167,7 +178,7 @@ class _HomeState extends State<Home> {
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontFamily: 'Quicksand',
-                                                fontSize: 15.0,
+                                                fontSize: uniHeight(context)*.3,//15.0,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -175,14 +186,14 @@ class _HomeState extends State<Home> {
                                               style: TextStyle(
                                                 color: Color(0xff00A8E5),
                                                 fontFamily: 'Quicksand',
-                                                fontSize: 15.0,
+                                                fontSize: uniHeight(context)*.3,//15.0,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ]
                                       ),
                                     ),
-                                    SizedBox(height:20),
+                                    SizedBox(height:uniHeight(context)*.15),
                                     Expanded(
                                         child: InkWell(
                                           onTap: () {
@@ -197,6 +208,7 @@ class _HomeState extends State<Home> {
                                               children: [
                                                 Icon(Icons.electric_scooter_rounded,
                                                   color: Color(0xff00A8E5),
+                                                  size: uniWidth(context)*.8,//,
                                                 ),
                                                 Column(
                                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -206,7 +218,7 @@ class _HomeState extends State<Home> {
                                                       style: TextStyle(
                                                         color: Color(0xff00A8E5),
                                                         fontFamily: 'Quicksand',
-                                                        fontSize: 14.0,
+                                                        fontSize: uniHeight(context)*.24,//14.0,
                                                       ),
                                                       textAlign: TextAlign.center,
                                                     ),
@@ -214,7 +226,7 @@ class _HomeState extends State<Home> {
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Quicksand',
-                                                        fontSize: 12.0,
+                                                        fontSize: uniHeight(context)*.2,//12.0,
                                                       ),
                                                       textAlign: TextAlign.center,
                                                     ),
@@ -245,16 +257,17 @@ class _HomeState extends State<Home> {
                                               children: [
                                                 Icon(Icons.electric_scooter_rounded,
                                                   color: Color(0xff00A8E5),
+                                                  size: uniWidth(context)*.8,
                                                 ),
                                                 Column(
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Text('    YAMI',
+                                                    Text('   YAMI',
                                                       style: TextStyle(
                                                         color: Color(0xff00A8E5),
                                                         fontFamily: 'Quicksand',
-                                                        fontSize: 14.0,
+                                                        fontSize: uniHeight(context)*.24,//14.0,
                                                       ),
                                                       textAlign: TextAlign.center,
                                                     ),
@@ -262,7 +275,7 @@ class _HomeState extends State<Home> {
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Quicksand',
-                                                        fontSize: 12.0,
+                                                        fontSize: uniHeight(context)*.2,//12.0,
                                                       ),
                                                       textAlign: TextAlign.center,
                                                     ),
@@ -306,7 +319,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        SizedBox(height:20),
+                        SizedBox(height:uniHeight(context)*.4)//20),
                       ],
                     )
                   ),
@@ -342,7 +355,7 @@ class _HomeState extends State<Home> {
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   fontFamily: 'Quicksand',
-                                                  fontSize: 15.0,
+                                                  fontSize: uniHeight(context)*.25,//15.0,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -350,7 +363,7 @@ class _HomeState extends State<Home> {
                                                 style: TextStyle(
                                                   color: Color(0xff00A8E5),
                                                   fontFamily: 'Quicksand',
-                                                  fontSize: 15.0,
+                                                  fontSize: uniHeight(context)*.25,//15.0,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -374,6 +387,7 @@ class _HomeState extends State<Home> {
                                                     child:
                                                     Icon(Icons.electric_scooter_rounded,
                                                       color: Color(0xff00A8E5),
+                                                      size: uniWidth(context)*.8,
                                                     ),
                                                   ),
                                                   Column(
@@ -384,7 +398,7 @@ class _HomeState extends State<Home> {
                                                         style: TextStyle(
                                                           color: Color(0xff00A8E5),
                                                           fontFamily: 'Quicksand',
-                                                          fontSize: 15.0,
+                                                          fontSize: uniHeight(context)*.24,//15.0,
                                                         ),
                                                         textAlign: TextAlign.center,
                                                       ),
@@ -392,7 +406,7 @@ class _HomeState extends State<Home> {
                                                         style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily: 'Quicksand',
-                                                          fontSize: 14.0,
+                                                          fontSize: uniHeight(context)*.2,//12.0,
                                                         ),
                                                         textAlign: TextAlign.center,
                                                       ),
