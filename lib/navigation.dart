@@ -26,6 +26,19 @@ class _NavigationState extends State<Navigation> {
     zoom: 18.5,
   );
 
+  double uniHeight(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.height*0.1;
+    else
+      return MediaQuery.of(context).size.height*0.45;
+  }
+  double uniWidth(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.width*0.1;
+    else
+      return MediaQuery.of(context).size.width*0.45;
+  }
+
   void _onMapCreated(GoogleMapController controller){
     setState(() {
       _markers.add(
@@ -175,6 +188,7 @@ class _NavigationState extends State<Navigation> {
                                   ),
                                 ),
                                 onPressed: () {
+                                  Navigator.pop(context);
                                   Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => PaymentPage()),

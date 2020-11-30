@@ -41,7 +41,7 @@ class _SignInState extends State<SignIn> {
         List data = jsonDecode(res.body);
         var userId = (data[0]["userID"]);
         await session.set("token", userId);
-        
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NewUser()),
@@ -68,7 +68,11 @@ class _SignInState extends State<SignIn> {
             ),
           )
       ),
-      style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
+      style: TextStyle(
+        fontFamily: 'Quicksand',
+        fontSize: 16.0,
+        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+      ),
       keyboardType: TextInputType.text,
       validator: (username){
         if (username.isEmpty) {
@@ -99,7 +103,11 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
-      style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
+      style: TextStyle(
+        fontFamily: 'Quicksand',
+        fontSize: 16.0,
+        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+      ),
       keyboardType: TextInputType.text,
       obscureText: true,
       validator: (password){
@@ -152,50 +160,50 @@ class _SignInState extends State<SignIn> {
                         ),
                         Container(
                             child: Form(
-                              key: _formKey,
-                              child: Column(
+                                key: _formKey,
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
-                                  _buildUsername(),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                                  _buildPassword(),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
-                                  RaisedButton(
-                                      padding: EdgeInsets.all(12.0),
-                                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                      color: Color(0xff00A8E5),
-                                      disabledColor: Colors.blue,//add this to your code
-                                      child: Text(''
-                                          'LOG IN',
+                                    _buildUsername(),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                                    _buildPassword(),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
+                                    RaisedButton(
+                                        padding: EdgeInsets.all(12.0),
+                                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                        color: Color(0xff00A8E5),
+                                        disabledColor: Colors.blue,//add this to your code
+                                        child: Text(''
+                                            'LOG IN',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color:Colors.white,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          if(_formKey.currentState.validate()){
+                                            _formKey.currentState.save();
+                                            userLogin();
+                                          }
+
+                                        }
+                                    ),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                                    Center(
+                                      child: Text(
+                                        'Forgot Password',
                                         style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color:Colors.white,
-                                          fontSize: 16,
+                                          fontFamily: 'Quicksand',
+                                          fontSize: 16.0,
+                                          decoration: TextDecoration.underline,
+                                          letterSpacing: 1.0,
+                                          color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                                         ),
                                       ),
-                                      onPressed: () {
-                                        if(_formKey.currentState.validate()){
-                                          _formKey.currentState.save();
-                                          userLogin();
-                                        }
-
-                                      }
-                                  ),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                                  Center(
-                                    child: Text(
-                                      'Forgot Password',
-                                      style: TextStyle(
-                                        fontFamily: 'Quicksand',
-                                        fontSize: 16.0,
-                                        decoration: TextDecoration.underline,
-                                        letterSpacing: 1.0,
-                                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
+                                    )
+                                  ],
+                                )
                             )
                         ),
                         //SizedBox( height: MediaQuery.of(context).size.height * 0.1,),

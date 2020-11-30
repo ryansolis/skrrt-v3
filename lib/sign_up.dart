@@ -138,7 +138,7 @@ class _SignUpState extends State<SignUp> {
 
     drop1value = null;
     drop2value = null;
-
+    status = "student";
     yr = ['1', '2', '3', '4'];
     dept = ['IT', 'CS', 'ME', 'CE'];
     drop2 = ['1', '2', '3', '4'];
@@ -168,10 +168,9 @@ class _SignUpState extends State<SignUp> {
   bool complete = false;
 
   void fieldFin(){
-    registerData();
     complete = true;
     setState(() =>  currentStep += 1);
-
+    registerData();
   }
   next() {
     currentStep + 1 != steps.length
@@ -611,7 +610,6 @@ class _SignUpState extends State<SignUp> {
                         return null;
                     },
                     onSaved: (name)=> username.text = name,
-                    autofocus: false,
                     decoration: InputDecoration(
                         hintText: 'Username',
                         hintStyle: TextStyle(
