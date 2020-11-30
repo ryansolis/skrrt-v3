@@ -14,6 +14,11 @@ class AppbarImage extends StatelessWidget {
               margin: EdgeInsets.fromLTRB(0, 8, 0, 2),
               height: MediaQuery.of(context).size.height*.8,
               width: MediaQuery.of(context).size.width*.8,
+=======
+              /*height: MediaQuery.of(context).size.height*.8,
+              width: MediaQuery.of(context).size.width*.8,*/
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
               child: Image(
                 image: AssetImage('assets/jess-brobrero.png'),
               ),
