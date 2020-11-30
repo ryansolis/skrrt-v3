@@ -47,7 +47,7 @@ class _NewUserState extends State<NewUser> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image(
-              image: AssetImage("assets/useronscooter.png"),
+              image: AssetImage("assets/userscooter1.jpg"),
               height: MediaQuery.of(context).size.height * 0.40,
             ),
             SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
@@ -79,10 +79,9 @@ class _NewUserState extends State<NewUser> {
                 children: <Widget>[
                   Image(
                     image: AssetImage("assets/navigate.jpg"),
-                    height: 200,
-                    width: 200,
+                    height: MediaQuery.of(context).size.height * 0.40,
                   ),
-                  SizedBox( height: MediaQuery.of(context).size.height * 0.07,),
+                  SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
                   Text(
                       'Navigate to your destination easily!',
                       textAlign: TextAlign.center,
@@ -94,7 +93,7 @@ class _NewUserState extends State<NewUser> {
                         color: Colors.white,
                       )
                   ),
-                  SizedBox( height: MediaQuery.of(context).size.height * 0.05,),
+                  SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
                 ],
             ),
         )
@@ -111,10 +110,9 @@ class _NewUserState extends State<NewUser> {
               children: <Widget>[
                 Image(
                   image: AssetImage("assets/wallet.png"),
-                  height: 175,
-                  width: 200,
+                  height: MediaQuery.of(context).size.height * 0.40,
                 ),
-                SizedBox( height: MediaQuery.of(context).size.height * 0.07,),
+                SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
                 Text(
                     'Pay easily using your \n SKRRT Wallet or school ID!',
                     textAlign: TextAlign.center,
@@ -126,7 +124,7 @@ class _NewUserState extends State<NewUser> {
                       color: Colors.white,
                     )
                 ),
-                SizedBox( height: MediaQuery.of(context).size.height * 0.05,),
+                SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
               ],
             ),
         )
