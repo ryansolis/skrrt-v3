@@ -55,7 +55,7 @@ class _RentScooterState extends State<RentScooter> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +69,7 @@ class _RentScooterState extends State<RentScooter> {
                           style: TextStyle(
                             color: Color(0xFF0E0E0E),
                             fontFamily: 'Quicksand',
-                            fontSize: 30.0,
+                            fontSize: MediaQuery.of(context).size.height*.06,//30.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -78,7 +78,7 @@ class _RentScooterState extends State<RentScooter> {
                           style: TextStyle(
                             color: Color(0xFFA62415),
                             fontFamily: 'Quicksand',
-                            fontSize: 15.0,
+                            fontSize: MediaQuery.of(context).size.height*.03,//15.0,
                             fontWeight: FontWeight.bold,
                           ),
                         )
@@ -91,7 +91,7 @@ class _RentScooterState extends State<RentScooter> {
                       style: TextStyle(
                         color: Color(0xFF7D7D7D),
                         fontFamily: 'Quicksand',
-                        fontSize: 25.0,
+                        fontSize: MediaQuery.of(context).size.height*.04,//25.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -115,12 +115,12 @@ class _RentScooterState extends State<RentScooter> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                                      padding: const EdgeInsets.symmetric(vertical: 5.0),
                                       child: Text('Details',
                                         style: TextStyle(
                                           color: Color(0xFF0E0E0E),
                                           fontFamily: 'Quicksand',
-                                          fontSize: 30.0,
+                                          fontSize: MediaQuery.of(context).size.height*.05,//30.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -129,15 +129,16 @@ class _RentScooterState extends State<RentScooter> {
                                       style: TextStyle(
                                         color: Color(0xFF0E0E0E),
                                         fontFamily: 'Quicksand',
-                                        fontSize: 15.0,
+                                        fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text('(max: 45kg)',
+                                    Text('    (max: 45kg)',
+
                                       style: TextStyle(
                                         color: Color(0xFF0E0E0E),
                                         fontFamily: 'Quicksand',
-                                        fontSize: 15.0,
+                                        fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -157,7 +158,7 @@ class _RentScooterState extends State<RentScooter> {
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
-                                                      fontSize: 15.0,
+                                                      fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -165,7 +166,7 @@ class _RentScooterState extends State<RentScooter> {
                                                     style: TextStyle(
                                                       color: Color(0xFF7D7D7D),
                                                       fontFamily: 'Quicksand',
-                                                      fontSize: 15.0,
+                                                      fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -185,7 +186,7 @@ class _RentScooterState extends State<RentScooter> {
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
-                                                      fontSize: 15.0,
+                                                      fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -193,7 +194,7 @@ class _RentScooterState extends State<RentScooter> {
                                                     style: TextStyle(
                                                       color: Color(0xFF7D7D7D),
                                                       fontFamily: 'Quicksand',
-                                                      fontSize: 15.0,
+                                                      fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -213,7 +214,7 @@ class _RentScooterState extends State<RentScooter> {
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
-                                                      fontSize: 15.0,
+                                                      fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -221,7 +222,7 @@ class _RentScooterState extends State<RentScooter> {
                                                     style: TextStyle(
                                                       color: Color(0xFF7D7D7D),
                                                       fontFamily: 'Quicksand',
-                                                      fontSize: 15.0,
+                                                      fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -241,7 +242,7 @@ class _RentScooterState extends State<RentScooter> {
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
-                                                      fontSize: 15.0,
+                                                      fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -249,7 +250,7 @@ class _RentScooterState extends State<RentScooter> {
                                                     style: TextStyle(
                                                       color: Color(0xFF7D7D7D),
                                                       fontFamily: 'Quicksand',
-                                                      fontSize: 15.0,
+                                                      fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -268,7 +269,7 @@ class _RentScooterState extends State<RentScooter> {
                         ),
                       ),
                       Positioned(
-                        height: 225.0,
+                        height: MediaQuery.of(context).size.height*.24,
                         left: -50.0,
                         top: 25.0,
                         child: Image(image: AssetImage('assets/scooter_phoenix.png'))
@@ -276,7 +277,7 @@ class _RentScooterState extends State<RentScooter> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                     child: Card(
                       color: Color(0xFFE7E7E7),
                       shape: RoundedRectangleBorder(
@@ -293,7 +294,7 @@ class _RentScooterState extends State<RentScooter> {
                                 style: TextStyle(
                                   color: Color(0xFF0E0E0E),
                                   fontFamily: 'Quicksand',
-                                  fontSize: 25.0,
+                                  fontSize: MediaQuery.of(context).size.height*.035,//25.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -307,7 +308,7 @@ class _RentScooterState extends State<RentScooter> {
                                       style: TextStyle(
                                         color: Color(0xFF0E0E0E),
                                         fontFamily: 'Quicksand',
-                                        fontSize: 20.0,
+                                        fontSize: MediaQuery.of(context).size.height*.03,//20.0,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -315,7 +316,7 @@ class _RentScooterState extends State<RentScooter> {
                                       style: TextStyle(
                                         color: Color(0xFF7D7D7D),
                                         fontFamily: 'Quicksand',
-                                        fontSize: 20.0,
+                                        fontSize: MediaQuery.of(context).size.height*.03,//20.0,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -337,7 +338,7 @@ class _RentScooterState extends State<RentScooter> {
                           style: TextStyle(
                             color: Color(0xFF0E0E0E),
                             fontFamily: 'Quicksand',
-                            fontSize: 18.0,
+                            fontSize: MediaQuery.of(context).size.height*.028,//18.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -345,7 +346,7 @@ class _RentScooterState extends State<RentScooter> {
                           style: TextStyle(
                             color: Color(0xFFFB4D4D),
                             fontFamily: 'Quicksand',
-                            fontSize: 15.0,
+                            fontSize: MediaQuery.of(context).size.height*.025,//15.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -356,7 +357,7 @@ class _RentScooterState extends State<RentScooter> {
                     padding: const EdgeInsets.symmetric(vertical: 24.0),
                     child: Center(
                       child: RaisedButton(
-                          padding: EdgeInsets.symmetric(horizontal: 64.0, vertical: 14.0),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.3, vertical: 14.0),
                           shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
                           textColor: Colors.white,
                           color: Color(0xff00A8E5),
@@ -364,17 +365,18 @@ class _RentScooterState extends State<RentScooter> {
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               color:Colors.white,
-                              fontSize: 16,
+                              fontSize: MediaQuery.of(context).size.height*.026,//16,
                             ),
                           ),
                           onPressed: () {
                             _scan();
-                            if (_cameraScanResult.isNotEmpty){
+                            //if (_cameraScanResult.isNotEmpty){
+                              Navigator.pop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => Navigation()),
                               );
-                            }
+                            //}
                           }
                       ),
                     ),

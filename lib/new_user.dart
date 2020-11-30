@@ -9,6 +9,17 @@ class _NewUserState extends State<NewUser> {
   int currentStep = 0;
   bool complete = false;
 
+  double uniHeight(BuildContext context){
+    return MediaQuery.of(context).size.height*0.1;
+  }
+  double uniWidth(BuildContext context){
+    return MediaQuery.of(context).size.width*0.1;
+  }
+
+  bool _tabletSized(BuildContext context){
+    return MediaQuery.of(context).size.width > 700;
+  }
+
   void fieldFin(){
     complete = true;
     setState(() =>  currentStep+1);
@@ -34,126 +45,102 @@ class _NewUserState extends State<NewUser> {
   }
 
 
-
-
   List<Step> get steps => [
     Step(
         isActive: currentStep>=0,
-        state: currentStep >= 0 ? StepState.complete : StepState.disabled,
-      title: const Text(''),
-        content: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        state: StepState.complete,
+        title: const Text(''),
+        content: Padding(
+          padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Image(
+                image: AssetImage("assets/userscooter1.jpg"),
+                height: MediaQuery.of(context).size.height * 0.40,
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
               Text(
-                  'Welcome to SKRRT!',
+                  'Rent a scooter and start your ride!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16.0,
-
+                    fontFamily: 'Quicksand',
+                    fontSize: uniHeight(context)*0.25,
                     //fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
                     color: Colors.white,
                   )
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+            ],
+          ),
+        )
+    ),
+    Step(
+        isActive: currentStep>=1,
+        state: StepState.complete,
+        title: const Text(''),
+        content:Padding(
+          padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
               Image(
-                image: AssetImage("assets/newuser_nav.png"),
-                height: 175,
-                width: 200,
+                image: AssetImage("assets/navigate.jpg"),
+                height: MediaQuery.of(context).size.height * 0.40,
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
               Text(
                   'Navigate to your destination easily!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16.0,
-
+                    fontFamily: 'Quicksand',
+                    fontSize: uniHeight(context)*0.25,
                     //fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
                     color: Colors.white,
                   )
               ),
-              SizedBox(
-                height: 30,
-              ),
-
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
             ],
-        ),
+          ),
+        )
     ),
     Step(
-      isActive: currentStep>=1,
-      state: currentStep >= 1 ? StepState.complete : StepState.disabled,
-      title: const Text(''),
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image(
-            image: AssetImage("assets/skrrt-wallet-img_w.png"),
-            height: 175,
-            width: 200,
+        isActive: currentStep>=2,
+        state: StepState.complete,
+        title: const Text(''),
+        content: Padding(
+          padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
+          child:Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image(
+                image: AssetImage("assets/wallet.png"),
+                height: MediaQuery.of(context).size.height * 0.40,
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+              Text(
+                  'Pay easily using your \n SKRRT Wallet or school ID!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontSize: uniHeight(context)*0.25,
+                    //fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
+                    color: Colors.white,
+                  )
+              ),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
+            ],
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-              'Pay easily using SKRRT Wallet!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 16.0,
-
-                //fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
-                color: Colors.white,
-              )
-          ),
-          SizedBox(
-            height: 30,
-          ),
-        ],
-      ),
-    ),
-    Step(
-      isActive: currentStep>=2,
-      state: currentStep == 2 ? StepState.complete : StepState.disabled,
-      title: const Text(''),
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image(
-            image: AssetImage("assets/useronscooter.png"),
-            height: 175,
-            width: 200,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-              'Rent a scooter and start your ride!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 16.0,
-
-                //fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
-                color: Colors.white,
-              )
-          ),
-          SizedBox(
-            height: 30,
-          ),
-
-        ],
-      ),
+        )
     ),
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +191,6 @@ class _NewUserState extends State<NewUser> {
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 16.0,
-
                         //fontWeight: FontWeight.bold,
                         letterSpacing: 1.0,
                         color: Colors.white,
@@ -250,7 +236,6 @@ class _NewUserState extends State<NewUser> {
                         currentStep: currentStep,
                         onStepCancel: cancel,
                         onStepTapped: (step) => goTo(step),
-
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
                             Container(
                               child: RaisedButton(
@@ -278,12 +263,11 @@ class _NewUserState extends State<NewUser> {
   }
   Widget _buildNormalContainer() {
     return Center(
-        child: Padding(
-            padding:EdgeInsets.symmetric(horizontal: 10),
+        child: Container(
             child: Theme(
               data: ThemeData(
                 canvasColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                primaryColor: Colors.black,
+                primaryColor: Color.fromARGB(255, 0x1E, 0x1E, 0x1E),
                 backgroundColor: Colors.white,
                 accentColor: Colors.white,
                 shadowColor: Colors.transparent,
@@ -299,19 +283,21 @@ class _NewUserState extends State<NewUser> {
                     width: 75,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
-                  Text(
-                      'Your on-campus scooter on the go',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 16.0,
-
-                        //fontWeight: FontWeight.bold,
-                        letterSpacing: 1.0,
-                        color: Colors.white,
-                      )
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Text(
+                        'Your on-campus scooter on the go',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          fontSize: 14.0,
+                          //fontWeight: FontWeight.bold,
+                          letterSpacing: 1.0,
+                          color: Colors.white,
+                        )
+                    ),
                   ),
                   complete ? Expanded(
                     child: Stepper(
@@ -319,9 +305,10 @@ class _NewUserState extends State<NewUser> {
                         type: StepperType.horizontal,
                         currentStep: currentStep,
                         onStepCancel: cancel,
-                        onStepTapped: (step) => goTo(step),
+                        onStepTapped: goTo,
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
-                            Container(
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
                               child: RaisedButton(
                                   padding: EdgeInsets.all(12.0),
                                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
@@ -355,7 +342,8 @@ class _NewUserState extends State<NewUser> {
                         onStepTapped: (step) => goTo(step),
 
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
-                            Container(
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
                               child: RaisedButton(
                                 padding: EdgeInsets.all(12.0),
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
