@@ -127,7 +127,7 @@ class _SignUpState extends State<SignUp> {
 
     drop1value = null;
     drop2value = null;
-
+    status = "student";
     yr = ['1', '2', '3', '4'];
     dept = ['IT', 'CS', 'ME', 'CE'];
     drop2 = ['1', '2', '3', '4'];
@@ -599,7 +599,6 @@ class _SignUpState extends State<SignUp> {
                         return null;
                     },
                     onSaved: (name)=> username.text = name,
-                    autofocus: true,
                     decoration: InputDecoration(
                         hintText: 'Username',
                         hintStyle: TextStyle(

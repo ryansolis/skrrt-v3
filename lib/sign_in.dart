@@ -33,7 +33,6 @@ class _SignInState extends State<SignIn> {
       ),
       style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
-      /*
       validator: (String value){
         if(value.isEmpty){
           return 'Username is Required.';
@@ -45,7 +44,7 @@ class _SignInState extends State<SignIn> {
       },
       onSaved: (String value) {
         _username = value;
-      },*/
+      },
     );
   }
 
@@ -69,7 +68,6 @@ class _SignInState extends State<SignIn> {
       style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
       obscureText: true,
-      /*
       validator: (String value) {
         if (value.isEmpty) {
           return 'Password is Required.';
@@ -78,7 +76,7 @@ class _SignInState extends State<SignIn> {
       },
       onSaved: (String value) {
         _password = value;
-      },*/
+      },
     );
   }
 
@@ -145,16 +143,14 @@ class _SignInState extends State<SignIn> {
                                         context,
                                         MaterialPageRoute(builder: (context) => NewUser()),
                                     );
-                                    /*
-                                    if(!formKey.currentState.validate()){
+
+                                    if(formKey.currentState.validate()){
+                                      formKey.currentState.save();
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => LaunchPage()),
-                                      )
+                                        MaterialPageRoute(builder: (context) => NewUser())
+                                      );
                                     }
-                                    else{
-                                      formKey.currentState.save()
-                                    }*/
                                   }
                               ),
                               SizedBox(height: MediaQuery.of(context).size.height * 0.02,),

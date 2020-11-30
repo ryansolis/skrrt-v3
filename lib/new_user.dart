@@ -45,8 +45,6 @@ class _NewUserState extends State<NewUser> {
   }
 
 
-
-
   List<Step> get steps => [
     Step(
         isActive: currentStep>=0,
@@ -59,24 +57,22 @@ class _NewUserState extends State<NewUser> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image(
-                image: AssetImage("assets/useronscooter.png"),
-                height: uniHeight(context)+(uniHeight(context)/0.1*0.15),
-                width: uniWidth(context)+(uniWidth(context)/0.1*0.9),
+                image: AssetImage("assets/userscooter1.jpg"),
+                height: MediaQuery.of(context).size.height * 0.40,
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
               Text(
                   'Rent a scooter and start your ride!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Quicksand',
                     fontSize: uniHeight(context)*0.25,
-
                     //fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
                     color: Colors.white,
                   )
               ),
-              SizedBox( height: MediaQuery.of(context).size.height * 0.05,),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
             ],
           ),
         )
@@ -93,10 +89,9 @@ class _NewUserState extends State<NewUser> {
             children: <Widget>[
               Image(
                 image: AssetImage("assets/navigate.jpg"),
-                height: uniHeight(context)+(uniHeight(context)/0.1*0.15),
-                width: uniWidth(context)+(uniWidth(context)/0.1*0.9),
+                height: MediaQuery.of(context).size.height * 0.40,
               ),
-              SizedBox( height: MediaQuery.of(context).size.height * 0.07,),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
               Text(
                   'Navigate to your destination easily!',
                   textAlign: TextAlign.center,
@@ -108,7 +103,7 @@ class _NewUserState extends State<NewUser> {
                     color: Colors.white,
                   )
               ),
-              SizedBox( height: MediaQuery.of(context).size.height * 0.05,),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
             ],
           ),
         )
@@ -125,10 +120,9 @@ class _NewUserState extends State<NewUser> {
             children: <Widget>[
               Image(
                 image: AssetImage("assets/wallet.png"),
-                height: uniHeight(context)+(uniHeight(context)/0.1*0.15),
-                width: uniWidth(context)+(uniWidth(context)/0.1*0.9),
+                height: MediaQuery.of(context).size.height * 0.40,
               ),
-              SizedBox( height: MediaQuery.of(context).size.height * 0.07,),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
               Text(
                   'Pay easily using your \n SKRRT Wallet or school ID!',
                   textAlign: TextAlign.center,
@@ -140,12 +134,13 @@ class _NewUserState extends State<NewUser> {
                     color: Colors.white,
                   )
               ),
-              SizedBox( height: MediaQuery.of(context).size.height * 0.05,),
+              SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
             ],
           ),
         )
     ),
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +191,6 @@ class _NewUserState extends State<NewUser> {
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 16.0,
-
                         //fontWeight: FontWeight.bold,
                         letterSpacing: 1.0,
                         color: Colors.white,
@@ -242,7 +236,6 @@ class _NewUserState extends State<NewUser> {
                         currentStep: currentStep,
                         onStepCancel: cancel,
                         onStepTapped: (step) => goTo(step),
-
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
                             Container(
                               child: RaisedButton(
@@ -270,12 +263,11 @@ class _NewUserState extends State<NewUser> {
   }
   Widget _buildNormalContainer() {
     return Center(
-        child: Padding(
-            padding:EdgeInsets.symmetric(horizontal: 10),
+        child: Container(
             child: Theme(
               data: ThemeData(
                 canvasColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                primaryColor: Colors.black,
+                primaryColor: Color.fromARGB(255, 0x1E, 0x1E, 0x1E),
                 backgroundColor: Colors.white,
                 accentColor: Colors.white,
                 shadowColor: Colors.transparent,
@@ -284,26 +276,28 @@ class _NewUserState extends State<NewUser> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: uniHeight(context)*0.5)
+                  SizedBox(height: 50),
                   Image(
                     image: AssetImage("assets/skrrt_logo.png"),
                     height: 75,
                     width: 75,
                   ),
                   SizedBox(
-                    height: uniHeight(context)*0.5,
+                    height: 10,
                   ),
-                  Text(
-                      'Your on-campus scooter on the go',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: uniHeight(context)*0.25,
-
-                        //fontWeight: FontWeight.bold,
-                        letterSpacing: 1.0,
-                        color: Colors.white,
-                      )
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Text(
+                        'Your on-campus scooter on the go',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          fontSize: 14.0,
+                          //fontWeight: FontWeight.bold,
+                          letterSpacing: 1.0,
+                          color: Colors.white,
+                        )
+                    ),
                   ),
                   complete ? Expanded(
                     child: Stepper(
@@ -311,9 +305,10 @@ class _NewUserState extends State<NewUser> {
                         type: StepperType.horizontal,
                         currentStep: currentStep,
                         onStepCancel: cancel,
-                        onStepTapped: (step) => goTo(step),
+                        onStepTapped: goTo,
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
-                            Container(
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
                               child: RaisedButton(
                                   padding: EdgeInsets.all(12.0),
                                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
@@ -328,7 +323,6 @@ class _NewUserState extends State<NewUser> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.pop(context);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -348,7 +342,8 @@ class _NewUserState extends State<NewUser> {
                         onStepTapped: (step) => goTo(step),
 
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
-                            Container(
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
                               child: RaisedButton(
                                 padding: EdgeInsets.all(12.0),
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
