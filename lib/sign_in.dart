@@ -66,14 +66,9 @@ class _SignInState extends State<SignIn> {
       style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
       validator: (username){
-//        Pattern pattern =
-//            r'^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$';
-//        RegExp regex = new RegExp(pattern);
         if (username.isEmpty) {
           return 'Username is required.';
         }
-//        else if (!regex.hasMatch(username))
-//          return 'Invalid Username.';
         else
           return null;
       },
@@ -103,14 +98,9 @@ class _SignInState extends State<SignIn> {
       keyboardType: TextInputType.text,
       obscureText: true,
       validator: (password){
-//        Pattern pattern =
-//            r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
-//        RegExp regex = new RegExp(pattern);
         if (password.isEmpty) {
           return 'Password is required.';
         }
-//        else if (!regex.hasMatch(password))
-//          return 'Invalid Password.';
         else
           return null;
       },

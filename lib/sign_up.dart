@@ -301,7 +301,7 @@ class _SignUpState extends State<SignUp> {
                     textInputAction: TextInputAction.done,
                     validator: (value){
                       if(value.isEmpty){
-                        return 'Birthday is Required.';
+                        return 'Birthday is required.';
                       }
                       else if(!RegExp('[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}').hasMatch(value)){
                         return 'Must be MM/dd/yyyy in format (ex: 12/20/2020)';
