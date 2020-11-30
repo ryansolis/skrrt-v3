@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'sign_up.dart';
 import 'new_user.dart';
@@ -14,7 +15,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   String _username;
   String _password;
-
+  var session = FlutterSession();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _user = TextEditingController();
@@ -36,7 +37,11 @@ class _SignInState extends State<SignIn> {
         Fluttertoast.showToast(msg: "Incorrect password",toastLength: Toast.LENGTH_SHORT);
       }
       else{
-        print(jsonDecode(res.body));
+        //print(jsonDecode(res.body));
+        List data = jsonDecode(res.body);
+        var userId = (data[0]["userID"]);
+        await session.set("token", userId);
+        
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NewUser()),
