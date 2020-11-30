@@ -16,7 +16,7 @@ class _AdminPageState extends State<AdminPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   var _month = ['January','February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
-  var _currentMonthSelected = 'March';
+  var _currentMonthSelected = 'November';
   double
       earnings = 25252.00,
       earnIncrease = 253.00,
@@ -26,6 +26,13 @@ class _AdminPageState extends State<AdminPage> {
       responseRate,
       rideIncrease = 150,
       totalSkrrtDistance = 1524;
+  int _selectedIndex = 1;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +65,21 @@ class _AdminPageState extends State<AdminPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                        "Analytics",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Quicksand"
-                        )
+                    Row(
+                        children:[
+                          Text(
+                              "Analytics ",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Quicksand"
+                              )
+                          ),
+                          Icon(
+                              Icons.bar_chart,
+                              color: Colors.lightBlue
+                          )
+                        ]
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(0,10,0,0),
@@ -102,12 +117,12 @@ class _AdminPageState extends State<AdminPage> {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
                                         fontFamily: "Quicksand"
-                                    )
+                                    ),
                                 ),
                                 Text(
                                     "Successful",
                                     style: TextStyle(
-                                        fontSize:14,
+                                        fontSize:12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                         fontFamily: "Quicksand"
@@ -116,7 +131,7 @@ class _AdminPageState extends State<AdminPage> {
                                 Text(
                                     "Rides",
                                     style: TextStyle(
-                                        fontSize:14,
+                                        fontSize:12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                         fontFamily: "Quicksand"
@@ -158,7 +173,7 @@ class _AdminPageState extends State<AdminPage> {
                                   Text(
                                       "Response",
                                       style: TextStyle(
-                                          fontSize:14,
+                                          fontSize:12,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
                                           fontFamily: "Quicksand"
@@ -167,7 +182,7 @@ class _AdminPageState extends State<AdminPage> {
                                   Text(
                                       "Rate",
                                       style: TextStyle(
-                                          fontSize:14,
+                                          fontSize:12,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
                                           fontFamily: "Quicksand"
@@ -209,7 +224,7 @@ class _AdminPageState extends State<AdminPage> {
                                   Text(
                                       "Happy",
                                       style: TextStyle(
-                                          fontSize:14,
+                                          fontSize:12,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
                                           fontFamily: "Quicksand"
@@ -218,7 +233,7 @@ class _AdminPageState extends State<AdminPage> {
                                   Text(
                                       "Feedback",
                                       style: TextStyle(
-                                          fontSize:14,
+                                          fontSize:12,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
                                           fontFamily: "Quicksand"
@@ -244,14 +259,23 @@ class _AdminPageState extends State<AdminPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                        "Earnings",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Quicksand"
+                    Row(
+                      children:[
+                        Text(
+                            "Earnings ",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Quicksand"
+                            )
+                        ),
+                        Icon(
+                          Icons.attach_money_rounded,
+                          color: Colors.green
                         )
+                      ]
                     ),
+
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
                       width: double.infinity,
@@ -344,13 +368,21 @@ class _AdminPageState extends State<AdminPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                        "Rides",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Quicksand"
-                        )
+                    Row(
+                        children:[
+                          Text(
+                              "Rides ",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Quicksand"
+                              )
+                          ),
+                          Icon(
+                              Icons.electric_scooter ,
+                              color: Colors.blue
+                          )
+                        ]
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -438,7 +470,32 @@ class _AdminPageState extends State<AdminPage> {
           ],
         ),
       ),
-      floatingActionButton: RideButton(),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Analytics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Users',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.electric_scooter),
+            label: 'Scooters',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+
+       floatingActionButton: RideButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
     );
   }
