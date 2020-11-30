@@ -18,7 +18,6 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Set<Marker> _markers ={};
   BitmapDescriptor mapMarker;
-  BitmapDescriptor selectedMarker;
   bool _visible = false;
   bool _visible1 = false;
 
@@ -29,7 +28,6 @@ class _HomeState extends State<Home> {
   }
 
   void setCustomMarker() async{
-    selectedMarker = await getBitmapDescriptorFromAssetBytes("assets/skrrt_selected1.png", 200);
     mapMarker = await getBitmapDescriptorFromAssetBytes("assets/skrrt_marker1.png", 150);
   }
 
@@ -58,7 +56,7 @@ class _HomeState extends State<Home> {
           Marker(
             markerId: MarkerId('id-2'),
             position: LatLng(10.295235, 123.880835),
-            icon: selectedMarker,
+            icon: mapMarker,
             infoWindow: InfoWindow(
               title: 'CIT Main Library',
               snippet: '2 Available'
