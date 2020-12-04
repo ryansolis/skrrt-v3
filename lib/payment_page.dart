@@ -40,8 +40,33 @@ class _PaymentPageState extends State<PaymentPage> {
   Color star3;
   Color star4;
   Color star5;
+  String _balance = "₱";
 
   var session = FlutterSession();
+  void viewBalance() async {
+    //print("hello");
+    var token = await session.get("token");
+    print(token);
+    var url = "http://192.168.1.4/skrrt/balance.php";
+    var data = {
+      "userID": token.toString(),
+    };
+    print(data);
+    var res = await http.post(url,body:data);
+    print(jsonDecode(res.body));
+
+    List userData = await jsonDecode(res.body);
+
+    _balance += userData[0]["balance"] += ".00";
+    //print("YES3");
+    if(jsonDecode(res.body) == "okay"){
+      print("YESSSSSSS");
+    }
+    else{
+      print("NOOOOOO");
+    }
+    setState(() {});
+  }
 
   void payRide() async {
     //print("hello");
@@ -74,6 +99,7 @@ class _PaymentPageState extends State<PaymentPage> {
     star3 = Colors.grey;
     star4 = Colors.grey;
     star5 = Colors.grey;
+    viewBalance();
   }
   @override
   Widget build(BuildContext context) {
@@ -155,7 +181,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 )
                             ),
                             Text(
-                                "₱150.00",
+                                _balance,
                                 style: TextStyle(
                                     fontSize:uniHeight(context)*.28,//22,
                                     fontWeight: FontWeight.bold,

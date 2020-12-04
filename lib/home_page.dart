@@ -97,20 +97,23 @@ class _HomeState extends State<Home> {
     var url = "http://192.168.1.4/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
       "start": _station,
-      //"userID": token.toString(),
+      "userID": token.toString(),
       "model": _selected,
       "date": DateTime.now().toString()
     };
     print(data);
     var res = await http.post(url,body:data);
-    print(jsonDecode(res.body));
-    //print("YES3");
-    if(jsonDecode(res.body) == "okay"){
-      print("YESSSSSSS");
-    }
-    else{
-      print("NOOOOOO");
-    }
+
+    List userData = await jsonDecode(res.body);
+
+    var scooterID = userData[0]["scooter"];
+    var rideID = userData[1]["lastID"];
+    print(userData);
+    print(rideID);
+
+    await session.set("rideID",rideID);
+    await session.set("scooter",scooterID);
+    await session.set("token",token);
   }
 
 
