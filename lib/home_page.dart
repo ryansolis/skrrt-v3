@@ -1156,7 +1156,7 @@ class _HomeState extends State<Home> {
                       rideScooter();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => PaymentPage()),
+                        MaterialPageRoute(builder: (context) => RentScooter()),
                       );
                     }
                     else{
