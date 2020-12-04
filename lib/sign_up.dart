@@ -26,11 +26,12 @@ class _SignUpState extends State<SignUp> {
   PickedFile imageFile;
 
 
- Future registerData() async {
-   var url = "http://192.168.1.4/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
-   await http.post(url, body:{
-           "fname": fname.text,
-           "lname": lname.text,
+ void registerData() async {
+   //print("YES1");
+   var url = "http://192.168.1.11/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   var data = {
+           "first": fname.text,
+           "last": lname.text,
            "idNo": idno.text,
            "status": status,
            "username": username.text,
@@ -39,8 +40,18 @@ class _SignUpState extends State<SignUp> {
            "birthday": dateCtl.text,
            "course": drop1value,
            "year": drop2value,
-           "dept": "Computer Science",
-         });
+           //"dept": "aw",//drop2value,
+         };
+   //print("YES2");
+   var res = await http.post(url,body: data);
+   //print("YES3");
+   if(jsonDecode(res.body) == "okay"){
+     print("YESSSSSSS");
+   }
+   else{
+     print("NOOOOOO");
+   }
+
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -104,7 +115,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   int selectedRadio;
-  String course,year,status,drop1value,drop2value;
+  String course,year,status = "student",drop1value,drop2value;
   DateTime bday;
   Color radcolor1 = Colors.black54;
   Color radcolor2 = Colors.black54;
@@ -157,9 +168,10 @@ class _SignUpState extends State<SignUp> {
   bool complete = false;
 
   void fieldFin(){
+    registerData();
     complete = true;
     setState(() =>  currentStep += 1);
-    registerData();
+
   }
   next() {
     currentStep + 1 != steps.length
@@ -599,7 +611,7 @@ class _SignUpState extends State<SignUp> {
                         return null;
                     },
                     onSaved: (name)=> username.text = name,
-                    autofocus: true,
+                    autofocus: false,
                     decoration: InputDecoration(
                         hintText: 'Username',
                         hintStyle: TextStyle(
