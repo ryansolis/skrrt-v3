@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
 import 'package:skrrt_app/appbar-ridebutton/skrrt-appbar.dart';
 import 'package:skrrt_app/home_page.dart';
+import 'package:skrrt_app/successful_ride_page.dart';
 import 'sidebar_page.dart';
+
+import 'package:flutter_session/flutter_session.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class PaymentPage extends StatefulWidget {
   @override
@@ -28,7 +35,46 @@ double uniWidth(BuildContext context){
 
 class _PaymentPageState extends State<PaymentPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Color star1;
+  Color star2;
+  Color star3;
+  Color star4;
+  Color star5;
 
+  var session = FlutterSession();
+
+  void payRide() async {
+    //print("hello");
+    var duration = await session.get("duration");
+    var _rideID = await session.get("rideID");
+    print(duration);
+    var _amount = duration * 3;
+
+    var url = "http://192.168.1.4/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
+    var data = {
+      "rideID" : _rideID,
+      "amount": _amount,
+    };
+    print(data);
+    var res = await http.post(url,body:data);
+    print(jsonDecode(res.body));
+    //print("YES3");
+    if(jsonDecode(res.body) == "okay"){
+      print("YESSSSSSS");
+    }
+    else{
+      print("NOOOOOO");
+    }
+  }
+
+  void initState(){
+    super.initState();
+    star1 = Colors.grey;
+    star2 = Colors.grey;
+    star3 = Colors.grey;
+    star4 = Colors.grey;
+    star5 = Colors.grey;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +90,7 @@ class _PaymentPageState extends State<PaymentPage> {
             _scaffoldKey.currentState.openDrawer();
           },
         ),
+
         flexibleSpace: AppbarImage(),
       ),
       drawer:  SideBar(),
@@ -124,50 +171,165 @@ class _PaymentPageState extends State<PaymentPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children:[
-                          RaisedButton(
-                              padding: EdgeInsets.all((uniHeight(context)*uniWidth(context))*.009),
-                              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                              textColor: Colors.white,
-                              color: Color(0xff00A8E5),
-                              child: Text('PAY NOW',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color:Colors.white,
-                                  fontSize: uniHeight(context)*0.25,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                /*
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.6, // match_parent
+                              child: RaisedButton(
+                                  padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.06, vertical: MediaQuery.of(context).size.height * 0.020),
+                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                  textColor: Colors.white,
+                                  color: Color(0xff00A8E5),
+                                  child: Text('PAY NOW',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color:Colors.white,
+                                      fontSize: uniHeight(context)*0.25,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SuccessfulRide()),
+                                    );
+                                    /*
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => Home()),
                                 );*/
-                              }
+                                  }
+                              ),
                           ),
-                          SizedBox(height: uniHeight(context)*.2),
+/*
+                          SizedBox(height: uniHeight(context)*.10),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6, // match_parent
+                            child: FlatButton(
+                                padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.06, vertical: MediaQuery.of(context).size.height * 0.020),
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0), side: BorderSide(color: Color(0xff00A8E5))),
+                                textColor: Color(0xff00A8E5),
+                                color: Colors.white,
+                                child: Text('PAY NOW',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color:Color(0xff00A8E5),
+                                    fontSize: uniHeight(context)*0.25,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  /*
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Home()),
+                                );*/
+                                }
+                            ),
+                          ),*/
+                          SizedBox(height: uniHeight(context)*.5),
                           Text(
                             "Rate Phoenix",
                               style: TextStyle(
-                              fontSize:uniHeight(context)*.45,//15,
+                              fontSize:uniHeight(context)*.35,//15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "Quicksand"
                           )
                           ),
+                          SizedBox(height: uniHeight(context)*.5),
                           Image(
                               image: AssetImage('assets/scooter_phoenix.png'),
                               height: uniHeight(context)*1.5,//100,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children:[
-                              Icon(Icons.star, color: Colors.grey, size: uniHeight(context)*.32),
-                              Icon(Icons.star, color: Colors.grey, size: uniHeight(context)*.32),
-                              Icon(Icons.star, color: Colors.grey, size: uniHeight(context)*.32),
-                              Icon(Icons.star, color: Colors.grey, size: uniHeight(context)*.32),
-                              Icon(Icons.star, color: Colors.grey, size: uniHeight(context)*.32),
+                              Container(
+                                padding: const EdgeInsets.all(0.0),
+                                width: 30.0, // you can adjust the width as you need
+                                child: IconButton(
+                                  icon: new Icon(Icons.star,),
+                                  color: star1,
+                                  onPressed: () {
+                                    setState(() {
+                                      star1 = Color(0xff00A8E5);
+                                      star2 = Colors.grey;
+                                      star3 = Colors.grey;
+                                      star4 = Colors.grey;
+                                      star5 = Colors.grey;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(0.0),
+                                width: 30.0, // you can adjust the width as you need
+                                child: IconButton(
+                                  icon: new Icon(Icons.star,),
+                                  color: star2,
+                                  onPressed: () {
+                                    setState(() {
+                                      star1 = Color(0xff00A8E5);
+                                      star2 = Color(0xff00A8E5);
+                                      star3 = Colors.grey;
+                                      star4 = Colors.grey;
+                                      star5 = Colors.grey;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(0.0),
+                                width: 30.0, // you can adjust the width as you need
+                                child: IconButton(
+                                  icon: new Icon(Icons.star,),
+                                  color: star3,
+                                  onPressed: () {
+                                    setState(() {
+                                      star1 = Color(0xff00A8E5);
+                                      star2 = Color(0xff00A8E5);
+                                      star3 = Color(0xff00A8E5);
+                                      star4 = Colors.grey;
+                                      star5 = Colors.grey;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(0.0),
+                                width: 30.0, // you can adjust the width as you need
+                                child: IconButton(
+                                  icon: new Icon(Icons.star,),
+                                  color: star4,
+                                  onPressed: () {
+                                    setState(() {
+                                      star1 = Color(0xff00A8E5);
+                                      star2 = Color(0xff00A8E5);
+                                      star3 = Color(0xff00A8E5);
+                                      star4 = Color(0xff00A8E5);
+                                      star5 = Colors.grey;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(0.0),
+                                width: 30.0, // you can adjust the width as you need
+                                child: IconButton(
+                                  icon: new Icon(Icons.star,),
+                                  color: star5,
+                                  onPressed: () {
+                                    setState(() {
+                                      star1 = Color(0xff00A8E5);
+                                      star2 = Color(0xff00A8E5);
+                                      star3 = Color(0xff00A8E5);
+                                      star4 = Color(0xff00A8E5);
+                                      star5 = Color(0xff00A8E5);
+                                    });
+                                  },
+                                ),
+                              ),
                             ]
                           ),
+                          /*
                           Text(
                             "\nAdd comments/suggestions",
                               style: TextStyle(
@@ -177,6 +339,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               fontFamily: "Quicksand"
                           )
                           )
+                          )*/
                           /*,
                           SizedBox(height: uniHeight(context)*.2),
                           RaisedButton(
@@ -200,17 +363,14 @@ class _PaymentPageState extends State<PaymentPage> {
                           )
                            */
                         ]
+                        )
                       )
-                    )
-
-                  ],
+                    ]
                 )
             ),
-          ],
-        ),
-      ),
       //floatingActionButton: RideButton(),
-
+      ])
+    )
     );
   }
 }
