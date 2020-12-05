@@ -22,7 +22,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController _pass = TextEditingController();
 
   void userLogin() async{
-    var url = "http://192.168.1.11/skrrt/login.php";
+    var url = "http://192.168.1.6/skrrt/login.php";
     var data = {
     "username": _user.text,
     "pass":_pass.text,
@@ -41,7 +41,7 @@ class _SignInState extends State<SignIn> {
         List data = jsonDecode(res.body);
         var userId = (data[0]["userID"]);
         await session.set("token", userId);
-
+        print(userId);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NewUser()),

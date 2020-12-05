@@ -28,7 +28,7 @@ class _SignUpState extends State<SignUp> {
 
  void registerData() async {
    //print("YES1");
-   var url = "http://192.168.1.11/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   var url = "http://192.168.1.6/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
    var data = {
            "first": fname.text,
            "last": lname.text,
@@ -40,7 +40,8 @@ class _SignUpState extends State<SignUp> {
            "birthday": dateCtl.text,
            "course": drop1value,
            "year": drop2value,
-           //"dept": "aw",//drop2value,
+           "dept": drop2value,
+           "college": drop1value,
          };
    //print("YES2");
    var res = await http.post(url,body: data);
@@ -151,6 +152,8 @@ class _SignUpState extends State<SignUp> {
         radcolor1 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor2 = Colors.black54;
         status = "student";
+        drop1 = crse;
+        drop2 = yr;
         drop1value = null;
         drop2value = null;
       }
@@ -158,6 +161,8 @@ class _SignUpState extends State<SignUp> {
         radcolor2 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor1 = Colors.black54;
         status = "faculty";
+        drop1 = colg;
+        drop2 = dept;
         drop1value = null;
         drop2value = null;
       }
@@ -226,7 +231,7 @@ class _SignUpState extends State<SignUp> {
                       if(value.isEmpty){
                         return 'First Name is required.';
                       }
-                      else if(!RegExp('[a-zA-Z]').hasMatch(value)){
+                      else if(!RegExp('^[A-Za-z]+\$').hasMatch(value)){
                         return 'Invalid First Name.';
                       }
                       else return null;
@@ -252,7 +257,7 @@ class _SignUpState extends State<SignUp> {
                       if(value.isEmpty){
                         return 'Last Name is required.';
                       }
-                      else if(!RegExp('[a-zA-Z]').hasMatch(value)){
+                      else if(!RegExp('^[A-Za-z]+\$').hasMatch(value)){
                         return 'Invalid Last Name.';
                       }
                       else return null;
@@ -707,7 +712,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   //Vince started here
                   Text(
-                    '+63 936 396 7814',     //current dummy text for phone number
+                    phone.text,     //current dummy text for phone number
                     style: TextStyle(
                       fontFamily: 'Quicksand',
                       fontSize: 16.0,
