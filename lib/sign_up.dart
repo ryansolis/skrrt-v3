@@ -25,6 +25,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController pass = TextEditingController();
   PickedFile imageFile;
 
+  bool viewPass = true;
 
  void registerData() async {
    //print("YES1");
@@ -126,13 +127,14 @@ class _SignUpState extends State<SignUp> {
   List<String> yr;
   List<String> dept;
   List<String> drop2;
+  double btmpad = 0;
 
   @override
   void initState(){
     super.initState();
     selectedRadio = 1;
     pass.text ="";
-    crse = ['CS', 'IT', 'ME', 'ECE'];
+    crse = ['BSCS', 'BSIT', 'BSME', 'BSECE'];
     colg = ['CCS', 'CEA', 'CMBA', 'CASE'];
     drop1 =  ['CS', 'IT', 'ME', 'ECE'];
 
@@ -142,6 +144,8 @@ class _SignUpState extends State<SignUp> {
     yr = ['1', '2', '3', '4'];
     dept = ['IT', 'CS', 'ME', 'CE'];
     drop2 = ['1', '2', '3', '4'];
+    pass.text = "";
+    username.text = "";
   }
 
   setSelectedRadio(int val){
@@ -151,6 +155,8 @@ class _SignUpState extends State<SignUp> {
         radcolor1 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor2 = Colors.black54;
         status = "student";
+        drop1 = crse;
+        drop2 = yr;
         drop1value = null;
         drop2value = null;
       }
@@ -158,6 +164,8 @@ class _SignUpState extends State<SignUp> {
         radcolor2 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor1 = Colors.black54;
         status = "faculty";
+        drop1 = colg;
+        drop2 = dept;
         drop1value = null;
         drop2value = null;
       }
@@ -174,6 +182,8 @@ class _SignUpState extends State<SignUp> {
 
   }
   next() {
+    btmpad = 0;
+    viewPass = true;
     currentStep + 1 != steps.length
         ? goTo(currentStep + 1)
         : fieldFin();
@@ -184,6 +194,8 @@ class _SignUpState extends State<SignUp> {
   }
 
   cancel(){
+    btmpad = 0;
+    viewPass = true;
     if(currentStep > 0){
       goTo(currentStep - 1);
     }
@@ -226,7 +238,7 @@ class _SignUpState extends State<SignUp> {
                       if(value.isEmpty){
                         return 'First Name is required.';
                       }
-                      else if(!RegExp('[a-zA-Z]').hasMatch(value)){
+                      else if(!RegExp('^[A-Za-z]+\$').hasMatch(value)){
                         return 'Invalid First Name.';
                       }
                       else return null;
@@ -252,7 +264,7 @@ class _SignUpState extends State<SignUp> {
                       if(value.isEmpty){
                         return 'Last Name is required.';
                       }
-                      else if(!RegExp('[a-zA-Z]').hasMatch(value)){
+                      else if(!RegExp('^[A-Za-z]+\$').hasMatch(value)){
                         return 'Invalid Last Name.';
                       }
                       else return null;
@@ -315,6 +327,7 @@ class _SignUpState extends State<SignUp> {
                         fontFamily: 'Quicksand',
                         fontSize: 16.0,
                       ),
+
                       suffixIcon:  IconButton(
                         icon: Icon(Icons.calendar_today_rounded),
                         iconSize: 20,
@@ -522,7 +535,13 @@ class _SignUpState extends State<SignUp> {
                     else if(!RegExp('[0-9]{2}[-][0-9]{4}[-][0-9]{3}').hasMatch(value)){
                       return 'Must be in correct format (ex: 12-2525-969)';
                     }
-                    else return null;
+                    else {
+                      if(username.text == "")
+                        username.text = idno.text;
+                      if(pass.text == "")
+                        pass.text = idno.text;
+                      return null;
+                    }
                   },
                   decoration: InputDecoration(
                       hintText: 'ID Number',
@@ -603,7 +622,7 @@ class _SignUpState extends State<SignUp> {
                           r'^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$';
                       RegExp regex = new RegExp(pattern);
                       if (username.isEmpty) {
-                        return 'Password is required.';
+                        return 'Username is required.';
                       }
                       else if (!regex.hasMatch(username))
                         return 'Invalid Username.';
@@ -611,7 +630,6 @@ class _SignUpState extends State<SignUp> {
                         return null;
                     },
                     onSaved: (name)=> username.text = name,
-                    autofocus: false,
                     decoration: InputDecoration(
                         hintText: 'Username',
                         hintStyle: TextStyle(
@@ -632,42 +650,70 @@ class _SignUpState extends State<SignUp> {
                       fontSize: 16.0,
                       color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
                   ),
-                  TextFormField(
-                    controller: pass,
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    validator: (password){
-                      Pattern pattern =
-                          r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
-                      RegExp regex = new RegExp(pattern);
-                      if (password.isEmpty) {
-                        return 'Password is required.';
-                      }
-                      else if (!regex.hasMatch(password))
-                        return 'Must contain at least 1 letter and 1 number.\nMust be longer than six characters';
-                      else
-                        return null;
-                    },
-                    onSaved: (password)=> pass.text = password,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 16.0,
-                      ),
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.lock_rounded ,
-                          color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                          size: 15,
+
+                  Container(
+                    child: Stack(
+                      alignment: Alignment.centerRight,
+                      children: <Widget>[
+                        TextFormField(
+                          autofocus: false,
+                          controller: pass,
+                          obscureText: viewPass,
+                          textInputAction: TextInputAction.done,
+                          validator: (password){
+                            if(password.isEmpty){
+                              return 'Password is required.';
+                            }
+                            else if(!RegExp('^[a-zA-Z0-9-]{6,}').hasMatch(password)){
+                              setState(() {
+                                pass.text = password;
+                                print(password);
+                                print(pass.text);
+                                btmpad = 25;
+                              });
+                              return 'Length must be 6 characters or more.';
+                            }
+                            else return null;
+                          },
+                          onSaved: (password)=> pass.text = password,
+                          decoration: InputDecoration(
+                              hintText: 'Password',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Quicksand',
+                                fontSize: 16.0,
+                              ),
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.only(right: 15),
+                                child: Icon(
+                                  Icons.lock_rounded ,
+                                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                                  size: 15,
+                                ),
+                              ),
+                          ),
+                          style: TextStyle(
+                            fontFamily: 'Quicksand',
+                            fontSize: 16.0,
+                            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
                         ),
-                      ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: btmpad),
+                          child:
+                          IconButton(
+                              icon: IconButton(
+                                  icon: Icon(Icons.visibility,
+                                    size: 20,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      viewPass = !viewPass;
+                                    });
+                                  }
+                              )
+                          ),
+                        )
+                      ],
                     ),
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16.0,
-                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                 ],
