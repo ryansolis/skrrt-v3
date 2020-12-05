@@ -40,20 +40,61 @@ class _PaymentPageState extends State<PaymentPage> {
   Color star3;
   Color star4;
   Color star5;
+  String _balance = "₱";
 
   var session = FlutterSession();
+  void viewBalance() async {
+    //print("hello");
+    var token = await session.get("token");
+    var time = await session.get("time");
+
+    print(token);
+    var url = "http://192.168.1.4/skrrt/balance.php";
+    var data = {
+      "userID": token.toString(),
+    };
+    print(data);
+
+    var res = await http.post(url,body:data);
+    print(jsonDecode(res.body));
+
+    List userData = await jsonDecode(res.body);
+    _balance += userData[0]["balance"] += ".00";
+    var _amount = time * 2 + 2;
+    amount += _amount.toString();
+    amount += ".00";
+    print(_amount);
+    //print("YES3");
+    if(jsonDecode(res.body) == "okay"){
+      print("YESSSSSSS");
+    }
+    else{
+      print("NOOOOOO");
+    }
+    setState(() {});
+  }
+  String amount ="₱";
 
   void payRide() async {
     //print("hello");
-    var duration = await session.get("duration");
+
+    var time = await session.get("time");
+    var _userID = await session.get("token");
     var _rideID = await session.get("rideID");
-    print(duration);
-    var _amount = duration * 3;
+
+    print("hello");
+    print(time);
+    print(_rideID);
+    print(time);
+
+    var _amount = time * 2 + 2;
+    print(_amount);
 
     var url = "http://192.168.1.4/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
-      "rideID" : _rideID,
-      "amount": _amount,
+      "rideID" : _rideID.toString(),
+      "amount": _amount.toString(),
+      "userID": _userID.toString(),
     };
     print(data);
     var res = await http.post(url,body:data);
@@ -74,6 +115,7 @@ class _PaymentPageState extends State<PaymentPage> {
     star3 = Colors.grey;
     star4 = Colors.grey;
     star5 = Colors.grey;
+    viewBalance();
   }
   @override
   Widget build(BuildContext context) {
@@ -102,7 +144,6 @@ class _PaymentPageState extends State<PaymentPage> {
                 margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                 padding: EdgeInsets.all(10),
                 width: double.infinity,
-                height: double.maxFinite,
                 //color: Colors.lightBlue,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -137,7 +178,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 )
                             ),
                             Text(
-                                "₱30.00",
+                                amount,
                                 style: TextStyle(
                                     fontSize:uniHeight(context)*.28,//22,
                                     fontWeight: FontWeight.bold,
@@ -155,7 +196,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 )
                             ),
                             Text(
-                                "₱150.00",
+                                _balance,
                                 style: TextStyle(
                                     fontSize:uniHeight(context)*.28,//22,
                                     fontWeight: FontWeight.bold,
@@ -186,6 +227,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    payRide();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => SuccessfulRide()),
