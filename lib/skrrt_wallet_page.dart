@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter_session/flutter_session.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
 import 'package:skrrt_app/appbar-ridebutton/skrrt-appbar.dart';
@@ -14,11 +17,32 @@ class SkrrtWallet extends StatefulWidget {
 
 class _SkrrtWalletState extends State<SkrrtWallet> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  var session = FlutterSession();
   var _month = ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ];
   var _currentMonthSelected = 'Jan';
+  var _wallet = '';
+
+  void getUserData() async{
+
+    var token = await session.get("token");
+    print(token);
+    var url = "http://192.168.1.9/skrrt/getStudentData.php";
+    var data = {
+      "userID": token.toString(),
+    };
+
+    var res = await http.post(url,body: data);
+
+    List userData = await jsonDecode(res.body);
+
+    print(userData.toString());
+    _wallet = userData[0]["wallet"];
+    await session.set("token",token);
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
+    getUserData();
     return Scaffold(
       backgroundColor: Colors.white,
       key: _scaffoldKey,
@@ -94,7 +118,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                         Container(
                           padding: EdgeInsets.fromLTRB(12,0,0,0),
                           child: Text(
-                            '₱1500.00',
+                            '₱'+'$_wallet'+'.00',
                             style: TextStyle(
                               color: Color(0xFF05C853),
                               fontFamily: "Montserrat",
