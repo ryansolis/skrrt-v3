@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_otp/flutter_otp.dart';
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
