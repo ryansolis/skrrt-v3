@@ -18,8 +18,8 @@ class RentScooter extends StatefulWidget {
 
 class _RentScooterState extends State<RentScooter> {
   //var session = FlutterSession();
-  var tester=2;
-  String _sctID="",model="",numRide="",desc="",power="",mah="",speed="",code="";
+  //var tester=2;
+  String _sctID="",model="",ridecount="",station="",qrcode="",desc="",power="",mah="",speed="";
   List scoot;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -37,21 +37,21 @@ class _RentScooterState extends State<RentScooter> {
     var url = "http://192.168.1.9/skrrt/chooseSctr.php";
     var scooterID = await session.get("scooter");
     var data={
-      "scooter":tester.toString(),//scooterID.toString(),
+      "scooter": scooterID.toString(),
     };
     var res = await http.post(url,body: data);
     print(data);
     print(jsonDecode(res.body));
     scoot = jsonDecode(res.body);
-    print(scoot[0]['power']);
-    _sctID=scoot[0]['id'];
-    model = scoot[0]['mdl'];
-    numRide=scoot[0]['rides'].toString();
+    //print(scoot[0]['power']);
+    _sctID=scoot[0]['scooterID'];
+    model = scoot[0]['model'];
+    ridecount=scoot[0]['ridecount'].toString();
+    qrcode=scoot[0]['qrcode'].toString();
     desc=scoot[0]['desc'].toString();
     power=scoot[0]['power'].toString();
     mah=scoot[0]['mah'].toString();
     speed=scoot[0]['speed'].toString();
-    code=scoot[0]['code'].toString();
     await session.set("scooter",scooterID);
     setState(() {});
   }
@@ -68,6 +68,8 @@ class _RentScooterState extends State<RentScooter> {
   initState() {
     super.initState();
     _testID();
+    setState(() {
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -180,7 +182,6 @@ class _RentScooterState extends State<RentScooter> {
                                       ),
                                     ),
                                     Text('    (max: 45kg)',
-
                                       style: TextStyle(
                                         color: Color(0xFF0E0E0E),
                                         fontFamily: 'Quicksand',
@@ -284,7 +285,7 @@ class _RentScooterState extends State<RentScooter> {
                                               padding: const EdgeInsets.all(10.0),
                                               child: Column(
                                                 children: [
-                                                  Text(code,
+                                                  Text(qrcode.substring(0,4)+"\n"+qrcode.substring(4,8),
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
@@ -415,7 +416,7 @@ class _RentScooterState extends State<RentScooter> {
                             ),
                           ),
                           onPressed: () {
-                            _scan();
+                            //_scan();
                             //if (_cameraScanResult.isNotEmpty){
                               Navigator.pop(context);
                               Navigator.push(
