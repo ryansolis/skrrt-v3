@@ -46,7 +46,7 @@ class _SignUpState extends State<SignUp> {
 
  void registerData() async {
    //print("YES1");
-   var url = "http://192.168.1.4/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   var url = "http://192.168.1.6/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
    var data = {
            "first": fname.text,
            "last": lname.text,
@@ -58,7 +58,8 @@ class _SignUpState extends State<SignUp> {
            "birthday": dateCtl.text,
            "course": drop1value,
            "year": drop2value,
-           //"dept": "aw",//drop2value,
+           "dept": drop2value,
+           "college": drop1value,
          };
    //print("YES2");
    var res = await http.post(url,body: data);
