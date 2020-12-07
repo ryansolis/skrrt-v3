@@ -41,6 +41,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Color star4;
   Color star5;
   String _balance = "₱";
+  int stars = 0;
 
   var session = FlutterSession();
   void viewBalance() async {
@@ -78,9 +79,13 @@ class _PaymentPageState extends State<PaymentPage> {
   void payRide() async {
     //print("hello");
 
-    var time = await session.get("time");
-    var _userID = await session.get("token");
-    var _rideID = await session.get("rideID");
+    // var time = await session.get("time");
+    // var _userID = await session.get("token");
+    // var _rideID = await session.get("rideID");
+
+    var time = 2;
+    var _userID = 2;
+    var _rideID = 1;
 
     print("hello");
     print(time);
@@ -95,6 +100,7 @@ class _PaymentPageState extends State<PaymentPage> {
       "rideID" : _rideID.toString(),
       "amount": _amount.toString(),
       "userID": _userID.toString(),
+      "stars": stars.toString(),
     };
     print(data);
     var res = await http.post(url,body:data);
@@ -268,16 +274,16 @@ class _PaymentPageState extends State<PaymentPage> {
                           ),*/
                           SizedBox(height: uniHeight(context)*.5),
                           Text(
-                            "Rate Phoenix",
+                            "Rate Our Services",
                               style: TextStyle(
-                              fontSize:uniHeight(context)*.35,//15,
+                              fontSize:uniHeight(context)*.30,//15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "Quicksand"
                           )
                           ),
-                          SizedBox(height: uniHeight(context)*.5),
+                          SizedBox(height: uniHeight(context)*.2),
                           Image(
-                              image: AssetImage('assets/scooter_phoenix.png'),
+                              image: AssetImage('assets/skrrt_logowhite.png'),
                               height: uniHeight(context)*1.5,//100,
                           ),
                           Row(
@@ -285,9 +291,9 @@ class _PaymentPageState extends State<PaymentPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children:[
                               Container(
-                                padding: const EdgeInsets.all(0.0),
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star1,
                                   onPressed: () {
@@ -297,14 +303,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                       star3 = Colors.grey;
                                       star4 = Colors.grey;
                                       star5 = Colors.grey;
+                                      stars = 1;
                                     });
                                   },
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.all(0.0),
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star2,
                                   onPressed: () {
@@ -314,14 +321,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                       star3 = Colors.grey;
                                       star4 = Colors.grey;
                                       star5 = Colors.grey;
+                                      stars = 2;
                                     });
                                   },
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.all(0.0),
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star3,
                                   onPressed: () {
@@ -331,14 +339,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                       star3 = Color(0xff00A8E5);
                                       star4 = Colors.grey;
                                       star5 = Colors.grey;
+                                      stars = 3;
                                     });
                                   },
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.all(0.0),
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star4,
                                   onPressed: () {
@@ -348,14 +357,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                       star3 = Color(0xff00A8E5);
                                       star4 = Color(0xff00A8E5);
                                       star5 = Colors.grey;
+                                      stars = 4;
                                     });
                                   },
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.all(0.0),
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star5,
                                   onPressed: () {
@@ -365,6 +375,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                       star3 = Color(0xff00A8E5);
                                       star4 = Color(0xff00A8E5);
                                       star5 = Color(0xff00A8E5);
+                                      stars = 5;
                                     });
                                   },
                                 ),
