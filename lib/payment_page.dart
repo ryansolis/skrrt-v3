@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
@@ -41,7 +41,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Color star4;
   Color star5;
   String _balance = "₱";
-  int stars = 0;
+  int stars = 0,bal=0,amo=0;
 
   var session = FlutterSession();
   void viewBalance() async {
@@ -49,29 +49,34 @@ class _PaymentPageState extends State<PaymentPage> {
     var token = await session.get("token");
     var time = await session.get("time");
 
-    print(token);
-    var url = "http://192.168.1.4/skrrt/balance.php";
+    print("here!!!");
+    var url = "http://192.168.1.9/skrrt/balance.php";
     var data = {
       "userID": token.toString(),
     };
-    print(data);
+    //print(data);
 
     var res = await http.post(url,body:data);
-    print(jsonDecode(res.body));
+    //print(jsonDecode(res.body));
 
     List userData = await jsonDecode(res.body);
-    _balance += userData[0]["balance"] += ".00";
+    print(userData);
+    bal=int.parse(userData[0]["balance"]);
+    _balance += userData[0]["balance"].toString() + ".00";
     var _amount = time * 2 + 2;
+
     amount += _amount.toString();
     amount += ".00";
-    print(_amount);
+    amo = int.parse(_amount.toString());
+    print("bal = "+bal.toString()+";amo= "+amo.toString());
+    //print("Amount = "+'$_amount');
     //print("YES3");
-    if(jsonDecode(res.body) == "okay"){
+    /*if(jsonDecode(res.body) == "okay"){
       print("YESSSSSSS");
     }
     else{
       print("NOOOOOO");
-    }
+    }*/
     setState(() {});
   }
   String amount ="₱";
@@ -79,39 +84,41 @@ class _PaymentPageState extends State<PaymentPage> {
   void payRide() async {
     //print("hello");
 
-    // var time = await session.get("time");
-    // var _userID = await session.get("token");
-    // var _rideID = await session.get("rideID");
+     var time = await session.get("time");
+     var _userID = await session.get("token");
+     var _scooterID = await session.get("scooter");
+     var _rideID = await session.get("rideID");
 
-    var time = 2;
-    var _userID = 2;
-    var _rideID = 1;
+    //var time = 2;
+    //var _userID = 2;
+    //var _rideID = 1;
 
-    print("hello");
-    print(time);
-    print(_rideID);
-    print(time);
+    //print("hello");
+    //print(time);
+    //print(_rideID);
+    //print(time);
 
     var _amount = time * 2 + 2;
-    print(_amount);
-
-    var url = "http://192.168.1.4/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
+    //print(_amount)
+    var url = "http://192.168.1.9/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
       "rideID" : _rideID.toString(),
+      "time":time.toString(),
       "amount": _amount.toString(),
       "userID": _userID.toString(),
+      //"scooterID": _scooterID.toString(),
       "stars": stars.toString(),
     };
-    print(data);
+    print("Data: "+'$data');
     var res = await http.post(url,body:data);
-    print(jsonDecode(res.body));
+    /*print("Result: "+'$jsonDecode(res.body)');
     //print("YES3");
     if(jsonDecode(res.body) == "okay"){
       print("YESSSSSSS");
     }
     else{
-      print("NOOOOOO");
-    }
+      print("2NOOOOOO");
+    }*/
   }
 
   void initState(){
@@ -233,12 +240,19 @@ class _PaymentPageState extends State<PaymentPage> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    payRide();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => SuccessfulRide()),
-                                    );
-                                    /*
+                                    if(bal>=amo) {
+                                        payRide();
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SuccessfulRide()),
+                                        );
+                                      }
+                                    else{
+                                      Fluttertoast.showToast(msg: "Insufficient funds, please load your wallet before paying.",toastLength: Toast.LENGTH_SHORT);
+                                    }
+                                      /*
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => Home()),
