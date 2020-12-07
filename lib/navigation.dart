@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:skrrt_app/admin_page.dart';
 import 'package:skrrt_app/payment_page.dart';
+import 'package:skrrt_app/navigation_alert/navigation_popup.dart';
 
 class Navigation extends StatefulWidget {
   @override
@@ -16,14 +14,14 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   Set<Marker> _markers ={};
-  bool _visible = false;
-  bool _visible1 = false;
-  bool _hasPressedDone = false;
+  bool _hasPressedDone = false, _hasParked = false;
   GoogleMapController _controller;
   Location _location = Location();
+  double distance = -1;
   String timeElapsed = "0:00";
   Stopwatch _stopwatch = Stopwatch();
   final dur = const Duration(seconds: 1);
+  LocationData _currentLocation;
 
   static final CameraPosition _cameraPosition = CameraPosition(
     target: LatLng(10.295666, 123.880472),
@@ -81,15 +79,26 @@ class _NavigationState extends State<Navigation> {
             ),
           )
       );
+      // _markers.add(
+      //     Marker(
+      //       markerId: MarkerId('id-5'),
+      //       position: LatLng(10.283813,123.8590903),
+      //       infoWindow: InfoWindow(
+      //         title: 'Test Destination',
+      //       ),
+      //     )
+      // );
     });
     _controller = controller;
     _location.onLocationChanged.listen((l) {
+      _currentLocation = l;
+      print(l.latitude.toString()+","+l.longitude.toString());
       /*_controller.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(target: LatLng(l.latitude, l.longitude),zoom: 18.5,),
         ),
       );*/
-      _markers.removeWhere((element) => element.markerId.value == 'current-loc');
+      /*_markers.removeWhere((element) => element.markerId.value == 'current-loc');
       setState(() {
         _markers.add(
             Marker(
@@ -100,9 +109,29 @@ class _NavigationState extends State<Navigation> {
               ),
             )
         );
-      });
+      });*/
     });
-    startTimeElapsed();
+  }
+
+  Future<bool> checkParkingDistance() async {
+    bool isNearParkingPoint = false;
+    for (int i=0; i<_markers.length; i++){
+      LatLng p = _markers.elementAt(i).position;
+      // Calculating the distance between the start and end positions
+      // with a straight path, without considering any route
+      double distanceInMeters = await Geolocator().distanceBetween(
+        _currentLocation.latitude,
+        _currentLocation.longitude,
+        p.latitude,
+        p.longitude,
+      );
+      if (distanceInMeters<=20){
+        distance = distanceInMeters;
+        isNearParkingPoint = true;
+        break;
+      }
+    }
+    return isNearParkingPoint;
   }
 
   void startTimeElapsed(){
@@ -129,6 +158,12 @@ class _NavigationState extends State<Navigation> {
 
   void stopTimeElapsed(){
     _stopwatch.stop();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimeElapsed();
   }
 
   @override
@@ -220,13 +255,16 @@ class _NavigationState extends State<Navigation> {
                                 onPressed: () {
                                   if (_hasPressedDone==false){
                                     _hasPressedDone=true;
-                                  }
-                                  else{
-                                    stopTimeElapsed();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => PaymentPage()),
-                                    );
+                                    checkParkingDistance().then((value) {
+                                      if (value){
+                                        _hasParked = true;
+                                        stopTimeElapsed();
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => PaymentPage()),
+                                        );
+                                      }
+                                    });
                                   }
                                 }
                             ),
@@ -238,62 +276,9 @@ class _NavigationState extends State<Navigation> {
                 )
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(flex: 2, child: SizedBox(),),
-                Flexible(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                    child: Card(
-                      color: Color(0xFFFFFFFF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        height: 70.0,
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Icon(Icons.warning_amber_rounded,
-                              color: Color(0xFFDC0505),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('You can\'t turn left.',
-                                  style: TextStyle(
-                                    color: Color(0xFFDC0505),
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 14.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text('Try another way.',
-                                  style: TextStyle(
-                                    color: Color(0xFFDC0505),
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 14.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                            Icon(Icons.volume_up_rounded,
-                              color: Color(0xFF0E0E0E),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(flex: 1, child: SizedBox(),),
-              ],
+            Visibility(
+              visible: (_hasPressedDone && !_hasParked)? true: false,
+              child: NavPopup(),
             ),
           ],
         ),
