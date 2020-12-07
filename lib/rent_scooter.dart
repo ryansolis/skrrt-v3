@@ -32,9 +32,8 @@ class _RentScooterState extends State<RentScooter> {
     toNavigation(context);
   }
   Future _testID() async{
-    //print("hello");
     var session = FlutterSession();
-    var url = "http://192.168.1.9/skrrt/chooseSctr.php";
+    var url = "http://192.168.1.5/skrrt/chooseSctr.php";
     var scooterID = await session.get("scooter");
     var data={
       "scooter":tester.toString(),//scooterID.toString(),
@@ -45,14 +44,13 @@ class _RentScooterState extends State<RentScooter> {
     scoot = jsonDecode(res.body);
     print(scoot[0]['power']);
     _sctID=scoot[0]['id'];
-    model = scoot[0]['mdl'];
+    model = scoot[0]['model'];
     numRide=scoot[0]['rides'].toString();
     desc=scoot[0]['desc'].toString();
     power=scoot[0]['power'].toString();
     mah=scoot[0]['mah'].toString();
     speed=scoot[0]['speed'].toString();
     code=scoot[0]['code'].toString();
-    await session.set("scooter",scooterID);
     setState(() {});
   }
   void toNavigation(BuildContext context){
@@ -384,7 +382,7 @@ class _RentScooterState extends State<RentScooter> {
                           style: TextStyle(
                             color: Color(0xFF0E0E0E),
                             fontFamily: 'Quicksand',
-                            fontSize: MediaQuery.of(context).size.height*.028,//18.0,
+                            fontSize: MediaQuery.of(context).size.height * .028,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -392,7 +390,7 @@ class _RentScooterState extends State<RentScooter> {
                           style: TextStyle(
                             color: Color(0xFFFB4D4D),
                             fontFamily: 'Quicksand',
-                            fontSize: MediaQuery.of(context).size.height*.025,//15.0,
+                            fontSize: MediaQuery.of(context).size.height * .025,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -416,13 +414,13 @@ class _RentScooterState extends State<RentScooter> {
                           ),
                           onPressed: () {
                             _scan();
-                            //if (_cameraScanResult.isNotEmpty){
+                            if (_cameraScanResult.isNotEmpty){
                               Navigator.pop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => Navigation()),
                               );
-                            //}
+                            }
                           }
                       ),
                     ),
