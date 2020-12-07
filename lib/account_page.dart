@@ -13,6 +13,8 @@ class Account extends StatefulWidget {
   _AccountState createState() => _AccountState();
 }
 
+
+
 class _AccountState extends State<Account> {
 
   var session = FlutterSession();
@@ -23,7 +25,7 @@ class _AccountState extends State<Account> {
 
     var token = await session.get("token");
     print(token);
-    var url = "http://192.168.1.4/skrrt/getStudentData.php";
+    var url = "http://192.168.1.9/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };
@@ -41,7 +43,7 @@ class _AccountState extends State<Account> {
     _course = userData[0]['course'];
     _year = userData[0]['year'];
     _fullName = fname + " " +  lname;
-    print(_fullName);
+    print(userData.toString());
 
     await session.set("token",token);
     setState(() {});
@@ -163,24 +165,24 @@ class _AccountState extends State<Account> {
                 padding: EdgeInsets.all(15.0),
                 child: Center(
                   child: Column(
-                      children: <Widget>[
-                        Image(
-                          width: 200,
-                          height: 120,
-                          image: AssetImage('assets/jess-brobrero.png'),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            "$_fullName",
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                            ),
+                    children: <Widget>[
+                      Image(
+                        width: 200,
+                        height: 120,
+                        image: AssetImage('assets/jess-brobrero.png'),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Text(
+                          "$_fullName",
+                          style: TextStyle(
+                            fontFamily: 'Quicksand',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
                           ),
                         ),
-                      ]
+                      ),
+                    ]
                   ),
                 )
             ),
