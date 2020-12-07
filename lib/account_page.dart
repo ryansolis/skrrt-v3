@@ -27,7 +27,7 @@ class _AccountState extends State<Account> {
   String userChanged="", passChanged="";
   void getUserData() async{
 
-    token = await session.get("token");
+    var token = await session.get("token");
     //print(token);
     var url = "http://192.168.1.6/skrrt/getStudentData.php";
     var data = {
@@ -47,7 +47,8 @@ class _AccountState extends State<Account> {
     _course = userData[0]['course'];
     _year = userData[0]['year'];
     _fullName = fname + " " +  lname;
-//    print(_fullName);
+    print(userData.toString());
+
     _changeUsername.text = _username;
     _changePass.text = pass;
     print(_changeUsername.text);

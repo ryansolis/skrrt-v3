@@ -1,17 +1,26 @@
 import 'dart:ui';
 import 'dart:async';
-
+import 'package:flutter_session/flutter_session.dart';
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:http/http.dart' as http;
 import 'sidebar_page.dart';
 import 'navigation.dart';
+import 'dart:convert';
+
 
 class RentScooter extends StatefulWidget {
+
   @override
   _RentScooterState createState() => _RentScooterState();
+
 }
 
 class _RentScooterState extends State<RentScooter> {
+  //var session = FlutterSession();
+  var tester=2;
+  String _sctID="",model="",numRide="",desc="",power="",mah="",speed="",code="";
+  List scoot;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String _cameraScanResult = '';
@@ -22,7 +31,30 @@ class _RentScooterState extends State<RentScooter> {
     _cameraScanResult = barcode;
     toNavigation(context);
   }
-
+  Future _testID() async{
+    //print("hello");
+    var session = FlutterSession();
+    var url = "http://192.168.1.9/skrrt/chooseSctr.php";
+    var scooterID = await session.get("scooter");
+    var data={
+      "scooter":tester.toString(),//scooterID.toString(),
+    };
+    var res = await http.post(url,body: data);
+    print(data);
+    print(jsonDecode(res.body));
+    scoot = jsonDecode(res.body);
+    print(scoot[0]['power']);
+    _sctID=scoot[0]['id'];
+    model = scoot[0]['mdl'];
+    numRide=scoot[0]['rides'].toString();
+    desc=scoot[0]['desc'].toString();
+    power=scoot[0]['power'].toString();
+    mah=scoot[0]['mah'].toString();
+    speed=scoot[0]['speed'].toString();
+    code=scoot[0]['code'].toString();
+    await session.set("scooter",scooterID);
+    setState(() {});
+  }
   void toNavigation(BuildContext context){
     if (_cameraScanResult.isNotEmpty){
       Navigator.push(
@@ -35,9 +67,11 @@ class _RentScooterState extends State<RentScooter> {
   @override
   initState() {
     super.initState();
+    _testID();
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -65,6 +99,16 @@ class _RentScooterState extends State<RentScooter> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                              Text(model,//'Phoenix',
+                                  style: TextStyle(
+                                    color: Color(0xFF0E0E0E),
+                                    fontFamily: 'Quicksand',
+                                    fontSize: MediaQuery.of(context).size.height*.06,//30.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                              ),
+
+                        /*
                         Text('Phoenix',
                           style: TextStyle(
                             color: Color(0xFF0E0E0E),
@@ -72,8 +116,9 @@ class _RentScooterState extends State<RentScooter> {
                             fontSize: MediaQuery.of(context).size.height*.06,//30.0,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
+                        ),*/
                         SizedBox(width: 15.0,),
+                        /*
                         Text('1 available',
                           style: TextStyle(
                             color: Color(0xFFA62415),
@@ -82,6 +127,7 @@ class _RentScooterState extends State<RentScooter> {
                             fontWeight: FontWeight.bold,
                           ),
                         )
+                        */
                       ],
                     ),
                   ),
@@ -125,7 +171,7 @@ class _RentScooterState extends State<RentScooter> {
                                         ),
                                       ),
                                     ),
-                                    Text('can carry heavy loads',
+                                    Text(desc,
                                       style: TextStyle(
                                         color: Color(0xFF0E0E0E),
                                         fontFamily: 'Quicksand',
@@ -154,7 +200,7 @@ class _RentScooterState extends State<RentScooter> {
                                               padding: const EdgeInsets.all(10.0),
                                               child: Column(
                                                 children: [
-                                                  Text('650',
+                                                  Text(power,
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
@@ -182,7 +228,7 @@ class _RentScooterState extends State<RentScooter> {
                                               padding: const EdgeInsets.all(10.0),
                                               child: Column(
                                                 children: [
-                                                  Text('380',
+                                                  Text(mah,
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
@@ -210,7 +256,7 @@ class _RentScooterState extends State<RentScooter> {
                                               padding: const EdgeInsets.all(10.0),
                                               child: Column(
                                                 children: [
-                                                  Text('30',
+                                                  Text(speed,
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
@@ -238,7 +284,7 @@ class _RentScooterState extends State<RentScooter> {
                                               padding: const EdgeInsets.all(10.0),
                                               child: Column(
                                                 children: [
-                                                  Text('QXCSS',
+                                                  Text(code,
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
@@ -388,5 +434,7 @@ class _RentScooterState extends State<RentScooter> {
         ),
       ),
     );
+
   }
+
 }

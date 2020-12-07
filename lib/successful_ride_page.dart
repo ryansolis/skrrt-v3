@@ -11,22 +11,17 @@ class SuccessfulRide extends StatefulWidget {
   }
 }
 class SuccessfulRidePage extends State<SuccessfulRide>{
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    startTimer();
+  double uniHeight(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.height*0.1;
+    else
+      return MediaQuery.of(context).size.height*0.45;
   }
-
-  startTimer() async {
-    var duration = Duration(seconds: 2);
-    return Timer(duration, route);
-  }
-
-  route(){
-    Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => SignIn()
-    ));
+  double uniWidth(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600)
+      return MediaQuery.of(context).size.width*0.1;
+    else
+      return MediaQuery.of(context).size.width*0.45;
   }
 
   @override
@@ -40,14 +35,49 @@ class SuccessfulRidePage extends State<SuccessfulRide>{
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image(
-                      image: AssetImage("assets/skrrt_logo.png"),
+                      image: AssetImage("assets/check.png"),
                       height: 140,
                       width:140,
                     ),
-                    CircularProgressIndicator(
-                      backgroundColor: Colors.white,
-                      strokeWidth: 1,
-                    )
+                    Text(
+                        "SUCCESS!",
+                        style: TextStyle(
+                            fontSize:uniHeight(context)*.5,//22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: "Quicksand"
+                        )
+                    ),
+                    Padding(
+                      padding:EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.25, vertical: 20),
+                      child: Text(
+                          "You successfully arrived to your destination.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize:uniHeight(context)*.25,//22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontFamily: "Quicksand"
+                          )
+                      ),
+                    ),
+                    SizedBox(height: uniHeight(context)*.2),
+                    RaisedButton(
+                        padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.15, vertical: MediaQuery.of(context).size.height * 0.020),
+                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                        textColor: Colors.white,
+                        color: Colors.white,
+                        child: Text('BACK TO HOME',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color:Color(0xff00A8E5),
+                            fontSize: uniHeight(context)*0.25,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.popUntil(context, ModalRoute.withName('home'));
+                        }
+                    ),
                   ]
               ),
             )
