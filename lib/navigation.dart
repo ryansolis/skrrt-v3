@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:skrrt_app/admin_page.dart';
-import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:skrrt_app/payment_page.dart';
@@ -25,17 +21,36 @@ class _NavigationState extends State<Navigation> {
   bool _hasPressedDone = false, _hasParked = false;
   GoogleMapController _controller;
   Location _location = Location();
-  double distance = -1;
+  double distance = -1, distanceTravelled = 0;
+  String endLocation;
   String timeElapsed = "0:00";
   Stopwatch _stopwatch = Stopwatch();
   final dur = const Duration(seconds: 1);
   LocationData _currentLocation;
+  var rideID;
 
   var session = FlutterSession();
+
   void rideDuration() async {
-    //print("hello");
-    print(_stopwatch.elapsed.inMinutes);
     await session.set("time", _stopwatch.elapsed.inMinutes);
+  }
+  void save() async {
+    rideID = await session.get("rideID");
+    var url = "http://192.168.1.5/skrrt/rideFinish.php";
+    var data = { // save duration in secs, distance & destination
+      "rideID": rideID.toString(),
+      "endLocation": endLocation.toString(),
+      "distance": distanceTravelled.toString(),
+      "rideDuration": _stopwatch.elapsed.inSeconds.toString()
+    };
+    print(data);
+    var res = await http.post(url,body: data);
+    if(jsonDecode(res.body) == "Success"){
+      print("Success");
+    }
+    else{
+      print("Failed");
+    }
   }
 
   static final CameraPosition _cameraPosition = CameraPosition(
@@ -94,25 +109,34 @@ class _NavigationState extends State<Navigation> {
             ),
           )
       );
-      // _markers.add(
-      //     Marker(
-      //       markerId: MarkerId('id-5'),
-      //       position: LatLng(10.283813,123.8590903),
-      //       infoWindow: InfoWindow(
-      //         title: 'Test Destination',
-      //       ),
-      //     )
-      // );
+      _markers.add(
+          Marker(
+            markerId: MarkerId('id-5'),
+            position: LatLng(10.283813,123.8590903),
+            infoWindow: InfoWindow(
+              title: 'Test Destination',
+            ),
+          )
+      );
     });
     _controller = controller;
     _location.onLocationChanged.listen((l) {
-      _currentLocation = l;
       print(l.latitude.toString()+","+l.longitude.toString());
+      if (_currentLocation!=null){
+        setState(() {
+          getDistance(_currentLocation, l);
+        });
+      }
+      else{
+        _currentLocation = l;
+      }
+
       /*_controller.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(target: LatLng(l.latitude, l.longitude),zoom: 18.5,),
         ),
       );*/
+
       /*_markers.removeWhere((element) => element.markerId.value == 'current-loc');
       setState(() {
         _markers.add(
@@ -126,6 +150,18 @@ class _NavigationState extends State<Navigation> {
         );
       });*/
     });
+  }
+  void getDistance (LocationData prev, LocationData current) async{
+    double d = await Geolocator().distanceBetween(
+      prev.latitude,
+      prev.longitude,
+      current.latitude,
+      current.longitude,
+    );
+    if (d>=5){
+      distanceTravelled += d;
+      _currentLocation = current;
+    }
   }
 
   Future<bool> checkParkingDistance() async {
@@ -142,6 +178,7 @@ class _NavigationState extends State<Navigation> {
       );
       if (distanceInMeters<=20){
         distance = distanceInMeters;
+        endLocation = _markers.elementAt(i).infoWindow.title;
         isNearParkingPoint = true;
         break;
       }
@@ -213,7 +250,7 @@ class _NavigationState extends State<Navigation> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('2km',
+                              Text(distanceTravelled.toString()+"m",
                                 style: TextStyle(
                                   color: Color(0xFF0E0E0E),
                                   fontFamily: 'Quicksand',
@@ -279,6 +316,7 @@ class _NavigationState extends State<Navigation> {
                                         _hasParked = true;
                                         rideDuration();
                                         stopTimeElapsed();
+                                        save();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(builder: (context) => PaymentPage()),

@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
   Color _color1 = Colors.white;
 
   void _fetchModels() async{
-    var url = "http://192.168.1.4/skrrt/home.php";
+    var url = "http://192.168.1.5/skrrt/home.php";
     var data = {
       "station": _station,
     };
@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
     var token = await session.get("token");
     print(token);
 
-    var url = "http://192.168.1.4/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
+    var url = "http://192.168.1.5/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
       "start": _station,
       "userID": token.toString(),

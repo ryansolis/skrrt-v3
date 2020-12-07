@@ -23,7 +23,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController _pass = TextEditingController();
 
   void userLogin() async{
-    var url = "http://192.168.1.6/skrrt/login.php";
+    var url = "http://192.168.1.5/skrrt/login.php";
     var data = {
     "username": _user.text,
     "pass":_pass.text,
