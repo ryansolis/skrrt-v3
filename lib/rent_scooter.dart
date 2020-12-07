@@ -33,8 +33,7 @@ class _RentScooterState extends State<RentScooter> {
     toNavigation(context);
   }
   Future _testID() async{
-    //print("hello");
-
+    var session = FlutterSession();
     var url = "http://192.168.1.9/skrrt/chooseSctr.php";
     var scooterID = await session.get("scooter");
     var data={
@@ -387,7 +386,7 @@ class _RentScooterState extends State<RentScooter> {
                           style: TextStyle(
                             color: Color(0xFF0E0E0E),
                             fontFamily: 'Quicksand',
-                            fontSize: MediaQuery.of(context).size.height*.028,//18.0,
+                            fontSize: MediaQuery.of(context).size.height * .028,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -395,7 +394,7 @@ class _RentScooterState extends State<RentScooter> {
                           style: TextStyle(
                             color: Color(0xFFFB4D4D),
                             fontFamily: 'Quicksand',
-                            fontSize: MediaQuery.of(context).size.height*.025,//15.0,
+                            fontSize: MediaQuery.of(context).size.height * .025,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -418,9 +417,8 @@ class _RentScooterState extends State<RentScooter> {
                             ),
                           ),
                           onPressed: () {
-                            if(available=="1") {
-                              //_scan();
-                              //if (_cameraScanResult.isNotEmpty){
+                            _scan();
+                            if (_cameraScanResult.isNotEmpty){
                               Navigator.pop(context);
                               Navigator.push(
                                 context,
@@ -431,7 +429,6 @@ class _RentScooterState extends State<RentScooter> {
                             else{
                               Fluttertoast.showToast(msg: "Scooter is currently in use, please choose another model.",toastLength: Toast.LENGTH_SHORT);
                             }
-                            //}
                           }
                       ),
                     ),

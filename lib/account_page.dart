@@ -17,22 +17,26 @@ class Account extends StatefulWidget {
 
 class _AccountState extends State<Account> {
 
-  var session = FlutterSession();
-  List userData;
-  String _fullName="",fname="",lname="",_username="",pass="",_phoneNum="",_idNo="",_bdate="",_course,_year="";
+  TextEditingController _changeUsername = TextEditingController();
+  TextEditingController _changePass = TextEditingController();
+  var change1 = 0,change2 = 0;
 
+  var session = FlutterSession();
+  var token;
+  String _fullName="",fname="",lname="",_username="",pass="",_phoneNum="",_idNo="",_bdate="",_course,_year="";
+  String userChanged="", passChanged="";
   void getUserData() async{
 
     var token = await session.get("token");
-    print(token);
-    var url = "http://192.168.1.9/skrrt/getStudentData.php";
+    //print(token);
+    var url = "http://192.168.1.6/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };
 
     var res = await http.post(url,body: data);
-
-    userData = await jsonDecode(res.body);
+    //print(res.body);
+    List userData = await jsonDecode(res.body);
     fname = userData[0]['fname'];
     lname = userData[0]['lname'];
     _username = userData[0]['username'];
@@ -45,8 +49,26 @@ class _AccountState extends State<Account> {
     _fullName = fname + " " +  lname;
     print(userData.toString());
 
+    _changeUsername.text = _username;
+    _changePass.text = pass;
+    print(_changeUsername.text);
+    print(_changePass.text);
     await session.set("token",token);
     setState(() {});
+  }
+
+  void updateUser() async{
+//    print(token);
+//    print(userChanged);
+//    print(passChanged);
+    var url = "http://192.168.1.6/skrrt/updateUser.php";
+    var data = {
+      "userID": token.toString(),
+      "username": userChanged,
+      "pass": passChanged,
+    };
+    await http.post(url,body: data);
+    Fluttertoast.showToast(msg: "Change Successful! Pls reload page.",toastLength: Toast.LENGTH_SHORT);
   }
 
   String getLengthPass(){
@@ -58,8 +80,42 @@ class _AccountState extends State<Account> {
     return _hidePass;
   }
 
+  confirm(BuildContext context){
+
+    return showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text("Confirmation"),
+        content: Text("Confirm changes to username and password?"),
+        actions: [
+          FlatButton(
+            child: Text("No"),
+            onPressed: (){
+              Navigator.pop(context);
+            },
+          ),
+          FlatButton(
+            child: Text("Yes"),
+            onPressed: () {
+              passChanged = _changePass.text;
+              userChanged = _changeUsername.text;
+              updateUser();
+              //Navigator.pop(context);
+              Navigator.pop(context);
+            }
+          )
+
+        ],
+        //elevation: 10.0,
+        backgroundColor: Colors.white,
+      );
+    });
+
+  }
+
   Widget _buildUsername(){
     return TextFormField(
+      style: TextStyle(color: Colors.white),
+      controller: _changeUsername,
       decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -67,12 +123,12 @@ class _AccountState extends State<Account> {
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white,),
           ),
-          hintText: _username,
-          hintStyle: TextStyle(
-            fontFamily: 'Quicksand',
-            fontSize: 16.0,
-            color: Colors.white,
-          ),
+          //hintText: _username,
+//          hintStyle: TextStyle(
+//            fontFamily: 'Quicksand',
+//            fontSize: 16.0,
+//            color: Colors.white,
+//          ),
           prefixIcon: Padding(
             padding: EdgeInsets.only(right: 15),
             child: Icon(
@@ -89,6 +145,8 @@ class _AccountState extends State<Account> {
 
   Widget _buildPassword() {
     return TextFormField(
+      style: TextStyle(color: Colors.white),
+      controller: _changePass,
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
@@ -97,12 +155,12 @@ class _AccountState extends State<Account> {
           borderSide: BorderSide(color: Colors.white,),
         ),
         //labelText: pass,
-        hintText: getLengthPass(),
-        hintStyle: TextStyle(
-          fontFamily: 'Quicksand',
-          fontSize: 16.0,
-          color: Colors.white,
-        ),
+        //hintText: getLengthPass(),
+//        hintStyle: TextStyle(
+//          fontFamily: 'Quicksand',
+//          fontSize: 16.0,
+//          color: Colors.white,
+//        ),
         prefixIcon: Padding(
           padding: EdgeInsets.only(right: 15),
           child: Icon(
@@ -120,6 +178,7 @@ class _AccountState extends State<Account> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("InitState: okay");
     getUserData();
   }
 
@@ -225,6 +284,9 @@ class _AccountState extends State<Account> {
                           shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
                           color: Colors.white,
                           disabledColor: Colors.white,
+                          onPressed: (){
+                            confirm(context);
+                          },
                         ),
                       ],
                     ),
