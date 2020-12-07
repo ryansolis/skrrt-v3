@@ -25,7 +25,7 @@ class _AccountState extends State<Account> {
 
     var token = await session.get("token");
     print(token);
-    var url = "http://192.168.1.11/skrrt/getStudentData.php";
+    var url = "http://192.168.1.9/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };
@@ -43,7 +43,7 @@ class _AccountState extends State<Account> {
     _course = userData[0]['course'];
     _year = userData[0]['year'];
     _fullName = fname + " " +  lname;
-    print(_fullName);
+    print(userData.toString());
 
     await session.set("token",token);
     setState(() {});

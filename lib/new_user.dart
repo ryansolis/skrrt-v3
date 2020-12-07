@@ -57,7 +57,7 @@ class _NewUserState extends State<NewUser> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image(
-                image: AssetImage("assets/userscooter1.jpg"),
+                image: AssetImage("assets/useronscooter.png"),
                 height: MediaQuery.of(context).size.height * 0.40,
               ),
               SizedBox( height: MediaQuery.of(context).size.height * 0.03,),
@@ -146,14 +146,14 @@ class _NewUserState extends State<NewUser> {
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-        body: LayoutBuilder(
-        builder: (context, constraints) {//still testing this portion, will change the
-          if (constraints.maxWidth > 600) {
-            return _buildWideContainers();
-          } else {
-            return _buildNormalContainer();
+      body: LayoutBuilder(
+          builder: (context, constraints) {//still testing this portion, will change the
+            if (constraints.maxWidth > 600) {
+              return _buildWideContainers();
+            } else {
+              return _buildNormalContainer();
+            }
           }
-        }
 
       ),
     );
@@ -323,11 +323,7 @@ class _NewUserState extends State<NewUser> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Home()),
-                                    );
+                                    Navigator.of(context).pushNamed('home');
                                   }
                               ),
                             )

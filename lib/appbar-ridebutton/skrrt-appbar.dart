@@ -5,25 +5,17 @@ class AppbarImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        //color: Colors.red,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 8, 0, 2),
-              height: MediaQuery.of(context).size.height*.8,
-              width: MediaQuery.of(context).size.width*.8,
-=======
-              /*height: MediaQuery.of(context).size.height*.8,
-              width: MediaQuery.of(context).size.width*.8,*/
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-              child: Image(
-                image: AssetImage('assets/jess-brobrero.png'),
-              ),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            margin: EdgeInsets.fromLTRB(0, 8, 15, 2),
+            height: MediaQuery.of(context).size.height*.8,
+            width: MediaQuery.of(context).size.width*.8,
+            child: Image(
+              alignment: Alignment.centerRight,
+              image: AssetImage('assets/jess-brobrero.png'),
             ),
-          ],
+          ),
         ),
       ),
     );
