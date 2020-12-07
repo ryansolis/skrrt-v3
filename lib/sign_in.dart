@@ -6,6 +6,7 @@ import 'new_user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'forgot_pass.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController _pass = TextEditingController();
 
   void userLogin() async{
-    var url = "http://192.168.1.11/skrrt/login.php";
+    var url = "http://192.168.1.6/skrrt/login.php";
     var data = {
     "username": _user.text,
     "pass":_pass.text,
@@ -41,7 +42,7 @@ class _SignInState extends State<SignIn> {
         List data = jsonDecode(res.body);
         var userId = (data[0]["userID"]);
         await session.set("token", userId);
-
+        print(userId);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NewUser()),
@@ -68,7 +69,10 @@ class _SignInState extends State<SignIn> {
             ),
           )
       ),
-      style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
+      style: TextStyle(
+        fontFamily: 'Quicksand',
+        fontSize: 16.0,
+        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
       validator: (username){
         if (username.isEmpty) {
@@ -99,7 +103,10 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
-      style: TextStyle(color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
+      style: TextStyle(
+        fontFamily: 'Quicksand',
+        fontSize: 16.0,
+        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
       obscureText: true,
       validator: (password){
@@ -183,15 +190,23 @@ class _SignInState extends State<SignIn> {
                                   ),
                                   SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                                   Center(
-                                    child: Text(
-                                      'Forgot Password',
-                                      style: TextStyle(
-                                        fontFamily: 'Quicksand',
-                                        fontSize: 16.0,
-                                        decoration: TextDecoration.underline,
-                                        letterSpacing: 1.0,
-                                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                                      ),
+                                    child: TextButton(
+                                        child: Text(
+                                          'Forgot Password',
+                                          style: TextStyle(
+                                            fontFamily: 'Quicksand',
+                                            fontSize: 16.0,
+                                            decoration: TextDecoration.underline,
+                                            letterSpacing: 1.0,
+                                            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => ForgotPass()),
+                                          );
+                                        }
                                     ),
                                   )
                                 ],

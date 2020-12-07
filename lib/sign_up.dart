@@ -9,6 +9,19 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:telephony/telephony.dart';
+import 'dart:math';
+import 'package:pin_input_text_field/pin_input_text_field.dart';
+import 'package:flutter/services.dart';
+
+const _chars = '1234567890';
+Random _rnd = Random();
+
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+String random = getRandomString(4);
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -23,12 +36,17 @@ class _SignUpState extends State<SignUp> {
   TextEditingController dateCtl = TextEditingController();
   TextEditingController cam = TextEditingController();
   TextEditingController pass = TextEditingController();
-  PickedFile imageFile;
 
+  TextEditingController pin = TextEditingController();
+
+  PickedFile imageFile;
+  bool viewPass = true;
+
+  final Telephony telephony = Telephony.instance;
 
  void registerData() async {
    //print("YES1");
-   var url = "http://192.168.1.11/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   var url = "http://192.168.1.6/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
    var data = {
            "first": fname.text,
            "last": lname.text,
@@ -40,7 +58,8 @@ class _SignUpState extends State<SignUp> {
            "birthday": dateCtl.text,
            "course": drop1value,
            "year": drop2value,
-           //"dept": "aw",//drop2value,
+           "dept": drop2value,
+           "college": drop1value,
          };
    //print("YES2");
    var res = await http.post(url,body: data);
@@ -126,15 +145,16 @@ class _SignUpState extends State<SignUp> {
   List<String> yr;
   List<String> dept;
   List<String> drop2;
+  double btmpad = 0;
 
   @override
   void initState(){
     super.initState();
     selectedRadio = 1;
     pass.text ="";
-    crse = ['CS', 'IT', 'ME', 'ECE'];
+    crse = ['BSCS', 'BSIT', 'BSME', 'BSECE'];
     colg = ['CCS', 'CEA', 'CMBA', 'CASE'];
-    drop1 =  ['CS', 'IT', 'ME', 'ECE'];
+    drop1 =  ['BSCS', 'BSIT', 'BSME', 'BSECE'];
 
     drop1value = null;
     drop2value = null;
@@ -142,6 +162,8 @@ class _SignUpState extends State<SignUp> {
     yr = ['1', '2', '3', '4'];
     dept = ['IT', 'CS', 'ME', 'CE'];
     drop2 = ['1', '2', '3', '4'];
+    pass.text = "";
+    username.text = "";
   }
 
   setSelectedRadio(int val){
@@ -151,6 +173,8 @@ class _SignUpState extends State<SignUp> {
         radcolor1 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor2 = Colors.black54;
         status = "student";
+        drop1 = crse;
+        drop2 = yr;
         drop1value = null;
         drop2value = null;
       }
@@ -158,6 +182,8 @@ class _SignUpState extends State<SignUp> {
         radcolor2 = Color.fromARGB(255, 0x00, 0xA8, 0xE5);
         radcolor1 = Colors.black54;
         status = "faculty";
+        drop1 = colg;
+        drop2 = dept;
         drop1value = null;
         drop2value = null;
       }
@@ -166,17 +192,44 @@ class _SignUpState extends State<SignUp> {
 
   int currentStep = 0;
   bool complete = false;
+  bool isntvalid = false;
+  int count = 0;
 
   void fieldFin(){
-    registerData();
-    complete = true;
-    setState(() =>  currentStep += 1);
-
+    bool flag = false;
+    if(currentStep+1 == steps.length){
+      print(pin.text);
+      if(pin.text == random) flag = true;
+      print(flag);
+    }
+    if(flag == true){
+      registerData();
+      complete = true;
+      setState(() =>  currentStep += 1);
+    }
+    else{
+      setState(() =>  isntvalid = true);
+    }
   }
   next() {
+    btmpad = 0;
+    viewPass = true;
+    isntvalid = false;
+
     currentStep + 1 != steps.length
         ? goTo(currentStep + 1)
         : fieldFin();
+    if(currentStep + 1 == steps.length && count == 0){
+      callOTP();
+      count++;
+    }
+  }
+
+  void callOTP(){
+    telephony.sendSms(
+        to: "+1-555-521-5554",
+        message: "<#> "+random+" Verification Code from Skrrt, your Rent-a-Scooter App. Please don't reply to this message. Thank you and welcome to the family! SKRRT SKRRT!"
+    );
   }
 
   goTo(int step) {
@@ -184,6 +237,8 @@ class _SignUpState extends State<SignUp> {
   }
 
   cancel(){
+    btmpad = 0;
+    viewPass = true;
     if(currentStep > 0){
       goTo(currentStep - 1);
     }
@@ -226,7 +281,7 @@ class _SignUpState extends State<SignUp> {
                       if(value.isEmpty){
                         return 'First Name is required.';
                       }
-                      else if(!RegExp('[a-zA-Z]').hasMatch(value)){
+                      else if(!RegExp('^[A-Za-z]+\$').hasMatch(value)){
                         return 'Invalid First Name.';
                       }
                       else return null;
@@ -252,7 +307,7 @@ class _SignUpState extends State<SignUp> {
                       if(value.isEmpty){
                         return 'Last Name is required.';
                       }
-                      else if(!RegExp('[a-zA-Z]').hasMatch(value)){
+                      else if(!RegExp('^[A-Za-z]+\$').hasMatch(value)){
                         return 'Invalid Last Name.';
                       }
                       else return null;
@@ -278,7 +333,7 @@ class _SignUpState extends State<SignUp> {
                       if(value.isEmpty){
                         return 'Phone No. is required.';
                       }
-                      else if(!RegExp('[0][9][0-9]{9}').hasMatch(value)){
+                      else if(!RegExp('[0][9][0-9]{9}\$').hasMatch(value)){
                         return 'Must begin with 09 first and must only be 11 digits.';
                       }
                       else return null;
@@ -303,7 +358,7 @@ class _SignUpState extends State<SignUp> {
                       if(value.isEmpty){
                         return 'Birthday is Required.';
                       }
-                      else if(!RegExp('[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}').hasMatch(value)){
+                      else if(!RegExp('[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}\$').hasMatch(value)){
                         return 'Must be MM/dd/yyyy in format (ex: 12/20/2020)';
                       }
                       else return null;
@@ -315,6 +370,7 @@ class _SignUpState extends State<SignUp> {
                         fontFamily: 'Quicksand',
                         fontSize: 16.0,
                       ),
+
                       suffixIcon:  IconButton(
                         icon: Icon(Icons.calendar_today_rounded),
                         iconSize: 20,
@@ -519,10 +575,16 @@ class _SignUpState extends State<SignUp> {
                     if (value.isEmpty) {
                       return 'ID No. is Required.';
                     }
-                    else if(!RegExp('[0-9]{2}[-][0-9]{4}[-][0-9]{3}').hasMatch(value)){
+                    else if(!RegExp('[0-9]{2}[-][0-9]{4}[-][0-9]{3}\$').hasMatch(value)){
                       return 'Must be in correct format (ex: 12-2525-969)';
                     }
-                    else return null;
+                    else {
+                      if(username.text == "")
+                        username.text = idno.text;
+                      if(pass.text == "")
+                        pass.text = idno.text;
+                      return null;
+                    }
                   },
                   decoration: InputDecoration(
                       hintText: 'ID Number',
@@ -603,7 +665,7 @@ class _SignUpState extends State<SignUp> {
                           r'^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$';
                       RegExp regex = new RegExp(pattern);
                       if (username.isEmpty) {
-                        return 'Password is required.';
+                        return 'Username is required.';
                       }
                       else if (!regex.hasMatch(username))
                         return 'Invalid Username.';
@@ -611,7 +673,6 @@ class _SignUpState extends State<SignUp> {
                         return null;
                     },
                     onSaved: (name)=> username.text = name,
-                    autofocus: false,
                     decoration: InputDecoration(
                         hintText: 'Username',
                         hintStyle: TextStyle(
@@ -632,42 +693,70 @@ class _SignUpState extends State<SignUp> {
                       fontSize: 16.0,
                       color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
                   ),
-                  TextFormField(
-                    controller: pass,
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    validator: (password){
-                      Pattern pattern =
-                          r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
-                      RegExp regex = new RegExp(pattern);
-                      if (password.isEmpty) {
-                        return 'Password is required.';
-                      }
-                      else if (!regex.hasMatch(password))
-                        return 'Must contain at least 1 letter and 1 number.\nMust be longer than six characters';
-                      else
-                        return null;
-                    },
-                    onSaved: (password)=> pass.text = password,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 16.0,
-                      ),
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.lock_rounded ,
-                          color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                          size: 15,
+
+                  Container(
+                    child: Stack(
+                      alignment: Alignment.centerRight,
+                      children: <Widget>[
+                        TextFormField(
+                          autofocus: false,
+                          controller: pass,
+                          obscureText: viewPass,
+                          textInputAction: TextInputAction.done,
+                          validator: (password){
+                            if(password.isEmpty){
+                              return 'Password is required.';
+                            }
+                            else if(!RegExp('^[a-zA-Z0-9-]{6,}').hasMatch(password)){
+                              setState(() {
+                                pass.text = password;
+                                print(password);
+                                print(pass.text);
+                                btmpad = 25;
+                              });
+                              return 'Length must be 6 characters or more.';
+                            }
+                            else return null;
+                          },
+                          onSaved: (password)=> pass.text = password,
+                          decoration: InputDecoration(
+                              hintText: 'Password',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Quicksand',
+                                fontSize: 16.0,
+                              ),
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.only(right: 15),
+                                child: Icon(
+                                  Icons.lock_rounded ,
+                                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                                  size: 15,
+                                ),
+                              ),
+                          ),
+                          style: TextStyle(
+                            fontFamily: 'Quicksand',
+                            fontSize: 16.0,
+                            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
                         ),
-                      ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: btmpad),
+                          child:
+                          IconButton(
+                              icon: IconButton(
+                                  icon: Icon(Icons.visibility,
+                                    size: 20,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      viewPass = !viewPass;
+                                    });
+                                  }
+                              )
+                          ),
+                        )
+                      ],
                     ),
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16.0,
-                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                 ],
@@ -707,28 +796,43 @@ class _SignUpState extends State<SignUp> {
                   ),
                   //Vince started here
                   Text(
-                    '+63 936 396 7814',     //current dummy text for phone number
+                    phone.text,     //current dummy text for phone number
                     style: TextStyle(
                       fontFamily: 'Quicksand',
                       fontSize: 16.0,
                       letterSpacing: 2.0,
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        hintText: 'Verification Code',
-                        hintStyle: TextStyle(
+                  //SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                  PinInputTextField(
+                    controller: pin,
+                    pinLength: 4,
+                    keyboardType: TextInputType.number,
+                    decoration: UnderlineDecoration(
+                        colorBuilder: PinListenColorBuilder(Color.fromARGB(255, 0x00, 0xA8, 0xE5), Colors.grey),
+                        textStyle: TextStyle(
                           fontFamily: 'Quicksand',
-                          fontSize: 16.0,
+                          fontSize: 20,
+                          letterSpacing: 2.0,
+                          color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                         )
                     ),
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16.0,
-                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
+                    inputFormatter: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
+
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                  Visibility(
+                    visible: isntvalid,
+                    child: Text(
+                      'Pin is incorrect. Please try again.',
+                      style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          fontSize: 14.0,
+                          letterSpacing: 1.0,
+                          color: Colors.red
+                      ),
+                    ),
+                  ),
                   Text(
                     'Didn’t receive a code?',
                     style: TextStyle(
@@ -737,25 +841,21 @@ class _SignUpState extends State<SignUp> {
                       letterSpacing: 1.0,
                     ),
                   ),
-                  Text(
-                    'Request again',
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16.0,
-                      letterSpacing: 1.0,
-                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                  FlatButton(
+                    child: Text(
+                      'Request again',
+                      style: TextStyle(
+                        fontFamily: 'Quicksand',
+                        fontSize: 16.0,
+                        letterSpacing: 1.0,
+                        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                      ),
                     ),
+                    onPressed: () {
+                      callOTP();
+                    },
                   ),
-                  Text(
-                    'Get via Call',
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      fontSize: 16.0,
-                      letterSpacing: 1.0,
-                      color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.09,),
                 ],
               ),
             )

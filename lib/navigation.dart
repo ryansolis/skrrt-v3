@@ -1,9 +1,17 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:skrrt_app/admin_page.dart';
+import 'package:flutter_session/flutter_session.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:skrrt_app/payment_page.dart';
 import 'package:skrrt_app/navigation_alert/navigation_popup.dart';
 
@@ -22,6 +30,13 @@ class _NavigationState extends State<Navigation> {
   Stopwatch _stopwatch = Stopwatch();
   final dur = const Duration(seconds: 1);
   LocationData _currentLocation;
+
+  var session = FlutterSession();
+  void rideDuration() async {
+    //print("hello");
+    print(_stopwatch.elapsed.inMinutes);
+    await session.set("time", _stopwatch.elapsed.inMinutes);
+  }
 
   static final CameraPosition _cameraPosition = CameraPosition(
     target: LatLng(10.295666, 123.880472),
@@ -157,7 +172,11 @@ class _NavigationState extends State<Navigation> {
   }
 
   void stopTimeElapsed(){
+    print("time");
+    print(_stopwatch.elapsed.inSeconds);
     _stopwatch.stop();
+    print("time");
+    print(_stopwatch.elapsed.inSeconds);
   }
 
   @override
@@ -258,6 +277,7 @@ class _NavigationState extends State<Navigation> {
                                     checkParkingDistance().then((value) {
                                       if (value){
                                         _hasParked = true;
+                                        rideDuration();
                                         stopTimeElapsed();
                                         Navigator.push(
                                           context,
