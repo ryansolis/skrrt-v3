@@ -34,7 +34,7 @@ class _NavigationState extends State<Navigation> {
   var session = FlutterSession();
   void rideDuration() async {
     //print("hello");
-    print(_stopwatch.elapsed.inMinutes);
+    //print(_stopwatch.elapsed.inMinutes);
     await session.set("time", _stopwatch.elapsed.inMinutes);
   }
 
@@ -142,10 +142,10 @@ class _NavigationState extends State<Navigation> {
 
   void stopTimeElapsed(){
     print("time");
-    print(_stopwatch.elapsed.inSeconds);
+    print(_stopwatch.elapsed.inSeconds.toString());
     _stopwatch.stop();
     print("time");
-    print(_stopwatch.elapsed.inSeconds);
+    print(_stopwatch.elapsed.inSeconds.toString());
   }
 
   @override
@@ -227,20 +227,29 @@ class _NavigationState extends State<Navigation> {
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
                                 textColor: Colors.white,
                                 color: Color(0xff00A8E5),
-                                child: Text('DONE',
+                                child: _hasPressedDone ? Text('PAY RIDE',
                                   style: TextStyle(
                                     fontFamily: 'Montserrat',
                                     color: Colors.white,
                                     fontSize: 16,
                                   ),
+                                ):
+                                Text('END RIDE',
+                                    style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                ),
                                 ),
                                 onPressed: () {
                                   if (_hasPressedDone==false){
+                                    stopTimeElapsed();
                                     _hasPressedDone=true;
                                   }
                                   else{
                                     rideDuration();
-                                    stopTimeElapsed();
+
+                                    //_stopwatch.stop();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => PaymentPage()),

@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:async';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:http/http.dart' as http;
 import 'sidebar_page.dart';
@@ -17,9 +18,9 @@ class RentScooter extends StatefulWidget {
 }
 
 class _RentScooterState extends State<RentScooter> {
-  //var session = FlutterSession();
+  var session = FlutterSession();
   //var tester=2;
-  String _sctID="",model="",ridecount="",station="",qrcode="",desc="",power="",mah="",speed="";
+  String _sctID="",model="",ridecount="",station="",qrcode="",desc="",power="",mah="",speed="",available="";
   List scoot;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -33,7 +34,7 @@ class _RentScooterState extends State<RentScooter> {
   }
   Future _testID() async{
     //print("hello");
-    var session = FlutterSession();
+
     var url = "http://192.168.1.9/skrrt/chooseSctr.php";
     var scooterID = await session.get("scooter");
     var data={
@@ -41,9 +42,9 @@ class _RentScooterState extends State<RentScooter> {
     };
     var res = await http.post(url,body: data);
     print(data);
-    print(jsonDecode(res.body));
+    //print(jsonDecode(res.body));
     scoot = jsonDecode(res.body);
-    //print(scoot[0]['power']);
+    print("should: "+'$scoot');
     _sctID=scoot[0]['scooterID'];
     model = scoot[0]['model'];
     ridecount=scoot[0]['ridecount'].toString();
@@ -51,7 +52,9 @@ class _RentScooterState extends State<RentScooter> {
     desc=scoot[0]['desc'].toString();
     power=scoot[0]['power'].toString();
     mah=scoot[0]['mah'].toString();
+    station = scoot[0]['station'].toString();
     speed=scoot[0]['speed'].toString();
+    available=scoot[0]['available'].toString();
     await session.set("scooter",scooterID);
     setState(() {});
   }
@@ -68,8 +71,7 @@ class _RentScooterState extends State<RentScooter> {
   initState() {
     super.initState();
     _testID();
-    setState(() {
-    });
+    //setState(() {});
   }
   @override
   Widget build(BuildContext context) {
@@ -285,7 +287,7 @@ class _RentScooterState extends State<RentScooter> {
                                               padding: const EdgeInsets.all(10.0),
                                               child: Column(
                                                 children: [
-                                                  Text(qrcode.substring(0,4)+"\n"+qrcode.substring(4,8),
+                                                  Text(qrcode,//.substring(0,4)+"\n"+qrcode.substring(4),
                                                     style: TextStyle(
                                                       color: Color(0xFF0E0E0E),
                                                       fontFamily: 'Quicksand',
@@ -351,7 +353,7 @@ class _RentScooterState extends State<RentScooter> {
                               children: [
                                 Column(
                                   children: [
-                                    Text('ST Bldg.',
+                                    Text(station,
                                       style: TextStyle(
                                         color: Color(0xFF0E0E0E),
                                         fontFamily: 'Quicksand',
@@ -416,13 +418,19 @@ class _RentScooterState extends State<RentScooter> {
                             ),
                           ),
                           onPressed: () {
-                            //_scan();
-                            //if (_cameraScanResult.isNotEmpty){
+                            if(available=="1") {
+                              //_scan();
+                              //if (_cameraScanResult.isNotEmpty){
                               Navigator.pop(context);
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => Navigation()),
+                                MaterialPageRoute(
+                                    builder: (context) => Navigation()),
                               );
+                            }
+                            else{
+                              Fluttertoast.showToast(msg: "Scooter is currently in use, please choose another model.",toastLength: Toast.LENGTH_SHORT);
+                            }
                             //}
                           }
                       ),
