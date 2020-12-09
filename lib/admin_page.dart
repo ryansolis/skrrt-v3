@@ -110,9 +110,9 @@ class _AdminPageState extends State<AdminPage> {
                 margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                 padding: EdgeInsets.all(10),
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.30,
+                height: MediaQuery.of(context).size.height * 0.30+5,
                 //color: Colors.lightBlue,
-                child: Column(
+                  child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
@@ -155,7 +155,7 @@ class _AdminPageState extends State<AdminPage> {
                                         Text(
                                             "90.12%",
                                             style: TextStyle(
-                                                fontSize:MediaQuery.of(context).size.width * 0.06,
+                                                fontSize:17,
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily: "Quicksand"
                                             )
@@ -163,7 +163,7 @@ class _AdminPageState extends State<AdminPage> {
                                         Text(
                                           "10,234",
                                           style: TextStyle(
-                                              fontSize:MediaQuery.of(context).size.width * 0.04,
+                                              fontSize:15,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
                                               fontFamily: "Quicksand"
@@ -172,7 +172,7 @@ class _AdminPageState extends State<AdminPage> {
                                         Text(
                                             "Successful",
                                             style: TextStyle(
-                                                fontSize:MediaQuery.of(context).size.width * 0.035,
+                                                fontSize:13,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
                                                 fontFamily: "Quicksand"
@@ -181,13 +181,12 @@ class _AdminPageState extends State<AdminPage> {
                                         Text(
                                             "Rides",
                                             style: TextStyle(
-                                                fontSize:MediaQuery.of(context).size.width * 0.035,
+                                                fontSize:13,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
                                                 fontFamily: "Quicksand"
                                             )
                                         )
-
                                       ]
                                   ),
                                 ),
@@ -208,7 +207,7 @@ class _AdminPageState extends State<AdminPage> {
                                         Text(
                                             "70.01%",
                                             style: TextStyle(
-                                                fontSize:MediaQuery.of(context).size.width * 0.06,
+                                                fontSize:17,
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily: "Quicksand"
                                             )
@@ -216,7 +215,7 @@ class _AdminPageState extends State<AdminPage> {
                                         Text(
                                             "10,234",
                                             style: TextStyle(
-                                                fontSize:MediaQuery.of(context).size.width * 0.04,
+                                                fontSize:15,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                                 fontFamily: "Quicksand"
@@ -225,7 +224,7 @@ class _AdminPageState extends State<AdminPage> {
                                         Text(
                                             "Response",
                                             style: TextStyle(
-                                                fontSize:MediaQuery.of(context).size.width * 0.035,
+                                                fontSize:13,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
                                                 fontFamily: "Quicksand"
@@ -234,7 +233,7 @@ class _AdminPageState extends State<AdminPage> {
                                         Text(
                                             "Rate",
                                             style: TextStyle(
-                                                fontSize:MediaQuery.of(context).size.width * 0.035,
+                                                fontSize:13,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
                                                 fontFamily: "Quicksand"
@@ -261,7 +260,7 @@ class _AdminPageState extends State<AdminPage> {
                                           Text(
                                               "20.12%",
                                               style: TextStyle(
-                                                  fontSize:MediaQuery.of(context).size.width * 0.06,
+                                                  fontSize:17,
                                                   fontWeight: FontWeight.bold,
                                                   fontFamily: "Quicksand"
                                               )
@@ -269,7 +268,7 @@ class _AdminPageState extends State<AdminPage> {
                                           Text(
                                               "255",
                                               style: TextStyle(
-                                                  fontSize:MediaQuery.of(context).size.width * 0.04,
+                                                  fontSize:15,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white,
                                                   fontFamily: "Quicksand"
@@ -278,7 +277,7 @@ class _AdminPageState extends State<AdminPage> {
                                           Text(
                                               "Happy",
                                               style: TextStyle(
-                                                  fontSize:MediaQuery.of(context).size.width * 0.035,
+                                                  fontSize:13,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
                                                   fontFamily: "Quicksand"
@@ -287,7 +286,7 @@ class _AdminPageState extends State<AdminPage> {
                                           Text(
                                               "Feedback",
                                               style: TextStyle(
-                                                  fontSize:MediaQuery.of(context).size.width * 0.035,
+                                                  fontSize:13,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
                                                   fontFamily: "Quicksand"
@@ -309,7 +308,7 @@ class _AdminPageState extends State<AdminPage> {
                 margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
                 padding: EdgeInsets.all(10),
                 width: double.infinity,
-                height: 200,
+                height: 205,
                 //color: Colors.lightBlue,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,21 +387,42 @@ class _AdminPageState extends State<AdminPage> {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
+                                  if(_currentMonthSelected=='Nov')
                                   Text(
-                                    '₱'+earnings,
+                                    '₱2000.00',
                                     style: TextStyle(
                                       //color: Color(0xFF05C853),
                                         fontFamily: "Quicksand",
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold
                                     ),
                                   ),
+                                  if(_currentMonthSelected=='Dec')
+                                    Text(
+                                      '₱3000.00',
+                                      style: TextStyle(
+                                        //color: Color(0xFF05C853),
+                                          fontFamily: "Quicksand",
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  if(_currentMonthSelected!='Nov'&&_currentMonthSelected!='Dec')
+                                    Text(
+                                      'N/A',
+                                      style: TextStyle(
+                                        //color: Color(0xFF05C853),
+                                          fontFamily: "Quicksand",
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
                                   Text(
                                     '+'+'₱'+ earnIncrease,
                                     style: TextStyle(
                                         color: Color(0xFF05C853),
                                         fontFamily: "Quicksand",
-                                        fontSize: 15,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold
                                     ),
                                   ),
@@ -419,7 +439,7 @@ class _AdminPageState extends State<AdminPage> {
                 margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 padding: EdgeInsets.all(10),
                 width: double.infinity,
-                height: 200,
+                height: 205,
                 //color: Colors.lightBlue,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -498,21 +518,42 @@ class _AdminPageState extends State<AdminPage> {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
+                                  if(_currentMonthSelected1=='Nov')
                                   Text(
-                                    successfulRides,
+                                    '₱10000.00',
                                     style: TextStyle(
                                       //color: Color(0xFF05C853),
                                       fontFamily: "Quicksand",
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  if(_currentMonthSelected1=='Dec')
+                                    Text(
+                                      '₱20000.00',
+                                      style: TextStyle(
+                                        //color: Color(0xFF05C853),
+                                        fontFamily: "Quicksand",
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  if(_currentMonthSelected1!='Nov'&&_currentMonthSelected1!='Dec')
+                                    Text(
+                                      'N/A',
+                                      style: TextStyle(
+                                        //color: Color(0xFF05C853),
+                                        fontFamily: "Quicksand",
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   Text(
                                     '+'+ rideIncrease,
                                     style: TextStyle(
                                       color: Color(0xFF05C853),
                                       fontFamily: "Quicksand",
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

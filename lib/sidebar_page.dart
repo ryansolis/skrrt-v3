@@ -143,9 +143,12 @@ class SideBar extends StatelessWidget {
                             fontFamily: "Quicksand",
                           ),
                         ),
-                        onTap: (){
-                          Navigator.of(context).popUntil((route) => route.isFirst);
-                        },
+                        onTap: () {
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) {
+                            return AdminPage();
+                          }));
+                        }
                       ),
                       Expanded(
                         child: Align(

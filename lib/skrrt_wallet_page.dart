@@ -20,9 +20,11 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
   var session = FlutterSession();
   var _month = ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ];
   var _currentMonthSelected = 'Jan';
-  var _wallet = '';
+  var _wallet = '125';
+  var _rideExpense = '143';
 
-  void getUserData() async{
+  //DB functionality
+  /*void getUserData() async{
 
     var token = await session.get("token");
     print(token);
@@ -39,10 +41,10 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
     _wallet = userData[0]["wallet"];
     await session.set("token",token);
     setState(() {});
-  }
+  }*/
   @override
   Widget build(BuildContext context) {
-    getUserData();
+    //getUserData();
     return Scaffold(
       backgroundColor: Colors.white,
       key: _scaffoldKey,
@@ -118,7 +120,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                         Container(
                           padding: EdgeInsets.fromLTRB(12,0,0,0),
                           child: Text(
-                            '₱'+'$_wallet'+'.00',
+                            '₱'+ _wallet+'.00',
                             style: TextStyle(
                               color: Color(0xFF05C853),
                               fontFamily: "Montserrat",
@@ -204,8 +206,20 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
+
+                                if(_currentMonthSelected!='Nov'&&_currentMonthSelected!='Dec')
+                                  Text(
+                                    '0.00',
+                                    style: TextStyle(
+                                      //color: Color(0xFF05C853),
+                                        fontFamily: "Montserrat",
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal
+                                    ),
+                                  ),
+                                if(_currentMonthSelected=='Nov')
                                 Text(
-                                  '₱143.00',
+                                 '143.00',
                                   style: TextStyle(
                                     //color: Color(0xFF05C853),
                                       fontFamily: "Montserrat",
@@ -213,8 +227,18 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                                       fontWeight: FontWeight.normal
                                   ),
                                 ),
+                                if(_currentMonthSelected=='Dec')
+                                  Text(
+                                    '55.00',
+                                    style: TextStyle(
+                                      //color: Color(0xFF05C853),
+                                        fontFamily: "Montserrat",
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal
+                                    ),
+                                  ),
                                 Text(
-                                    '+42.00',
+                                    '+0.00',
                                     style: TextStyle(
                                         color: Color(0xFF05C853),
                                         fontFamily: "Montserrat",
