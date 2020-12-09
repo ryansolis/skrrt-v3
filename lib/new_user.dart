@@ -57,7 +57,7 @@ class _NewUserState extends State<NewUser> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image(
-                image: AssetImage("assets/useronscooter.png"),
+                image: AssetImage("assets/userscooter.jpg"),
                 height: MediaQuery.of(context).size.height * 0.40,
               ),
               SizedBox( height: MediaQuery.of(context).size.height * 0.03,),

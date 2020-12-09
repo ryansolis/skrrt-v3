@@ -20,7 +20,7 @@ class RentScooter extends StatefulWidget {
 class _RentScooterState extends State<RentScooter> {
   var session = FlutterSession();
   //var tester=2;
-  String _sctID="",model="",ridecount="",station="",qrcode="",desc="",power="",mah="",speed="",available="";
+  String _sctID="",model1="",ridecount="",station="",qrcode="",desc="",power="",mah="",speed="",available="";
   List scoot;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -32,20 +32,39 @@ class _RentScooterState extends State<RentScooter> {
     _cameraScanResult = barcode;
     toNavigation(context);
   }
-  Future _testID() async{
+
+  void setAvail() async{
     var session = FlutterSession();
-    var url = "http://192.168.1.9/skrrt/chooseSctr.php";
-    var scooterID = await session.get("scooter");
+    var url = "http://192.168.1.4/skrrt/scooterAvail.php";
+    var rideID = await session.get("rideID");
+    print(rideID);
+
     var data={
-      "scooter": scooterID.toString(),
+      "rideID": rideID.toString(),
+      "scooterID": _sctID,
     };
     var res = await http.post(url,body: data);
-    print(data);
-    //print(jsonDecode(res.body));
+  }
+
+  Future _testID() async{
+    var session = FlutterSession();
+    var url = "http://192.168.1.4/skrrt/chooseSctr.php";
+    var model = await session.get("model");
+    var start = await session.get("start");
+    //var rideID = await session.get("rideID");
+
+    var data={
+      "model": model,
+      "start": start,
+      //"rideID": rideID.toString(),
+    };
+    var res = await http.post(url,body: data);
+
+    print(jsonDecode(res.body));
     scoot = jsonDecode(res.body);
     print("should: "+'$scoot');
     _sctID=scoot[0]['scooterID'];
-    model = scoot[0]['model'];
+    model1 = scoot[0]['model'];
     ridecount=scoot[0]['ridecount'].toString();
     qrcode=scoot[0]['qrcode'].toString();
     desc=scoot[0]['desc'].toString();
@@ -54,7 +73,7 @@ class _RentScooterState extends State<RentScooter> {
     station = scoot[0]['station'].toString();
     speed=scoot[0]['speed'].toString();
     available=scoot[0]['available'].toString();
-    await session.set("scooter",scooterID);
+
     setState(() {});
   }
   void toNavigation(BuildContext context){
@@ -94,6 +113,7 @@ class _RentScooterState extends State<RentScooter> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Container(
+              color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -102,7 +122,7 @@ class _RentScooterState extends State<RentScooter> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                              Text(model,//'Phoenix',
+                              Text(model1,//'Phoenix',
                                   style: TextStyle(
                                     color: Color(0xFF0E0E0E),
                                     fontFamily: 'Quicksand',
@@ -165,7 +185,7 @@ class _RentScooterState extends State<RentScooter> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 5.0),
-                                      child: Text('Details',
+                                      child: Text('  Details',
                                         style: TextStyle(
                                           color: Color(0xFF0E0E0E),
                                           fontFamily: 'Quicksand',
@@ -174,15 +194,7 @@ class _RentScooterState extends State<RentScooter> {
                                         ),
                                       ),
                                     ),
-                                    Text(desc,
-                                      style: TextStyle(
-                                        color: Color(0xFF0E0E0E),
-                                        fontFamily: 'Quicksand',
-                                        fontSize: MediaQuery.of(context).size.height*.025,//15.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text('    (max: 45kg)',
+                                    Text("     "+desc,
                                       style: TextStyle(
                                         color: Color(0xFF0E0E0E),
                                         fontFamily: 'Quicksand',
@@ -417,6 +429,7 @@ class _RentScooterState extends State<RentScooter> {
                             ),
                           ),
                           onPressed: () {
+                            setAvail();
                             _scan();
                             if (_cameraScanResult.isNotEmpty){
                               Navigator.pop(context);

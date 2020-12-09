@@ -197,6 +197,7 @@ class _SignUpState extends State<SignUp> {
 
   void fieldFin(){
     bool flag = false;
+
     if(currentStep+1 == steps.length){
       print(pin.text);
       if(pin.text == random) flag = true;
@@ -219,7 +220,7 @@ class _SignUpState extends State<SignUp> {
     currentStep + 1 != steps.length
         ? goTo(currentStep + 1)
         : fieldFin();
-    if(currentStep + 1 == steps.length && count == 0){
+    if(currentStep+1 == steps.length && count == 0){
       callOTP();
       count++;
     }
@@ -604,7 +605,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return 'ID picture is Required.';
+                      return 'ID picture is required.';
                     }
                     else return null;
                   },
@@ -666,6 +667,9 @@ class _SignUpState extends State<SignUp> {
                       RegExp regex = new RegExp(pattern);
                       if (username.isEmpty) {
                         return 'Username is required.';
+                      }
+                      else if(username.length < 6){
+                        return 'Length must be 6 characters or more.';
                       }
                       else if (!regex.hasMatch(username))
                         return 'Invalid Username.';

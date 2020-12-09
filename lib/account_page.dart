@@ -29,7 +29,7 @@ class _AccountState extends State<Account> {
 
     var token = await session.get("token");
     //print(token);
-    var url = "http://192.168.1.6/skrrt/getStudentData.php";
+    var url = "http://192.168.1.4/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };

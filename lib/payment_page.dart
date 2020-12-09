@@ -20,17 +20,32 @@ class PaymentPage extends StatefulWidget {
   _PaymentPageState createState() => _PaymentPageState();
 }
 
-double uniHeight(BuildContext context){
+double textSize(BuildContext context){
   if(MediaQuery.of(context).size.width<=600)
-    return MediaQuery.of(context).size.height*0.1;
+    return MediaQuery.of(context).size.height*0.025;
   else
-    return MediaQuery.of(context).size.height*0.45;
+    return MediaQuery.of(context).size.height*0.030;
 }
-double uniWidth(BuildContext context){
-  if(MediaQuery.of(context).size.width<=600)
-    return MediaQuery.of(context).size.width*0.1;
-  else
-    return MediaQuery.of(context).size.width*0.45;
+double headerSize(BuildContext context){
+  if(MediaQuery.of(context).size.width<=600){
+    print("hello");
+    return MediaQuery.of(context).size.width*0.10;
+  }
+  else{
+    print("hi");
+    return MediaQuery.of(context).size.width*0.09;
+  }
+}
+
+double subHeader(BuildContext context){
+  if(MediaQuery.of(context).size.width<=600){
+    print("hello");
+    return MediaQuery.of(context).size.width*0.06;
+  }
+  else{
+    print("hi");
+    return MediaQuery.of(context).size.width*0.05;
+  }
 }
 
 class _PaymentPageState extends State<PaymentPage> {
@@ -50,7 +65,7 @@ class _PaymentPageState extends State<PaymentPage> {
     var time = await session.get("time");
 
     print("here!!!");
-    var url = "http://192.168.1.9/skrrt/balance.php";
+    var url = "http://192.168.1.4/skrrt/balance.php";
     var data = {
       "userID": token.toString(),
     };
@@ -155,7 +170,7 @@ class _PaymentPageState extends State<PaymentPage> {
           children: <Widget>[
             Container(
                 margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(textSize(context)),
                 width: double.infinity,
                 //color: Colors.lightBlue,
                 child: Column(
@@ -165,7 +180,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         margin: EdgeInsets.fromLTRB(0,10,0,0),
                         padding: EdgeInsets.all(20),
                         width: double.infinity,
-                        height: uniHeight(context)*3,
+                        height: MediaQuery.of(context).size.height * 0.35,
                         decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                         color: Colors.lightBlueAccent,
@@ -176,7 +191,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             Text(
                                 "Thank you for riding with us!",
                                 style: TextStyle(
-                                    fontSize:uniHeight(context)*.26,//13,
+                                    fontSize:textSize(context),//13,
                                     color: Colors.white,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: "Quicksand"
@@ -185,7 +200,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             Text(
                                 "\nAmount due:",
                                 style: TextStyle(
-                                    fontSize:uniHeight(context)*.25,//10,
+                                    fontSize:textSize(context),//10,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: "Quicksand"
                                 )
@@ -193,7 +208,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             Text(
                                 amount,
                                 style: TextStyle(
-                                    fontSize:uniHeight(context)*.28,//22,
+                                    fontSize:subHeader(context),//22,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                     fontFamily: "Quicksand"
@@ -202,7 +217,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             Text(
                                 "\nAvailable Skrrt Load Balance",
                                 style: TextStyle(
-                                    fontSize:uniHeight(context)*.25,//10,
+                                    fontSize:textSize(context),//10,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                     fontFamily: "Quicksand"
@@ -211,7 +226,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             Text(
                                 _balance,
                                 style: TextStyle(
-                                    fontSize:uniHeight(context)*.28,//22,
+                                    fontSize:subHeader(context),//22,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                     fontFamily: "Quicksand"
@@ -236,7 +251,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                     style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       color:Colors.white,
-                                      fontSize: uniHeight(context)*0.25,
+                                      fontSize: textSize(context),
                                     ),
                                   ),
                                   onPressed: () {
@@ -286,19 +301,19 @@ class _PaymentPageState extends State<PaymentPage> {
                                 }
                             ),
                           ),*/
-                          SizedBox(height: uniHeight(context)*.5),
+                          SizedBox(height: headerSize(context)),
                           Text(
                             "Rate Our Services",
                               style: TextStyle(
-                              fontSize:uniHeight(context)*.30,//15,
+                              fontSize:subHeader(context),//15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "Quicksand"
                           )
                           ),
-                          SizedBox(height: uniHeight(context)*.2),
+                          SizedBox(height: subHeader(context)),
                           Image(
                               image: AssetImage('assets/skrrt_logowhite.png'),
-                              height: uniHeight(context)*1.5,//100,
+                              height: headerSize(context) * 2,//100,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -307,6 +322,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               Container(
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  iconSize: subHeader(context),
                                   padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star1,
@@ -325,6 +341,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               Container(
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  iconSize: subHeader(context),
                                   padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star2,
@@ -343,6 +360,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               Container(
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  iconSize: subHeader(context),
                                   padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star3,
@@ -361,6 +379,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               Container(
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  iconSize: subHeader(context),
                                   padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star4,
@@ -379,6 +398,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               Container(
                                 width: 30.0, // you can adjust the width as you need
                                 child: IconButton(
+                                  iconSize: subHeader(context),
                                   padding: EdgeInsets.all(0),
                                   icon: new Icon(Icons.star,),
                                   color: star5,

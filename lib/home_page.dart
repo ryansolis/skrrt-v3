@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
   Color _color1 = Colors.white;
 
   void _fetchModels() async{
-    var url = "http://192.168.1.9/skrrt/home.php";
+    var url = "http://192.168.1.4/skrrt/home.php";
     var data = {
       "station": _station,
     };
@@ -90,30 +90,29 @@ class _HomeState extends State<Home> {
   }
 
   void rideScooter() async {
-    //print("hello");
-    var token = await session.get("token");
-    print(token);
 
-    var url = "http://192.168.1.9/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
+    print("hello");
+    var token = await session.get("token");
+    var model = _selected.toString();
+    await session.set("model",model);
+    await session.set("start",_station);
+
+    var url = "http://192.168.1.4/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
       "start": _station,
       "userID": token.toString(),
-      "model": _selected,
       "date": DateTime.now().toString()
     };
 
     var res = await http.post(url,body:data);
-    print(jsonDecode(res.body));
+    //print(jsonDecode(res.body));
     List userData = await jsonDecode(res.body);
 
-    var scooterID = userData[0]["scooter"];
-    var rideID = userData[1]["lastID"];
-    print("userData = "+'$userData');
+    //var scooterID = userData[0]["scooter"];
+    var rideID = userData[0]["lastID"];
     print(rideID);
 
     await session.set("rideID",rideID);
-    await session.set("scooter",scooterID);
-    await session.set("token",token);
   }
 
 
@@ -136,7 +135,6 @@ class _HomeState extends State<Home> {
   void initState(){
     super.initState();
     setCustomMarker();
-    setState(() {});
   }
 
   void setCustomMarker() async{
@@ -524,6 +522,7 @@ class _HomeState extends State<Home> {
                                   _selected = "Phoenix";
                                   _color = Color(0xff00A8E5) ;
                                   _color1 = Colors.white ;
+                                  print(_selected);
                                 });
                               },
                               child: FlatButton(
@@ -844,6 +843,7 @@ class _HomeState extends State<Home> {
                                   _selected = "Yami";
                                   _color1 = Color(0xff00A8E5) ;
                                   _color = Colors.white ;
+                                  print(_selected);
                                 });
                               },
                               child: FlatButton(
@@ -1002,6 +1002,7 @@ class _HomeState extends State<Home> {
                                   _selected = "Phoenix";
                                   _color = Color(0xff00A8E5) ;
                                   _color1 = Colors.white ;
+                                  print(_selected);
                                 });
                               },
                               child: FlatButton(
@@ -1073,6 +1074,7 @@ class _HomeState extends State<Home> {
                                   _selected = "Yami";
                                   _color1 = Color(0xff00A8E5) ;
                                   _color = Colors.white ;
+                                  print(_selected);
                                 });
                               },
                               child: FlatButton(
@@ -1153,6 +1155,7 @@ class _HomeState extends State<Home> {
                   ),
                   onPressed: () {
                     if(_selected != ""){
+                      print("fuck");
                       rideScooter();
                       Navigator.push(
                         context,

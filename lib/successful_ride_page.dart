@@ -11,17 +11,21 @@ class SuccessfulRide extends StatefulWidget {
   }
 }
 class SuccessfulRidePage extends State<SuccessfulRide>{
-  double uniHeight(BuildContext context){
+  double textSize(BuildContext context){
     if(MediaQuery.of(context).size.width<=600)
-      return MediaQuery.of(context).size.height*0.1;
+      return MediaQuery.of(context).size.height*0.025;
     else
-      return MediaQuery.of(context).size.height*0.45;
+      return MediaQuery.of(context).size.height*0.030;
   }
-  double uniWidth(BuildContext context){
-    if(MediaQuery.of(context).size.width<=600)
-      return MediaQuery.of(context).size.width*0.1;
-    else
-      return MediaQuery.of(context).size.width*0.45;
+  double headerSize(BuildContext context){
+    if(MediaQuery.of(context).size.width<=600){
+      print("hello");
+      return MediaQuery.of(context).size.width*0.10;
+    }
+    else{
+      print("hi");
+      return MediaQuery.of(context).size.width*0.09;
+    }
   }
 
   @override
@@ -36,13 +40,13 @@ class SuccessfulRidePage extends State<SuccessfulRide>{
                   children: [
                     Image(
                       image: AssetImage("assets/check.png"),
-                      height: 140,
-                      width:140,
+                      height: headerSize(context) * 2.25,
+                      width:headerSize(context) * 3,
                     ),
                     Text(
                         "SUCCESS!",
                         style: TextStyle(
-                            fontSize:uniHeight(context)*.5,//22,
+                            fontSize:headerSize(context),//22,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             fontFamily: "Quicksand"
@@ -54,14 +58,14 @@ class SuccessfulRidePage extends State<SuccessfulRide>{
                           "You successfully arrived to your destination.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize:uniHeight(context)*.25,//22,
+                              fontSize:textSize(context),//22,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontFamily: "Quicksand"
                           )
                       ),
                     ),
-                    SizedBox(height: uniHeight(context)*.2),
+                    SizedBox(height: textSize(context)),
                     RaisedButton(
                         padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.15, vertical: MediaQuery.of(context).size.height * 0.020),
                         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
@@ -71,7 +75,7 @@ class SuccessfulRidePage extends State<SuccessfulRide>{
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             color:Color(0xff00A8E5),
-                            fontSize: uniHeight(context)*0.25,
+                            fontSize: textSize(context),
                           ),
                         ),
                         onPressed: () {

@@ -22,8 +22,11 @@ class _SignInState extends State<SignIn> {
   TextEditingController _user = TextEditingController();
   TextEditingController _pass = TextEditingController();
 
+  bool viewPass = true;
+  double btmpad = 0;
+
   void userLogin() async{
-    var url = "http://192.168.1.5/skrrt/login.php";
+    var url = "http://192.168.1.4/skrrt/login.php";
     var data = {
     "username": _user.text,
     "pass":_pass.text,
@@ -86,37 +89,62 @@ class _SignInState extends State<SignIn> {
   }
 
   Widget _buildPassword() {
-    return TextFormField(
-      controller: _pass,
-      decoration: InputDecoration(
-        hintText: 'Password',
-        hintStyle: TextStyle(
-          fontFamily: 'Quicksand',
-          fontSize: 16.0,
-        ),
-        prefixIcon: Padding(
-          padding: EdgeInsets.only(right: 15),
-          child: Icon(
-            Icons.lock_rounded ,
-            color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
-            size: 15,
+
+    return Stack(
+      alignment: Alignment.centerRight,
+      children: <Widget>[
+        TextFormField(
+            controller: _pass,
+            decoration: InputDecoration(
+              hintText: 'Password',
+              hintStyle: TextStyle(
+                fontFamily: 'Quicksand',
+                fontSize: 16.0,
+              ),
+              prefixIcon: Padding(
+                padding: EdgeInsets.only(right: 15),
+                child: Icon(
+                  Icons.lock_rounded ,
+                  color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+                  size: 15,
+                ),
+              ),
+            ),
+            style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16.0,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
+            keyboardType: TextInputType.text,
+            obscureText: viewPass,
+            validator: (password){
+              if (password.isEmpty) {
+                setState(() {
+                  btmpad = 25;
+                });
+                return 'Password is required.';
+              }
+              else
+                return null;
+            },
+            onSaved: (password)=> _password = password,
           ),
-        ),
-      ),
-      style: TextStyle(
-        fontFamily: 'Quicksand',
-        fontSize: 16.0,
-        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      validator: (password){
-        if (password.isEmpty) {
-          return 'Password is required.';
-        }
-        else
-          return null;
-      },
-      onSaved: (password)=> _password = password,
+          Padding(
+            padding: EdgeInsets.only(bottom: btmpad),
+            child:
+            IconButton(
+                icon: IconButton(
+                    icon: Icon(Icons.visibility,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        viewPass = !viewPass;
+                      });
+                    }
+                )
+            ),
+          )
+    ]
     );
   }
 
