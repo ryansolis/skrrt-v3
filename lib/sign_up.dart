@@ -46,7 +46,7 @@ class _SignUpState extends State<SignUp> {
 
  void registerData() async {
    //print("YES1");
-   var url = "http://127.0.0.1/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   var url = "http://192.168.1.6/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
    var data = {
            "first": fname.text,
            "last": lname.text,

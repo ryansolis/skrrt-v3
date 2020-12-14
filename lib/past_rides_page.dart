@@ -27,7 +27,7 @@ class _PastRidesState extends State<PastRides> {
   Future<List> getRides() async{
     token = await session.get("token");
     print(token);
-    var url = "http://127.0.0.1/skrrt/getRides.php";
+    var url = "http://192.168.1.4/skrrt/getRides.php";
     var data = {
       "userID": token.toString(),
     };
