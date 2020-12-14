@@ -101,39 +101,30 @@ class _PaymentPageState extends State<PaymentPage> {
 
      var time = await session.get("time");
      var _userID = await session.get("token");
-     var _scooterID = await session.get("scooter");
+     var _scooterID = await session.get("scooterID");
      var _rideID = await session.get("rideID");
 
-    //var time = 2;
-    //var _userID = 2;
-    //var _rideID = 1;
-
-    //print("hello");
-    //print(time);
-    //print(_rideID);
-    //print(time);
-
     var _amount = time * 2 + 2;
-    //print(_amount)
-    var url = "http://192.168.1.9/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
+    print("halo");
+    var url = "http://192.168.1.4/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
       "rideID" : _rideID.toString(),
       "time":time.toString(),
       "amount": _amount.toString(),
       "userID": _userID.toString(),
-      //"scooterID": _scooterID.toString(),
       "stars": stars.toString(),
+      "scooterID": _scooterID.toString()
     };
     print("Data: "+'$data');
     var res = await http.post(url,body:data);
-    /*print("Result: "+'$jsonDecode(res.body)');
+    print(res.body);
     //print("YES3");
-    if(jsonDecode(res.body) == "okay"){
-      print("YESSSSSSS");
-    }
-    else{
-      print("2NOOOOOO");
-    }*/
+    // if(jsonDecode(res.body) == "okay"){
+    //   print("YESSSSSSS");
+    // }
+    // else{
+    //   print("2NOOOOOO");
+    // }
   }
 
   void initState(){

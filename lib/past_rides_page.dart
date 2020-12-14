@@ -43,23 +43,23 @@ class _PastRidesState extends State<PastRides> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-          backgroundColor: Colors.white10,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.menu),
-            color: Colors.black,
-            onPressed: (){
-              _scaffoldKey.currentState.openDrawer();
-            },
-          ),
+        backgroundColor: Colors.white10,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          color: Colors.black,
+          onPressed: (){
+            _scaffoldKey.currentState.openDrawer();
+          },
+        ),
         flexibleSpace: AppbarImage(),
       ),
       drawer:  SideBar(),
 
-       body:
-           Builder(
-            builder: (BuildContext context){
-              return Column(
+      body:
+      Builder(
+          builder: (BuildContext context){
+            return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Container(
@@ -77,26 +77,26 @@ class _PastRidesState extends State<PastRides> {
                     ),
                   ),
                   Expanded(
-                    child:FutureBuilder<List>(
-                      future: getRides(),
-                      // ignore: missing_return
-                      builder: (context,ss) {
-                        if (ss.hasError) {
-                          print("ERROR");
-                        }
-                        else if (ss.hasData) {
-                          return Rides(list: ss.data);
-                        }
-                        else {
-                          return CircularProgressIndicator();
-                        }
-                      }
-                    )
+                      child:FutureBuilder<List>(
+                          future: getRides(),
+                          // ignore: missing_return
+                          builder: (context,ss) {
+                            if (ss.hasError) {
+                              print("ERROR");
+                            }
+                            else if (ss.hasData) {
+                              return Rides(list: ss.data);
+                            }
+                            else {
+                              return CircularProgressIndicator();
+                            }
+                          }
+                      )
                   ),
                 ]
-              );
-              }
-           ),
+            );
+          }
+      ),
 //
 //      SingleChildScrollView(
 //        child: Column(
@@ -181,9 +181,9 @@ class Rides extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(3),
                               height: 50,
-                              //width: 60,
+                              width: 60,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: Colors.white,
@@ -212,9 +212,9 @@ class Rides extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(3),
                               height: 50,
-                              //width: 60,
+                              width: 60,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: Colors.white,
@@ -224,7 +224,7 @@ class Rides extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      list[i]["rideDuration"],
+                                      list[i]["min"] + ":" + list[i]["sec"],
                                       style: TextStyle(
                                         fontFamily: 'QuickSand',
                                         fontSize: 15,
@@ -243,7 +243,7 @@ class Rides extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(3),
                               height: 50,
                               //width: 60,
                               decoration: BoxDecoration(
@@ -284,6 +284,6 @@ class Rides extends StatelessWidget {
             ),
           );
         }
-        );
+    );
   }
 }

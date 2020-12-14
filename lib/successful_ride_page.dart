@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:skrrt_app/admin_page.dart';
+import 'package:skrrt_app/home_page.dart';
 
 import 'sign_in.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,11 @@ class SuccessfulRidePage extends State<SuccessfulRide>{
                           ),
                         ),
                         onPressed: () {
-                          Navigator.popUntil(context, ModalRoute.withName('home'));
+                          Navigator.popUntil(context, ModalRoute.withName('tohome'));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home()),
+                          );
                         }
                     ),
                   ]

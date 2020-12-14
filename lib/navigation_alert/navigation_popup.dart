@@ -9,7 +9,7 @@ class NavPopup extends StatelessWidget {
         Flexible(
           flex: 1,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Card(
               color: Color(0xFFFFFFFF),
               shape: RoundedRectangleBorder(

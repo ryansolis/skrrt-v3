@@ -34,6 +34,32 @@ class _HomeState extends State<Home> {
   Color _color = Colors.white;
   Color _color1 = Colors.white;
 
+  String _balance = "₱";
+  int stars = 0,bal=0,amo=0;
+  String amount ="₱";
+
+  void viewBalance() async {
+    //print("hello");
+    var token = await session.get("token");
+    var time = await session.get("time");
+
+    print("here!!!");
+    var url = "http://192.168.1.4/skrrt/balance.php";
+    var data = {
+      "userID": token.toString(),
+    };
+    //print(data);
+
+    var res = await http.post(url,body:data);
+    //print(jsonDecode(res.body));
+
+    List userData = await jsonDecode(res.body);
+    print(userData);
+    bal=int.parse(userData[0]["balance"]);
+    print(bal);
+    setState(() {});
+  }
+
   void _fetchModels() async{
     var url = "http://192.168.1.4/skrrt/home.php";
     var data = {
@@ -87,32 +113,15 @@ class _HomeState extends State<Home> {
         _visible3 = false;
       });
     }
+
+    setState(() {
+
+    });
   }
 
   void rideScooter() async {
-
-    print("hello");
-    var token = await session.get("token");
-    var model = _selected.toString();
-    await session.set("model",model);
+    await session.set("model",_selected);
     await session.set("start",_station);
-
-    var url = "http://192.168.1.4/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
-    var data = {
-      "start": _station,
-      "userID": token.toString(),
-      "date": DateTime.now().toString()
-    };
-
-    var res = await http.post(url,body:data);
-    //print(jsonDecode(res.body));
-    List userData = await jsonDecode(res.body);
-
-    //var scooterID = userData[0]["scooter"];
-    var rideID = userData[0]["lastID"];
-    print(rideID);
-
-    await session.set("rideID",rideID);
   }
 
 
@@ -135,6 +144,7 @@ class _HomeState extends State<Home> {
   void initState(){
     super.initState();
     setCustomMarker();
+    viewBalance();
   }
 
   void setCustomMarker() async{
@@ -444,15 +454,25 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   onPressed: () {
-                    if(_selected != ""){
-                      rideScooter();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RentScooter()),
-                      );
+                    if(bal>=20) {
+                      if (_selected != "") {
+                        rideScooter();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RentScooter()),
+                        );
+                      }
+                      else {
+                        Fluttertoast.showToast(
+                            msg: "Please select model of scooter.",
+                            toastLength: Toast.LENGTH_SHORT);
+                      }
                     }
                     else{
-                      Fluttertoast.showToast(msg: "Please select model of scooter.",toastLength: Toast.LENGTH_SHORT);
+                      Fluttertoast.showToast(
+                          msg: "Load up your SKRRT Wallet to book a ride.",
+                          toastLength: Toast.LENGTH_SHORT);
                     }
                   }
               ),
@@ -684,15 +704,25 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   onPressed: () {
-                    if(_selected != ""){
-                      rideScooter();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RentScooter()),
-                      );
+                    if(bal>=20) {
+                      if (_selected != "") {
+                        rideScooter();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RentScooter()),
+                        );
+                      }
+                      else {
+                        Fluttertoast.showToast(
+                            msg: "Please select model of scooter.",
+                            toastLength: Toast.LENGTH_SHORT);
+                      }
                     }
                     else{
-                      Fluttertoast.showToast(msg: "Please select model of scooter.",toastLength: Toast.LENGTH_SHORT);
+                      Fluttertoast.showToast(
+                          msg: "Load up your SKRRT Wallet to book a ride.",
+                          toastLength: Toast.LENGTH_SHORT);
                     }
                   }
               ),
@@ -924,16 +954,26 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   onPressed: () {
-                    if(_selected != ""){
-                      rideScooter();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RentScooter()),
-                      );
+                    if(bal>=20) {
+                      if (_selected != "") {
+                        rideScooter();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RentScooter()),
+                        );
+                      }
+                      else {
+                        Fluttertoast.showToast(
+                            msg: "Please select model of scooter.",
+                            toastLength: Toast.LENGTH_SHORT);
+                      }
                     }
                     else{
-                      Fluttertoast.showToast(msg: "Please select model of scooter.",toastLength: Toast.LENGTH_SHORT);
-                    }
+                        Fluttertoast.showToast(
+                          msg: "Load up your SKRRT Wallet to book a ride.",
+                          toastLength: Toast.LENGTH_SHORT);
+                        }
                   }
               ),
             ),
@@ -1154,16 +1194,25 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   onPressed: () {
-                    if(_selected != ""){
-                      print("fuck");
-                      rideScooter();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RentScooter()),
-                      );
+                    if(bal>=20) {
+                      if (_selected != "") {
+                        rideScooter();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RentScooter()),
+                        );
+                      }
+                      else {
+                        Fluttertoast.showToast(
+                            msg: "Please select model of scooter.",
+                            toastLength: Toast.LENGTH_SHORT);
+                      }
                     }
                     else{
-                      Fluttertoast.showToast(msg: "Please select model of scooter.",toastLength: Toast.LENGTH_SHORT);
+                      Fluttertoast.showToast(
+                          msg: "Load up your SKRRT Wallet to book a ride.",
+                          toastLength: Toast.LENGTH_SHORT);
                     }
                   }
               ),

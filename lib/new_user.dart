@@ -323,7 +323,10 @@ class _NewUserState extends State<NewUser> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context).pushNamed('home');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => Home()),
+                                    );
                                   }
                               ),
                             )

@@ -33,6 +33,31 @@ class _RentScooterState extends State<RentScooter> {
     toNavigation(context);
   }
 
+  void rideScooter() async {
+
+    print("hello");
+    var token = await session.get("token");
+    var start = await session.get("start");
+
+    var url = "http://192.168.1.4/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
+    var data = {
+      "userID": token.toString(),
+      "date": DateTime.now().toString(),
+      "start": start,
+      "scooterID": _sctID
+    };
+
+    var res = await http.post(url,body:data);
+    //print(jsonDecode(res.body));
+    List userData = await jsonDecode(res.body);
+
+    //var scooterID = userData[0]["scooter"];
+    var rideID = userData[0]["lastID"];
+    print(rideID);
+
+    await session.set("rideID",rideID);
+  }
+
   void setAvail() async{
     var session = FlutterSession();
     var url = "http://192.168.1.4/skrrt/scooterAvail.php";
@@ -46,17 +71,20 @@ class _RentScooterState extends State<RentScooter> {
     var res = await http.post(url,body: data);
   }
 
+  String mod = "";
+
   Future _testID() async{
     var session = FlutterSession();
     var url = "http://192.168.1.4/skrrt/chooseSctr.php";
     var model = await session.get("model");
+    mod = model;
     var start = await session.get("start");
-    //var rideID = await session.get("rideID");
+    print("hello");
+    print(model); print(start);
 
     var data={
       "model": model,
       "start": start,
-      //"rideID": rideID.toString(),
     };
     var res = await http.post(url,body: data);
 
@@ -74,6 +102,7 @@ class _RentScooterState extends State<RentScooter> {
     speed=scoot[0]['speed'].toString();
     available=scoot[0]['available'].toString();
 
+    await session.set("scooterID",_sctID);
     setState(() {});
   }
   void toNavigation(BuildContext context){
@@ -332,7 +361,7 @@ class _RentScooterState extends State<RentScooter> {
                         height: MediaQuery.of(context).size.height*.24,
                         left: -50.0,
                         top: 25.0,
-                        child: Image(image: AssetImage('assets/scooter_phoenix.png'))
+                        child: (mod == "Phoenix") ? Image(image: AssetImage('assets/scooter_phoenix.png')): Image(image: AssetImage('assets/scooter_yami.png'))
                       ),
                     ],
                   ),
@@ -429,19 +458,26 @@ class _RentScooterState extends State<RentScooter> {
                             ),
                           ),
                           onPressed: () {
+                            rideScooter();
                             setAvail();
-                            _scan();
-                            if (_cameraScanResult.isNotEmpty){
-                              Navigator.pop(context);
+                            Navigator.pop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Navigation()),
                               );
-                            }
-                            else{
-                              Fluttertoast.showToast(msg: "Scooter is currently in use, please choose another model.",toastLength: Toast.LENGTH_SHORT);
-                            }
+                            // _scan();
+                            // if (_cameraScanResult.isNotEmpty){
+                            //   Navigator.pop(context);
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => Navigation()),
+                            //   );
+                            // }
+                            // else{
+                            //   Fluttertoast.showToast(msg: "Scooter is currently in use, please choose another model.",toastLength: Toast.LENGTH_SHORT);
+                            // }
                           }
                       ),
                     ),

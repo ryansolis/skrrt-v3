@@ -20,23 +20,24 @@ class _AccountState extends State<Account> {
   TextEditingController _changeUsername = TextEditingController();
   TextEditingController _changePass = TextEditingController();
   var change1 = 0,change2 = 0;
-
+  List userData;
   var session = FlutterSession();
   var token;
-  String _fullName="",fname="",lname="",_username="",pass="",_phoneNum="",_idNo="",_bdate="",_course,_year="";
+  String _fullName="",fname="",lname="",_username="",pass="",_phoneNum="",_idNo="",_bdate="",_course,_year="",wallet = '';
   String userChanged="", passChanged="";
   void getUserData() async{
 
-    var token = await session.get("token");
+    token = await session.get("token");
     //print(token);
     var url = "http://192.168.1.4/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };
-
+    //print(data);
     var res = await http.post(url,body: data);
     //print(res.body);
-    List userData = await jsonDecode(res.body);
+    userData = await jsonDecode(res.body);
+    //print(userData);
     fname = userData[0]['fname'];
     lname = userData[0]['lname'];
     _username = userData[0]['username'];
@@ -46,27 +47,29 @@ class _AccountState extends State<Account> {
     _bdate= userData[0]['bdate'];
     _course = userData[0]['course'];
     _year = userData[0]['year'];
+    wallet = userData[0]['wallet'];
     _fullName = fname + " " +  lname;
-    print(userData.toString());
+    //print(userData.toString());
 
     _changeUsername.text = _username;
     _changePass.text = pass;
-    print(_changeUsername.text);
-    print(_changePass.text);
+    //print(_changeUsername.text);
+    //print(_changePass.text);
     await session.set("token",token);
     setState(() {});
   }
 
   void updateUser() async{
-//    print(token);
-//    print(userChanged);
-//    print(passChanged);
+    print(token);
+    print(userChanged);
+    print(passChanged);
     var url = "http://192.168.1.6/skrrt/updateUser.php";
     var data = {
       "userID": token.toString(),
       "username": userChanged,
       "pass": passChanged,
     };
+    print(data);
     await http.post(url,body: data);
     Fluttertoast.showToast(msg: "Change Successful! Pls reload page.",toastLength: Toast.LENGTH_SHORT);
   }
@@ -94,14 +97,14 @@ class _AccountState extends State<Account> {
             },
           ),
           FlatButton(
-            child: Text("Yes"),
-            onPressed: () {
-              passChanged = _changePass.text;
-              userChanged = _changeUsername.text;
-              updateUser();
-              //Navigator.pop(context);
-              Navigator.pop(context);
-            }
+              child: Text("Yes"),
+              onPressed: () {
+                passChanged = _changePass.text;
+                userChanged = _changeUsername.text;
+                updateUser();
+                //Navigator.pop(context);
+                Navigator.pop(context);
+              }
           )
 
         ],
@@ -224,24 +227,24 @@ class _AccountState extends State<Account> {
                 padding: EdgeInsets.all(15.0),
                 child: Center(
                   child: Column(
-                    children: <Widget>[
-                      Image(
-                        width: 200,
-                        height: 120,
-                        image: AssetImage('assets/jess-brobrero.png'),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text(
-                          "$_fullName",
-                          style: TextStyle(
-                            fontFamily: 'Quicksand',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
+                      children: <Widget>[
+                        Image(
+                          width: 200,
+                          height: 120,
+                          image: AssetImage('assets/jess-brobrero.png'),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text(
+                            "$_fullName",
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                            ),
                           ),
                         ),
-                      ),
-                    ]
+                      ]
                   ),
                 )
             ),

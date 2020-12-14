@@ -4,6 +4,7 @@ import 'package:skrrt_app/payment_page.dart';
 import 'package:skrrt_app/successful_ride_page.dart';
 import 'home_page.dart';
 import 'launch_page.dart';
+import 'new_user.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -11,7 +12,7 @@ void main() {
     title: "Skrrt",
     home: LaunchPage(),
     routes:{
-      'home':(context) => Home(),
+      'tohome':(context) => NewUser(),
     }
   ));
 }

@@ -32,7 +32,10 @@ class _NavigationState extends State<Navigation> {
   var session = FlutterSession();
 
   void rideDuration() async {
-    await session.set("time", _stopwatch.elapsed.inMinutes);
+    if(_stopwatch.elapsed.inSeconds % 60 >= 30)
+      await session.set("time", _stopwatch.elapsed.inMinutes + 1);
+    else
+      await session.set("time", _stopwatch.elapsed.inMinutes);
   }
   void save() async {
     rideID = await session.get("rideID");
@@ -112,7 +115,7 @@ class _NavigationState extends State<Navigation> {
       _markers.add(
           Marker(
             markerId: MarkerId('id-5'),
-            position: LatLng(10.283813,123.8590903),
+            position: LatLng(37.4219983,-122.084),
             infoWindow: InfoWindow(
               title: 'Test Destination',
             ),
@@ -309,21 +312,28 @@ class _NavigationState extends State<Navigation> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  if (_hasPressedDone==false){
-                                    _hasPressedDone=true;
-                                    checkParkingDistance().then((value) {
-                                      if (value){
-                                        _hasParked = true;
-                                        rideDuration();
-                                        stopTimeElapsed();
-                                        save();
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => PaymentPage()),
-                                        );
-                                      }
-                                    });
-                                  }
+                                  rideDuration();
+                                  stopTimeElapsed();
+                                  save();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => PaymentPage()),
+                                  );
+                                  // if (_hasPressedDone==false){
+                                  //   _hasPressedDone=true;
+                                  //   checkParkingDistance().then((value) {
+                                  //     if (value){
+                                  //       _hasParked = true;
+                                  //       rideDuration();
+                                  //       stopTimeElapsed();
+                                  //       save();
+                                  //       Navigator.push(
+                                  //         context,
+                                  //         MaterialPageRoute(builder: (context) => PaymentPage()),
+                                  //       );
+                                  //     }
+                                  //   });
+                                  // }
                                 }
                             ),
                           ],

@@ -46,10 +46,7 @@ class _SignInState extends State<SignIn> {
         var userId = (data[0]["userID"]);
         await session.set("token", userId);
         print(userId);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NewUser()),
-        );
+        Navigator.of(context).pushNamed('tohome');
       }
     }
   }
