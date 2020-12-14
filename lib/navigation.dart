@@ -40,7 +40,7 @@ class _NavigationState extends State<Navigation> {
   }
   void save() async {
     rideID = await session.get("rideID");
-    var url = "http://192.168.1.4/skrrt/rideFinish.php";
+    var url = "http://127.0.0.1/skrrt/rideFinish.php";
     var data = { // save duration in secs, distance & destination
       "rideID": rideID.toString(),
       "endLocation": endLocation.toString(),

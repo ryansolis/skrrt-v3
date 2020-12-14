@@ -75,7 +75,7 @@ class _RentScooterState extends State<RentScooter> {
 
   Future _testID() async{
     var session = FlutterSession();
-    var url = "http://192.168.1.4/skrrt/chooseSctr.php";
+    var url = "http://127.0.0.1/skrrt/chooseSctr.php";
     var model = await session.get("model");
     mod = model;
     var start = await session.get("start");

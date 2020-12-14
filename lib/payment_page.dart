@@ -106,7 +106,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
     var _amount = time * 2 + 2;
     print("halo");
-    var url = "http://192.168.1.4/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
+    var url = "http://127.0.0.1/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
       "rideID" : _rideID.toString(),
       "time":time.toString(),
