@@ -56,6 +56,7 @@ class _ForgotPassState extends State<ForgotPass> {
   Widget _buildUsername(){
     return TextFormField(
       controller: _user,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
           hintText: 'Username',
           hintStyle: TextStyle(
@@ -90,6 +91,7 @@ class _ForgotPassState extends State<ForgotPass> {
   Widget _buildID(){
     return TextFormField(
       controller: _idno,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
           hintText: 'ID Number',
           hintStyle: TextStyle(

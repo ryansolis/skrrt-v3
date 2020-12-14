@@ -37,14 +37,12 @@ class _NewPassState extends State<NewPass> {
 
     var data = {
       "id": id,
-      "password": _pass1,
+      "password": _pass1.text,
     };
     print(data);
     var res = await http.post(url,body: data);
     print(jsonDecode(res.body));
-    if(jsonDecode(res.body) == "Success"){
-      Fluttertoast.showToast(msg: "Successfully changed your password!.",toastLength: Toast.LENGTH_SHORT);
-    }
+
   }
 
   Widget _buildPassword1() {
@@ -53,6 +51,7 @@ class _NewPassState extends State<NewPass> {
         children: <Widget>[
           TextFormField(
             controller: _pass1,
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(
               hintText: 'New Password',
               contentPadding: const EdgeInsets.all(15.0),
@@ -231,7 +230,6 @@ class _NewPassState extends State<NewPass> {
                                               _formKey.currentState.save();
                                               if(_password1 == _password2){
                                                 newPass();
-                                                Navigator.pop(context);
                                                 Navigator.pop(context);
                                                 Navigator.pop(context);
                                               }
