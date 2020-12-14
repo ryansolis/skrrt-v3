@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,6 +21,7 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   Set<Marker> _markers ={};
+  BitmapDescriptor mapMarker;
   bool _hasPressedDone = false, _hasParked = false;
   GoogleMapController _controller;
   Location _location = Location();
@@ -32,10 +36,7 @@ class _NavigationState extends State<Navigation> {
   var session = FlutterSession();
 
   void rideDuration() async {
-    if(_stopwatch.elapsed.inSeconds % 60 >= 30)
-      await session.set("time", _stopwatch.elapsed.inMinutes + 1);
-    else
-      await session.set("time", _stopwatch.elapsed.inMinutes);
+    await session.set("time", _stopwatch.elapsed.inMinutes);
   }
   void save() async {
     rideID = await session.get("rideID");
@@ -74,12 +75,29 @@ class _NavigationState extends State<Navigation> {
       return MediaQuery.of(context).size.width*0.45;
   }
 
+  void setCustomMarker() async{
+    mapMarker = await getBitmapDescriptorFromAssetBytes("assets/skrrt_marker1.png", 75);
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+  }
+
+  Future<BitmapDescriptor> getBitmapDescriptorFromAssetBytes(String path, int width) async {
+    final Uint8List imageData = await getBytesFromAsset(path, width);
+    return BitmapDescriptor.fromBytes(imageData);
+  }
+
   void _onMapCreated(GoogleMapController controller){
     setState(() {
       _markers.add(
           Marker(
             markerId: MarkerId('id-1'),
             position: LatLng(10.295666, 123.880472),
+            icon: mapMarker,
             infoWindow: InfoWindow(
               title: 'CIT Parking Area',
             ),
@@ -89,6 +107,7 @@ class _NavigationState extends State<Navigation> {
           Marker(
               markerId: MarkerId('id-2'),
               position: LatLng(10.295235, 123.880835),
+              icon: mapMarker,
               infoWindow: InfoWindow(
                   title: 'CIT Main Library',
               ),
@@ -98,6 +117,7 @@ class _NavigationState extends State<Navigation> {
           Marker(
               markerId: MarkerId('id-3'),
               position: LatLng(10.296086, 123.880536),
+              icon: mapMarker,
               infoWindow: InfoWindow(
                   title: 'Main Canteen',
               ),
@@ -107,6 +127,7 @@ class _NavigationState extends State<Navigation> {
           Marker(
             markerId: MarkerId('id-4'),
             position: LatLng(10.295484, 123.880038),
+            icon: mapMarker,
             infoWindow: InfoWindow(
               title: 'CIT Engineering Bldg.',
             ),
@@ -115,7 +136,8 @@ class _NavigationState extends State<Navigation> {
       _markers.add(
           Marker(
             markerId: MarkerId('id-5'),
-            position: LatLng(37.4219983,-122.084),
+            position: LatLng(10.283813,123.8590903),
+            icon: mapMarker,
             infoWindow: InfoWindow(
               title: 'Test Destination',
             ),
@@ -222,6 +244,7 @@ class _NavigationState extends State<Navigation> {
   @override
   void initState() {
     super.initState();
+    setCustomMarker();
     startTimeElapsed();
   }
 
@@ -253,7 +276,7 @@ class _NavigationState extends State<Navigation> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(distanceTravelled.toString()+"m",
+                              Text(distanceTravelled.toStringAsFixed(2)+"m",
                                 style: TextStyle(
                                   color: Color(0xFF0E0E0E),
                                   fontFamily: 'Quicksand',
@@ -312,28 +335,21 @@ class _NavigationState extends State<Navigation> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  rideDuration();
-                                  stopTimeElapsed();
-                                  save();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => PaymentPage()),
-                                  );
-                                  // if (_hasPressedDone==false){
-                                  //   _hasPressedDone=true;
-                                  //   checkParkingDistance().then((value) {
-                                  //     if (value){
-                                  //       _hasParked = true;
-                                  //       rideDuration();
-                                  //       stopTimeElapsed();
-                                  //       save();
-                                  //       Navigator.push(
-                                  //         context,
-                                  //         MaterialPageRoute(builder: (context) => PaymentPage()),
-                                  //       );
-                                  //     }
-                                  //   });
-                                  // }
+                                  if (_hasPressedDone==false){
+                                    _hasPressedDone=true;
+                                    checkParkingDistance().then((value) {
+                                      if (value){
+                                        _hasParked = true;
+                                        rideDuration();
+                                        stopTimeElapsed();
+                                        save();
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => PaymentPage()),
+                                        );
+                                      }
+                                    });
+                                  }
                                 }
                             ),
                           ],
