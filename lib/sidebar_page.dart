@@ -18,7 +18,7 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
 
-  var first_name = "",last_name= "", ridesTaken;
+  var first_name = "",last_name= "", ridesTaken,isAdmin;
   var token;
   List ridesT;
   FlutterSession session = new FlutterSession();
@@ -37,7 +37,7 @@ class _SideBarState extends State<SideBar> {
     first_name = ridesT[0]['fName'];
     last_name = ridesT[0]['lName'];
     ridesTaken = ridesT[0]['rideCount'];
-
+    isAdmin = ridesT[0]['isAdmin'];
     setState(() {});
   }
 
@@ -167,6 +167,7 @@ class _SideBarState extends State<SideBar> {
                         }));
                       },
                     ),
+                    if(isAdmin)
                     ListTile(
                         leading: SizedBox(
                           height: 35.0,
