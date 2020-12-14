@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'sign_up.dart';
-import 'new_user.dart';
+import 'package:skrrt_app/newpass.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -15,39 +14,77 @@ class ForgotPass extends StatefulWidget {
 class _ForgotPassState extends State<ForgotPass> {
   String _idnum;
   String _phonenum;
+  String _username;
+  bool viewPass = true;
+  double btmpad = 0;
+
   var session = FlutterSession();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _idno = TextEditingController();
   TextEditingController _no = TextEditingController();
+  TextEditingController _user = TextEditingController();
+  TextEditingController _pass = TextEditingController();
 
-  void userLogin() async{
+  void recoverAcc() async{
     var url = "http://192.168.1.4/skrrt/recoveracc.php";
     var data = {
+      "username": _username,
       "id": _idno.text,
       "mobile":_no.text,
     };
-
+    print(data);
     var res = await http.post(url,body: data);
-    if(jsonDecode(res.body) == "No account"){
+    print(jsonDecode(res.body));
+    if(jsonDecode(res.body) == "No account found"){
       Fluttertoast.showToast(msg: "Account doesn't exist!",toastLength: Toast.LENGTH_SHORT);
     }
-    else{
-      if(jsonDecode(res.body) == "false"){
-        Fluttertoast.showToast(msg: "Incorrect password",toastLength: Toast.LENGTH_SHORT);
-      }
-      else{
-        //print(jsonDecode(res.body));
-        List data = jsonDecode(res.body);
-        var userId = (data[0]["userID"]);
-        await session.set("token", userId);
 
+    else if (jsonDecode(res.body) == "Success"){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => NewUser()),
+          MaterialPageRoute(builder: (context) => NewPass()),
         );
-      }
     }
+    else{
+      Fluttertoast.showToast(msg: "Wrong information. No account found.",toastLength: Toast.LENGTH_SHORT);
+    }
+
+    await session.set("id", _idno.text);
+  }
+
+  Widget _buildUsername(){
+    return TextFormField(
+      controller: _user,
+      decoration: InputDecoration(
+          hintText: 'Username',
+          hintStyle: TextStyle(
+            fontFamily: 'Quicksand',
+            fontSize: 16.0,
+          ),
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: Icon(
+              Icons.face_rounded,
+              color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
+              size: 15,
+            ),
+          )
+      ),
+      style: TextStyle(
+        fontFamily: 'Quicksand',
+        fontSize: 16.0,
+        color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
+      keyboardType: TextInputType.text,
+      validator: (username){
+        if (username.isEmpty) {
+          return 'Username is required.';
+        }
+        else
+          return null;
+      },
+      onSaved: (username)=> _username = username,
+    );
   }
 
   Widget _buildID(){
@@ -73,12 +110,14 @@ class _ForgotPassState extends State<ForgotPass> {
         fontSize: 16.0,
         color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
       keyboardType: TextInputType.text,
-      validator: (id){
-        if (id.isEmpty) {
-          return 'ID Number is required.';
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'ID No. is Required.';
         }
-        else
-          return null;
+        else if(!RegExp('[0-9]{2}[-][0-9]{4}[-][0-9]{3}\$').hasMatch(value)){
+          return 'Must be in correct format (ex: 12-2525-969)';
+        }
+        else return null;
       },
       onSaved: (id)=> _idnum = id,
     );
@@ -106,14 +145,15 @@ class _ForgotPassState extends State<ForgotPass> {
         fontFamily: 'Quicksand',
         fontSize: 16.0,
         color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),),
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      validator: (phone){
-        if (phone.isEmpty) {
-          return 'Phone Number is required.';
+      keyboardType: TextInputType.number,
+      validator: (value){
+        if(value.isEmpty){
+          return 'Phone No. is required.';
         }
-        else
-          return null;
+        else if(!RegExp('[0][9][0-9]{9}\$').hasMatch(value)){
+          return 'Must begin with 09 first and must only be 11 digits.';
+        }
+        else return null;
       },
       onSaved: (phone)=> _phonenum = phone,
     );
@@ -131,12 +171,15 @@ class _ForgotPassState extends State<ForgotPass> {
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         //SizedBox(height: MediaQuery.of(context).size.height * 0.0001,),
                         Container(
                             child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
                                   Image(
                                     image: AssetImage("assets/skrrt_logo1.jpg"),
                                     height: 100,
@@ -162,11 +205,15 @@ class _ForgotPassState extends State<ForgotPass> {
                                 key: _formKey,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.10,),
+                                    _buildUsername(),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                                     _buildID(),
                                     SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                                     _buildPhone(),
-                                    SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                                     RaisedButton(
                                         padding: EdgeInsets.all(12.0),
                                         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
@@ -183,7 +230,11 @@ class _ForgotPassState extends State<ForgotPass> {
                                         onPressed: () {
                                           if(_formKey.currentState.validate()){
                                             _formKey.currentState.save();
-                                            userLogin();
+                                            recoverAcc();
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(builder: (context) => NewPass()),
+                                            // );
                                           }
 
                                         }
