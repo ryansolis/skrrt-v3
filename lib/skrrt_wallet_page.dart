@@ -21,51 +21,14 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
   var _month = ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ];
   var _currentMonthSelected = 'Jan';
   var _wallet = '125';
-  var _rideExpense = '';
-  var _prevExpense = '';
+  var _rideExpense = '143';
 
   //DB functionality
-
-  void getExpenses(int mo) async{
-    var token = await session.get("token");
-    //print(token);
-    var url = "http://192.168.1.14/skrrt/getExpenses.php";
-    var data = {
-      "userID": token.toString(),
-      "monthS":"2020-"+mo.toString()+"-01",
-      "monthF":"2020-"+mo.toString()+"-31",
-    };
-    print(data);
-    var res = await http.post(url,body:data);
-    //print(jsonDecode(res.body));
-
-    List exp = await jsonDecode(res.body);
-    print(exp);
-    _rideExpense = exp[0]["sum"];
-    print(_rideExpense);
-
-    data = {
-      "userID": token.toString(),
-      "monthS":"2020-"+(mo-1).toString()+"-01",
-      "monthF":"2020-"+(mo-1).toString()+"-31",
-    };
-    print(data);
-    res = await http.post(url,body:data);
-    //print(jsonDecode(res.body));
-
-    exp = await jsonDecode(res.body);
-    print(exp);
-    _prevExpense = exp[0]["sum"];
-    print(_prevExpense);
-    await session.set("token",token);
-    setState(() {});
-  }
-
-  void getUserData() async{
+  /*void getUserData() async{
 
     var token = await session.get("token");
-    //print(token);
-    var url = "http://192.168.1.14/skrrt/getStudentData.php";
+    print(token);
+    var url = "http://192.168.1.9/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };
@@ -74,14 +37,14 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
 
     List userData = await jsonDecode(res.body);
 
-    //print(userData.toString());
+    print(userData.toString());
     _wallet = userData[0]["wallet"];
     await session.set("token",token);
     setState(() {});
-  }
+  }*/
   @override
   Widget build(BuildContext context) {
-    getUserData();
+    //getUserData();
     return Scaffold(
       backgroundColor: Colors.white,
       key: _scaffoldKey,
@@ -229,7 +192,6 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                                       );
                                     }).toList(),
                                     onChanged: (String newMonthSelected){
-                                      getExpenses(_month.indexOf(newMonthSelected)+1);
                                       setState(() {
                                         this. _currentMonthSelected = newMonthSelected;
                                       });
@@ -243,7 +205,8 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                             padding: EdgeInsets.only(left: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[/*
+                              children: <Widget>[
+
                                 if(_currentMonthSelected!='Nov'&&_currentMonthSelected!='Dec')
                                   Text(
                                     '0.00',
@@ -264,9 +227,9 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                                       fontWeight: FontWeight.normal
                                   ),
                                 ),
-                                if(_currentMonthSelected=='Dec')*/
+                                if(_currentMonthSelected=='Dec')
                                   Text(
-                                    '₱'+'$_rideExpense'+'.00',
+                                    '55.00',
                                     style: TextStyle(
                                       //color: Color(0xFF05C853),
                                         fontFamily: "Montserrat",
@@ -274,25 +237,14 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                                         fontWeight: FontWeight.normal
                                     ),
                                   ),
-
-                                _prevExpense==null ?
                                 Text(
-                                    '+.00',
+                                    '+0.00',
                                     style: TextStyle(
                                         color: Color(0xFF05C853),
                                         fontFamily: "Montserrat",
                                         fontSize: 15,
                                         fontWeight: FontWeight.normal
                                     ),
-                                ):
-                                Text(
-                                  (int.parse(_prevExpense.toString())-int.parse(_rideExpense.toString())).toString()+'.00',
-                                  style: TextStyle(
-                                      color: Color(0xFF05C853),
-                                      fontFamily: "Montserrat",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.normal
-                                  ),
                                 ),
                               ]
                             ),
