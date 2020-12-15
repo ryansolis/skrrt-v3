@@ -27,13 +27,13 @@ class _PastRidesState extends State<PastRides> {
   Future<List> getRides() async{
     token = await session.get("token");
     print(token);
-    var url = "http://192.168.1.4/skrrt/getRides.php";
+    var url = "http://192.168.1.14/skrrt/getRides.php";
     var data = {
       "userID": token.toString(),
     };
 
     var res = await http.post(url,body: data);
-    //print(res.body);
+    print(res.body);
     return await jsonDecode(res.body);
   }
 
@@ -255,7 +255,7 @@ class Rides extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      "₱" + list[i]["rideFare"],
+                                      "₱" + list[i]["rideFare"].toString(),
                                       style: TextStyle(
                                         fontFamily: 'QuickSand',
                                         fontSize: 15,

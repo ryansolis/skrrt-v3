@@ -4,6 +4,7 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:skrrt_app/admin_page.dart';
 import 'account_page.dart';
 import 'past_rides_page.dart';
+//import 'home_page.dart';
 import 'skrrt_wallet_page.dart';
 import 'sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -18,22 +19,22 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
 
-  var first_name = "",last_name= "", ridesTaken,isAdmin;
+  var first_name = "",last_name= "", ridesTaken="",isAdmin="";
   var token;
   List ridesT;
   FlutterSession session = new FlutterSession();
 
   void getRidesTaken() async{
     token = await session.get("token");
-    var url = "http://192.168.1.4/skrrt/ridesTaken-Name.php";
+    var url = "http://192.168.1.14/skrrt/ridesTaken-Name.php";
     var data = {
       "userid": token.toString(),
     };
-    //print(data);
+    print(data);
     var res = await http.post(url,body: data);
-    //print(res.body);
+    print(res.body);
     ridesT = await jsonDecode(res.body);
-
+    print(ridesT.toString());
     first_name = ridesT[0]['fName'];
     last_name = ridesT[0]['lName'];
     ridesTaken = ridesT[0]['rideCount'];
@@ -95,7 +96,7 @@ class _SideBarState extends State<SideBar> {
                                     Text(first_name + " " + last_name ,style: TextStyle(
                                         fontSize: 20, fontWeight: FontWeight.bold, fontFamily: "Quicksand"
                                     ),),
-                                    Text( ridesTaken + " rides taken", style: TextStyle(
+                                    Text( ridesTaken.toString() + " rides taken", style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.white,
                                         fontFamily: "Quicksand"
@@ -167,7 +168,7 @@ class _SideBarState extends State<SideBar> {
                         }));
                       },
                     ),
-                    if(isAdmin)
+                    if(isAdmin=="1")
                     ListTile(
                         leading: SizedBox(
                           height: 35.0,
