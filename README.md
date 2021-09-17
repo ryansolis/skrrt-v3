@@ -1,6 +1,6 @@
 # skrrt_app
 
-Skrrt
+SKRRT is a scooter rental service app prototype for Software Engineering 2.
 
 ## Getting Started
 
