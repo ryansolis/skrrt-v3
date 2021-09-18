@@ -43,7 +43,7 @@ class _AdminPageState extends State<AdminPage> {
 
   void viewRevenue() async{
 
-    var url = "http://192.168.1.4/skrrt/viewRevenue.php";
+    var url = "http://192.168.1.17/skrrt/viewRevenue.php";
     var data = {
       "month": _currentMonthSelected,
     };
@@ -62,7 +62,7 @@ class _AdminPageState extends State<AdminPage> {
 
   void viewRides() async{
 
-    var url = "http://192.168.1.4/skrrt/viewRides.php";
+    var url = "http://192.168.1.17/skrrt/viewRides.php";
     var data = {
       "month": _currentMonthSelected1,
     };

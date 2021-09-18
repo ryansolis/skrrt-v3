@@ -6,7 +6,7 @@ import 'account_page.dart';
 import 'past_rides_page.dart';
 //import 'home_page.dart';
 import 'skrrt_wallet_page.dart';
-import 'sign_in.dart';
+import 'login-module.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -26,7 +26,7 @@ class _SideBarState extends State<SideBar> {
 
   void getRidesTaken() async{
     token = await session.get("token");
-    var url = "http://192.168.1.14/skrrt/ridesTaken-Name.php";
+    var url = "http://192.168.1.17/skrrt/ridesTaken-Name.php";
     var data = {
       "userid": token.toString(),
     };
@@ -204,7 +204,7 @@ class _SideBarState extends State<SideBar> {
                             title: Text('Sign out',style: TextStyle(fontSize: 18,color: Colors.white,fontFamily: "Quicksand"),),
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return SignIn();
+                                return LoginView();
                               }));
                             },
                           ),

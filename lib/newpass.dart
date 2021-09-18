@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:skrrt_app/sign_in.dart';
+import 'package:skrrt_app/login-module.dart';
 import 'sign_up.dart';
 import 'new_user.dart';
 import 'package:http/http.dart' as http;
@@ -31,7 +31,7 @@ class _NewPassState extends State<NewPass> {
   double btmpad2 = 0;
 
   void newPass() async{
-    var url = "http://192.168.1.4/skrrt/newpass.php";
+    var url = "http://192.168.1.17/skrrt/newpass.php";
 
     var id = await session.get("id");
 

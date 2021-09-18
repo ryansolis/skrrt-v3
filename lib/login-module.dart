@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'sign_up.dart';
-import 'new_user.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
 import 'forgot_pass.dart';
+//unused imports
+//import 'new_user.dart';
+//import 'dart:async';
 
-class SignIn extends StatefulWidget {
+class LoginView extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _LoginController createState() => _LoginController();
 }
 
-class _SignInState extends State<SignIn> {
+class _LoginController extends State<LoginView> {
+  // ignore: unused_field
   String _username;
+  // ignore: unused_field
   String _password;
   var session = FlutterSession();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -26,7 +29,7 @@ class _SignInState extends State<SignIn> {
   double btmpad = 0;
 
   void userLogin() async{
-    var url = "http://192.168.1.4/skrrt/login.php";
+    var url = "http://192.168.1.17/skrrt/login.php";
     var data = {
     "username": _user.text,
     "pass":_pass.text,
@@ -129,8 +132,7 @@ class _SignInState extends State<SignIn> {
             padding: EdgeInsets.only(bottom: btmpad),
             child:
             IconButton(
-                icon: IconButton(
-                    icon: Icon(Icons.visibility,
+                icon: Icon(Icons.visibility,
                       size: 20,
                     ),
                     onPressed: () {
@@ -138,9 +140,8 @@ class _SignInState extends State<SignIn> {
                         viewPass = !viewPass;
                       });
                     }
-                )
+                ),
             ),
-          )
     ]
     );
   }
@@ -192,11 +193,12 @@ class _SignInState extends State<SignIn> {
                                   SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                                   _buildPassword(),
                                   SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
-                                  RaisedButton(
-                                      padding: EdgeInsets.all(12.0),
-                                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                      color: Color(0xff00A8E5),
-                                      disabledColor: Colors.blue,//add this to your code
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.all(12.0),
+                                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                        primary: Color(0xff00A8E5),
+                                      ),
                                       child: Text(''
                                           'LOG IN',
                                         style: TextStyle(

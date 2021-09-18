@@ -27,7 +27,7 @@ class _ForgotPassState extends State<ForgotPass> {
   TextEditingController _pass = TextEditingController();
 
   void recoverAcc() async{
-    var url = "http://192.168.1.4/skrrt/recoveracc.php";
+    var url = "http://192.168.1.17/skrrt/recoveracc.php";
     var data = {
       "username": _username,
       "id": _idno.text,
