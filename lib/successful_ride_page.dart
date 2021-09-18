@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:skrrt_app/admin_page.dart';
 import 'package:skrrt_app/home_page.dart';
 
-import 'sign_in.dart';
+import 'login-module.dart';
 import 'package:flutter/material.dart';
 
 class SuccessfulRide extends StatefulWidget {

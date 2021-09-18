@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:skrrt_app/admin_page.dart';
 
-import 'sign_in.dart';
+import 'login-module.dart';
 import 'package:flutter/material.dart';
 
 class LaunchPage extends StatefulWidget {
@@ -25,7 +25,7 @@ class StartState extends State<LaunchPage>{
   
   route(){
     Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => SignIn()
+        builder: (context) => LoginView()
     ));
   }
 
