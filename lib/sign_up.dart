@@ -1,4 +1,4 @@
-import 'dart:io';
+//import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class _SignUpState extends State<SignUp> {
 
  void registerData() async {
    //print("YES1");
-   var url = "http://192.168.1.6/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   var url = "http://192.168.1.17/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
    var data = {
            "first": fname.text,
            "last": lname.text,
@@ -821,8 +821,7 @@ class _SignUpState extends State<SignUp> {
                           color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                         )
                     ),
-                    inputFormatter: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
-
+                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                   Visibility(
