@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'sign_up.dart';
+import 'sign-up-module.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'forgot_pass.dart';
@@ -29,7 +29,7 @@ class _LoginController extends State<LoginView> {
   double btmpad = 0;
 
   void userLogin() async{
-    var url = "http://192.168.1.17/skrrt/login.php";
+    var url = "http://192.168.1.12/skrrt/login.php";
     var data = {
     "username": _user.text,
     "pass":_pass.text,
@@ -265,7 +265,7 @@ class _LoginController extends State<LoginView> {
                                     onPressed: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => SignUp()),
+                                        MaterialPageRoute(builder: (context) => SignUpView()),
                                       );
                                     }
                                 ),
