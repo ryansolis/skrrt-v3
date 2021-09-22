@@ -22,12 +22,12 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
 
 String random = getRandomString(4);
 
-class SignUp extends StatefulWidget {
+class SignUpView extends StatefulWidget {
   @override
-  _SignUpState createState() => _SignUpState();
+  _SignUpController createState() => _SignUpController();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpController extends State<SignUpView> {
   TextEditingController fname = TextEditingController();
   TextEditingController lname = TextEditingController();
   TextEditingController idno = TextEditingController();
@@ -44,18 +44,18 @@ class _SignUpState extends State<SignUp> {
 
   final Telephony telephony = Telephony.instance;
 
- void registerData() async {
+ void createNewUser() async {
    //print("YES1");
-   var url = "http://192.168.1.17/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+   var url = "http://192.168.1.12/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
    var data = {
-           "first": fname.text,
-           "last": lname.text,
+           "firstName": fname.text,
+           "lastName": lname.text,
            "idNo": idno.text,
            "status": status,
            "username": username.text,
            "password": pass.text,
            "phoneNo": phone.text,
-           "birthday": dateCtl.text,
+           "dateOfBirth": dateCtl.text,
            "course": drop1value,
            "year": drop2value,
            "dept": drop2value,
@@ -204,7 +204,7 @@ class _SignUpState extends State<SignUp> {
       print(flag);
     }
     if(flag == true){
-      registerData();
+      createNewUser();
       complete = true;
       setState(() =>  currentStep += 1);
     }
@@ -221,12 +221,12 @@ class _SignUpState extends State<SignUp> {
         ? goTo(currentStep + 1)
         : fieldFin();
     if(currentStep+1 == steps.length && count == 0){
-      callOTP();
+      verificationRequest();
       count++;
     }
   }
 
-  void callOTP(){
+  void verificationRequest(){
     telephony.sendSms(
         to: "+1-555-521-5554",
         message: "<#> "+random+" Verification Code from Skrrt, your Rent-a-Scooter App. Please don't reply to this message. Thank you and welcome to the family! SKRRT SKRRT!"
@@ -374,7 +374,7 @@ class _SignUpState extends State<SignUp> {
 
                       suffixIcon:  IconButton(
                         icon: Icon(Icons.calendar_today_rounded),
-                        iconSize: 20,
+                        iconSize: 20, onPressed: () {  },
                       ),
                       /*
                         onPressed: () {
@@ -621,7 +621,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     suffixIcon:  IconButton(
                       icon: Icon(Icons.camera_alt_rounded,
-                      ),
+                      ), onPressed: () {  },
                     ),
                   ),
                   style: TextStyle(
@@ -756,7 +756,7 @@ class _SignUpState extends State<SignUp> {
                                       viewPass = !viewPass;
                                     });
                                   }
-                              )
+                              ), onPressed: () {  },
                           ),
                         )
                       ],
@@ -844,7 +844,7 @@ class _SignUpState extends State<SignUp> {
                       letterSpacing: 1.0,
                     ),
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Request again',
                       style: TextStyle(
@@ -855,7 +855,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     onPressed: () {
-                      callOTP();
+                      verificationRequest();
                     },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.09,),
@@ -946,11 +946,13 @@ class _SignUpState extends State<SignUp> {
                                 fontSize: 20.0,),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width * 0.07),
-                            RaisedButton(
-                              padding: EdgeInsets.symmetric(vertical:10.0,horizontal: 60.0),
-                              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                              color: Color(0xff00A8E5),
-                              disabledColor: Colors.grey,//add this to your code
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical:10.0,horizontal: 60.0),
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                primary: Color(0xff00A8E5),
+                                //disabledColor: Colors.grey,//add this to your code
+                              ),
                               child: Text('Start Now!',
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
@@ -981,11 +983,13 @@ class _SignUpState extends State<SignUp> {
                               children: [
                                 Container(
                                   width: MediaQuery.of(context).size.width * 0.35,
-                                  child: RaisedButton(
-                                    padding: EdgeInsets.all(12.0),
-                                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                    textColor: Colors.white,
-                                    color: Colors.grey,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.all(12.0),
+                                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                      onPrimary: Colors.white,
+                                      primary: Colors.grey,
+                                    ),
                                     onPressed: cancel,
                                     child: Text(''
                                         'BACK',
@@ -999,11 +1003,13 @@ class _SignUpState extends State<SignUp> {
                                 ),
                                 Container(
                                   width: MediaQuery.of(context).size.width * 0.35,
-                                  child: RaisedButton(
-                                    padding: EdgeInsets.all(12.0),
-                                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                    textColor: Colors.white,
-                                    color: Color(0xff00A8E5),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.all(12.0),
+                                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                      onPrimary: Colors.white,
+                                      primary: Color(0xff00A8E5),
+                                    ),
                                     onPressed: (){
                                       if(_formKey.currentState.validate()){
                                         _formKey.currentState.save();
