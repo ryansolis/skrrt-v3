@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp/flutter_otp.dart';
 import 'package:telephony/telephony.dart';
 // Now instantiate FlutterOtp class in order to call sendOtp function
+//unused imports
+//import 'package:flutter_otp/flutter_otp.dart';
 
 import 'dart:math';
 
@@ -22,7 +23,7 @@ class SendOtp extends StatelessWidget {
       appBar: AppBar(title: Text("send otp using flutter_otp ")),
       body: Container(
         child: Center(
-            child: RaisedButton(
+            child: ElevatedButton(
               child: Text("Send"),
               onPressed: () {
                 // call sentOtp function and pass the parameters

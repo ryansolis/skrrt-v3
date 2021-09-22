@@ -205,11 +205,12 @@ class _NewUserState extends State<NewUser> {
                         onStepTapped: (step) => goTo(step),
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
                             Container(
-                              child: RaisedButton(
-                                  padding: EdgeInsets.all(12.0),
-                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                  textColor: Color(0xff00A8E5),
-                                  color: Colors.white,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.all(12.0),
+                                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                    onPrimary: Color(0xff00A8E5),
+                                    primary: Colors.white,),
                                   child: Text(''
                                       'RIDE NOW',
                                     style: TextStyle(
@@ -238,11 +239,11 @@ class _NewUserState extends State<NewUser> {
                         onStepTapped: (step) => goTo(step),
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
                             Container(
-                              child: RaisedButton(
-                                padding: EdgeInsets.all(12.0),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(padding: EdgeInsets.all(12.0),
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                textColor: Color(0xff00A8E5),
-                                color: Colors.white,
+                                onPrimary: Color(0xff00A8E5),
+                                primary: Colors.white,),
                                 onPressed: next,
                                 child: Text(''
                                     'NEXT',
@@ -309,11 +310,12 @@ class _NewUserState extends State<NewUser> {
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
-                              child: RaisedButton(
-                                  padding: EdgeInsets.all(12.0),
-                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                  textColor: Color(0xff00A8E5),
-                                  color: Colors.white,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.all(12.0),
+                                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                    onPrimary: Color(0xff00A8E5),
+                                    primary: Colors.white,),
                                   child: Text(''
                                       'RIDE NOW',
                                     style: TextStyle(
@@ -343,11 +345,11 @@ class _NewUserState extends State<NewUser> {
                         controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.07),
-                              child: RaisedButton(
-                                padding: EdgeInsets.all(12.0),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(padding: EdgeInsets.all(12.0),
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                textColor: Color(0xff00A8E5),
-                                color: Colors.white,
+                                onPrimary: Color(0xff00A8E5),
+                                primary: Colors.white,),
                                 onPressed: next,
                                 child: Text(''
                                     'NEXT',

@@ -3,8 +3,9 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:skrrt_app/newpass.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
+//unused imports
+// import 'dart:async';
 
 class ForgotPass extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _ForgotPassState extends State<ForgotPass> {
   TextEditingController _pass = TextEditingController();
 
   void recoverAcc() async{
-    var url = "http://192.168.1.17/skrrt/recoveracc.php";
+    var url = "http://192.168.1.12/skrrt/recoveracc.php";
     var data = {
       "username": _username,
       "id": _idno.text,
@@ -216,11 +217,13 @@ class _ForgotPassState extends State<ForgotPass> {
                                     SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                                     _buildPhone(),
                                     SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                                    RaisedButton(
-                                        padding: EdgeInsets.all(12.0),
-                                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                        color: Color(0xff00A8E5),
-                                        disabledColor: Colors.blue,//add this to your code
+                                    ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          padding: EdgeInsets.all(12.0),
+                                          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                          primary: Color(0xff00A8E5),
+                                          onSurface: Colors.blue,//add this to your code
+                                        ),
                                         child: Text(''
                                             'SUBMIT',
                                           style: TextStyle(

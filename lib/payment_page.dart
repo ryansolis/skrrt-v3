@@ -2,18 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
 import 'package:skrrt_app/appbar-ridebutton/skrrt-appbar.dart';
-import 'package:skrrt_app/home_page.dart';
 import 'package:skrrt_app/successful_ride_page.dart';
 import 'sidebar_page.dart';
 
 import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
+//unused imports
+//import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
+//import 'package:skrrt_app/home_page.dart';
+//import 'dart:async';
 
 class PaymentPage extends StatefulWidget {
   @override
@@ -65,7 +65,7 @@ class _PaymentPageState extends State<PaymentPage> {
     var time = await session.get("time");
 
     print("here!!!");
-    var url = "http://192.168.1.4/skrrt/balance.php";
+    var url = "http://192.168.1.12/skrrt/balance.php";
     var data = {
       "userID": token.toString(),
     };
@@ -106,7 +106,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
     var _amount = time * 2 + 2;
     print("halo");
-    var url = "http://192.168.1.4/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
+    var url = "http://192.168.1.12/skrrt/pay.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
       "rideID" : _rideID.toString(),
       "time":time.toString(),
@@ -233,11 +233,12 @@ class _PaymentPageState extends State<PaymentPage> {
                         children:[
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.6, // match_parent
-                              child: RaisedButton(
-                                  padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.06, vertical: MediaQuery.of(context).size.height * 0.020),
-                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                  textColor: Colors.white,
-                                  color: Color(0xff00A8E5),
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.06, vertical: MediaQuery.of(context).size.height * 0.020),
+                                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                    onPrimary: Colors.white,
+                                    primary: Color(0xff00A8E5),),
                                   child: Text('PAY NOW',
                                     style: TextStyle(
                                       fontFamily: 'Montserrat',
@@ -270,7 +271,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           SizedBox(height: uniHeight(context)*.10),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.6, // match_parent
-                            child: FlatButton(
+                            child: TextButton(
                                 padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.06, vertical: MediaQuery.of(context).size.height * 0.020),
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0), side: BorderSide(color: Color(0xff00A8E5))),
                                 textColor: Color(0xff00A8E5),
@@ -420,11 +421,13 @@ class _PaymentPageState extends State<PaymentPage> {
                           )*/
                           /*,
                           SizedBox(height: uniHeight(context)*.2),
-                          RaisedButton(
-                              padding: EdgeInsets.all((uniHeight(context)*uniWidth(context))*.009),
-                              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                              textColor: Colors.white,
-                              color: Color(0xff00A8E5),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.all((uniHeight(context)*uniWidth(context))*.009),
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                onPrimary: Colors.white,
+                                primary: Color(0xff00A8E5),
+                              ),
                               child: Text('PAY NOW',
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',

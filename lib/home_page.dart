@@ -12,10 +12,9 @@ import 'sidebar_page.dart';
 import 'rent_scooter.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
-
-import 'payment_page.dart';
-
-import 'main.dart';
+//unused imports
+//import 'payment_page.dart';
+//import 'main.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -35,7 +34,7 @@ class _HomeState extends State<Home> {
   Color _color1 = Colors.white;
 
   String _balance = "₱";
-  int stars = 0,bal=0,amo=0;
+  int stars = 0,bal=0,amo=0; //temporary balance value 
   String amount ="₱";
 
   void viewBalance() async {
@@ -44,7 +43,7 @@ class _HomeState extends State<Home> {
     var time = await session.get("time");
 
     print("here!!!");
-    var url = "http://192.168.1.4/skrrt/balance.php";
+    var url = "http://192.168.1.12/skrrt/balance.php";
     var data = {
       "userID": token.toString(),
     };
@@ -55,13 +54,13 @@ class _HomeState extends State<Home> {
 
     List userData = await jsonDecode(res.body);
     print(userData);
-    bal=int.parse(userData[0]["balance"]);
+    bal=int.parse(userData[0]["balance"]); //temporary balance value //int.parse(userData[0]["balance"]);
     print(bal);
     setState(() {});
   }
 
-  void _fetchModels() async{
-    var url = "http://192.168.1.4/skrrt/home.php";
+  void getScooterList() async{
+    var url = "http://192.168.1.12/skrrt/home.php";
     var data = {
       "station": _station,
     };
@@ -177,7 +176,7 @@ class _HomeState extends State<Home> {
             onTap: () {
               setState(() {
                 _station = "ST Building";
-                _fetchModels();
+                getScooterList();
               });
             }
         )
@@ -194,7 +193,7 @@ class _HomeState extends State<Home> {
             onTap: () {
                 setState(() {
                   _station = "Main Library";
-                  _fetchModels();
+                  getScooterList();
                 });
             }
 
@@ -212,7 +211,7 @@ class _HomeState extends State<Home> {
               onTap: () {
                 setState(() {
                   _station = "Main Canteen";
-                  _fetchModels();
+                  getScooterList();
                 });
               }
           )
@@ -229,7 +228,7 @@ class _HomeState extends State<Home> {
               onTap: () {
                 setState(() {
                   _station = "Gym";
-                  _fetchModels();
+                  getScooterList();
                 });
               }
           )
@@ -290,13 +289,10 @@ class _HomeState extends State<Home> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                             ),
-                            child:
-                            InkWell(
-                              onTap: () {
-                                setState((){
-                                });
-                              },
-                              child: FlatButton(
+                              child: TextButton(
+                                  onPressed: () {  
+                                    setState((){});
+                                  },
                                   child: Table(
                                     //border: TableBorder.all(),
                                       columnWidths: {
@@ -307,8 +303,8 @@ class _HomeState extends State<Home> {
                                       children: [
                                         TableRow(
                                             children: [
-                                              Container(height: uniHeight(context)*.3,),
-                                              Container(height: uniHeight(context)*.3,),
+                                              Container(height: uniHeight(context)*.05,),
+                                              Container(height: uniHeight(context)*.05,),
                                             ]
                                         ),
 
@@ -357,20 +353,16 @@ class _HomeState extends State<Home> {
                                       ]
                                   )
                               ),
-                            )
                         ),
                         Theme(
                             data: ThemeData(
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                             ),
-                            child:
-                            InkWell(
-                              onTap: () {
-                                setState((){
-                                });
-                              },
-                              child: FlatButton(
+                            
+                              child: TextButton(
+                                  onPressed: () { setState((){
+                                }); },
                                   child: Table(
                                     //border: TableBorder.all(),
                                       columnWidths: {
@@ -430,7 +422,6 @@ class _HomeState extends State<Home> {
                                       ]
                                   )
                               ),
-                            )
                         ),
                       ],
                     ),
@@ -441,11 +432,13 @@ class _HomeState extends State<Home> {
             //Flexible( flex:1, child: Container(color:Colors.transparent)),
             Flexible(
               flex: 2,
-              child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.26, vertical: MediaQuery.of(context).size.height * 0.020),
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                  textColor: Colors.white,
-                  color: Color(0xff00A8E5),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.26, vertical: MediaQuery.of(context).size.height * 0.020),
+                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                    onPrimary: Colors.white,
+                    primary: Color(0xff00A8E5),
+                    ),
                   child: Text('RIDE NOW',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
@@ -535,17 +528,16 @@ class _HomeState extends State<Home> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                             ),
-                            child:
-                            InkWell(
-                              onTap: () {
-                                setState((){
+                            
+                              child: TextButton(
+                                  onPressed: () {  
+                                    setState((){
                                   _selected = "Phoenix";
                                   _color = Color(0xff00A8E5) ;
                                   _color1 = Colors.white ;
                                   print(_selected);
                                 });
-                              },
-                              child: FlatButton(
+                                  },
                                   child: Table(
                                     //border: TableBorder.all(),
                                       columnWidths: {
@@ -599,7 +591,7 @@ class _HomeState extends State<Home> {
                                       ]
                                   )
                               ),
-                            )
+                          
                         ),
 
                         Theme(
@@ -607,14 +599,10 @@ class _HomeState extends State<Home> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                             ),
-                            child:
-                            InkWell(
-                              onTap: () {
-                                setState((){
-
-                                });
-                              },
-                              child: FlatButton(
+                          
+                              child: TextButton(
+                                  onPressed: () { setState((){
+                                }); },
                                   child: Table(
                                     //border: TableBorder.all(),
                                       columnWidths: {
@@ -680,7 +668,7 @@ class _HomeState extends State<Home> {
                                       ]
                                   )
                               ),
-                            )
+                            
                         ),
 
                       ],
@@ -691,11 +679,12 @@ class _HomeState extends State<Home> {
             ),
             Flexible(
               flex: 2,
-              child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.26, vertical: MediaQuery.of(context).size.height * 0.020),
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                  textColor: Colors.white,
-                  color: Color(0xff00A8E5),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.26, vertical: MediaQuery.of(context).size.height * 0.020),
+                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                    onPrimary: Colors.white,
+                    primary: Color(0xff00A8E5),),
                   child: Text('RIDE NOW',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
@@ -785,14 +774,10 @@ class _HomeState extends State<Home> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                             ),
-                            child:
-                            InkWell(
-                              onTap: () {
-                                setState((){
-
-                                });
-                              },
-                              child: FlatButton(
+                            
+                              child: TextButton(
+                                  onPressed: () { setState((){
+                                }); },
                                   child: Table(
                                       //border: TableBorder.all(),
                                       columnWidths: {
@@ -804,9 +789,9 @@ class _HomeState extends State<Home> {
                                       children: [
                                         TableRow(
                                             children: [
-                                              Container(height: uniHeight(context)*.3,),
-                                              Container(height: uniHeight(context)*.3,),
-                                              Container(height: uniHeight(context)*.3,)
+                                              Container(height: uniHeight(context)*.05,),
+                                              Container(height: uniHeight(context)*.05,),
+                                              Container(height: uniHeight(context)*.05,)
                                             ]
                                         ),
                                         TableRow(
@@ -858,7 +843,7 @@ class _HomeState extends State<Home> {
                                       ]
                                   )
                               ),
-                            )
+                            
                         ),
 
                         Theme(
@@ -866,17 +851,16 @@ class _HomeState extends State<Home> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                             ),
-                            child:
-                            InkWell(
-                              onTap: () {
-                                setState((){
-                                  _selected = "Yami";
-                                  _color1 = Color(0xff00A8E5) ;
-                                  _color = Colors.white ;
-                                  print(_selected);
-                                });
-                              },
-                              child: FlatButton(
+                            
+                              child: TextButton(
+                                  onPressed: () {  
+                                    setState((){
+                                    _selected = "Yami";
+                                    _color1 = Color(0xff00A8E5) ;
+                                    _color = Colors.white ;
+                                    print(_selected);
+                                  });
+                                  },
                                   child: Table(
                                       //border: TableBorder.all(),
                                       columnWidths: {
@@ -930,7 +914,7 @@ class _HomeState extends State<Home> {
                                       ]
                                   )
                               ),
-                            )
+                            
                         ),
 
                       ],
@@ -941,11 +925,12 @@ class _HomeState extends State<Home> {
             ),
             Flexible(
               flex: 2,
-              child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.26, vertical: MediaQuery.of(context).size.height * 0.020),
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                  textColor: Colors.white,
-                  color: Color(0xff00A8E5),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.26, vertical: MediaQuery.of(context).size.height * 0.020),
+                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                    onPrimary: Colors.white,
+                    primary: Color(0xff00A8E5),),
                   child: Text('RIDE NOW',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
@@ -1035,17 +1020,15 @@ class _HomeState extends State<Home> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                             ),
-                            child:
-                            InkWell(
-                              onTap: () {
-                                setState((){
+                              child: TextButton(
+                                  onPressed: () {  
+                                    setState((){
                                   _selected = "Phoenix";
                                   _color = Color(0xff00A8E5) ;
                                   _color1 = Colors.white ;
                                   print(_selected);
                                 });
-                              },
-                              child: FlatButton(
+                                  },
                                   child: Table(
                                     //border: TableBorder.all(),
                                       columnWidths: {
@@ -1099,7 +1082,7 @@ class _HomeState extends State<Home> {
                                       ]
                                   )
                               ),
-                            )
+                            
                         ),
 
                         Theme(
@@ -1107,17 +1090,15 @@ class _HomeState extends State<Home> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                             ),
-                            child:
-                            InkWell(
-                              onTap: () {
-                                setState((){
-                                  _selected = "Yami";
-                                  _color1 = Color(0xff00A8E5) ;
-                                  _color = Colors.white ;
-                                  print(_selected);
+                              child: TextButton(
+                                  onPressed: () {  
+                                    setState((){
+                                    _selected = "Yami";
+                                    _color1 = Color(0xff00A8E5) ;
+                                    _color = Colors.white ;
+                                    print(_selected);
                                 });
-                              },
-                              child: FlatButton(
+                                  },
                                   child: Table(
                                     //border: TableBorder.all(),
                                       columnWidths: {
@@ -1170,7 +1151,7 @@ class _HomeState extends State<Home> {
                                       ]
                                   )
                               ),
-                            )
+                            
                         ),
 
                       ],
@@ -1181,11 +1162,12 @@ class _HomeState extends State<Home> {
             ),
             Flexible(
               flex: 2,
-              child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.26, vertical: MediaQuery.of(context).size.height * 0.020),
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                  textColor: Colors.white,
-                  color: Color(0xff00A8E5),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.26, vertical: MediaQuery.of(context).size.height * 0.020),
+                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                    onPrimary: Colors.white,
+                    primary: Color(0xff00A8E5),),
                   child: Text('RIDE NOW',
                     style: TextStyle(
                       fontFamily: 'Montserrat',

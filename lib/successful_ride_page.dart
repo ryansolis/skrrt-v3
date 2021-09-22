@@ -1,9 +1,9 @@
-import 'dart:async';
-import 'package:skrrt_app/admin_page.dart';
 import 'package:skrrt_app/home_page.dart';
-
-import 'login-module.dart';
 import 'package:flutter/material.dart';
+//unused imports
+// import 'dart:async';
+// import 'package:skrrt_app/admin_page.dart';
+// import 'login-module.dart';
 
 class SuccessfulRide extends StatefulWidget {
   @override
@@ -67,11 +67,12 @@ class SuccessfulRidePage extends State<SuccessfulRide>{
                       ),
                     ),
                     SizedBox(height: textSize(context)),
-                    RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.15, vertical: MediaQuery.of(context).size.height * 0.020),
-                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                        textColor: Colors.white,
-                        color: Colors.white,
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.15, vertical: MediaQuery.of(context).size.height * 0.020),
+                          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                          onPrimary: Colors.white,
+                          primary: Colors.white,),
                         child: Text('BACK TO HOME',
                           style: TextStyle(
                             fontFamily: 'Montserrat',

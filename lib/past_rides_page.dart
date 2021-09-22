@@ -1,16 +1,15 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
 import 'package:skrrt_app/appbar-ridebutton/skrrt-appbar.dart';
 import 'sidebar_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
+//unused imports
+// import 'package:intl/intl.dart';
+// import 'package:flutter/material.dart';
+// import 'dart:ffi';
 
 class PastRides extends StatefulWidget {
   @override
@@ -27,7 +26,7 @@ class _PastRidesState extends State<PastRides> {
   Future<List> getRides() async{
     token = await session.get("token");
     print(token);
-    var url = "http://192.168.1.14/skrrt/getRides.php";
+    var url = "http://192.168.1.12/skrrt/getRides.php";
     var data = {
       "userID": token.toString(),
     };

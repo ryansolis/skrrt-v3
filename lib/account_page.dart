@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
 import 'sidebar_page.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+//unused imports
+//import 'dart:async';
 
 class Account extends StatefulWidget {
 
@@ -29,7 +30,7 @@ class _AccountState extends State<Account> {
 
     token = await session.get("token");
     //print(token);
-    var url = "http://192.168.1.17/skrrt/getStudentData.php";
+    var url = "http://192.168.1.12/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };
@@ -63,7 +64,7 @@ class _AccountState extends State<Account> {
     print(token);
     print(userChanged);
     print(passChanged);
-    var url = "http://192.168.1.17/skrrt/updateUser.php";
+    var url = "http://192.168.1.12/skrrt/updateUser.php";
     var data = {
       "userID": token.toString(),
       "username": userChanged,
@@ -90,13 +91,13 @@ class _AccountState extends State<Account> {
         title: Text("Confirmation"),
         content: Text("Confirm changes to username and password?"),
         actions: [
-          FlatButton(
+          TextButton(
             child: Text("No"),
             onPressed: (){
               Navigator.pop(context);
             },
           ),
-          FlatButton(
+          TextButton(
               child: Text("Yes"),
               onPressed: () {
                 passChanged = _changePass.text;
@@ -179,7 +180,6 @@ class _AccountState extends State<Account> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print("InitState: okay");
     getUserData();
@@ -276,7 +276,12 @@ class _AccountState extends State<Account> {
                         SizedBox(height:10),
                         _buildPassword(),
                         SizedBox(height:20),
-                        RaisedButton(
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
+                            primary: Colors.white,
+                            onSurface: Colors.white,
+                          ),
                           child: Text(
                             "CHANGE",
                             style: TextStyle(
@@ -284,9 +289,6 @@ class _AccountState extends State<Account> {
                               fontFamily: 'Montserrat',
                             ),
                           ),
-                          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
-                          color: Colors.white,
-                          disabledColor: Colors.white,
                           onPressed: (){
                             confirm(context);
                           },

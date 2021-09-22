@@ -2,12 +2,12 @@ import 'dart:ui';
 import 'dart:async';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:http/http.dart' as http;
 import 'sidebar_page.dart';
 import 'navigation.dart';
 import 'dart:convert';
+//import 'package:fluttertoast/fluttertoast.dart'; unused import
 
 
 class RentScooter extends StatefulWidget {
@@ -30,7 +30,7 @@ class _RentScooterState extends State<RentScooter> {
     //Start scan-blocking until scan
     String barcode = await scanner.scan();
     _cameraScanResult = barcode;
-    toNavigation(context);
+    goToNavigationView(context);
   }
 
   void rideScooter() async {
@@ -39,7 +39,7 @@ class _RentScooterState extends State<RentScooter> {
     var token = await session.get("token");
     var start = await session.get("start");
 
-    var url = "http://192.168.1.4/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
+    var url = "http://192.168.1.12/skrrt/rides.php";  //localhost, change 192.168.1.9 to ur own localhost
     var data = {
       "userID": token.toString(),
       "date": DateTime.now().toString(),
@@ -60,7 +60,7 @@ class _RentScooterState extends State<RentScooter> {
 
   void setAvail() async{
     var session = FlutterSession();
-    var url = "http://192.168.1.4/skrrt/scooterAvail.php";
+    var url = "http://192.168.1.12/skrrt/scooterAvail.php";
     var rideID = await session.get("rideID");
     print(rideID);
 
@@ -75,7 +75,7 @@ class _RentScooterState extends State<RentScooter> {
 
   Future _testID() async{
     var session = FlutterSession();
-    var url = "http://192.168.1.4/skrrt/chooseSctr.php";
+    var url = "http://192.168.1.12/skrrt/chooseSctr.php";
     var model = await session.get("model");
     mod = model;
     var start = await session.get("start");
@@ -105,7 +105,7 @@ class _RentScooterState extends State<RentScooter> {
     await session.set("scooterID",_sctID);
     setState(() {});
   }
-  void toNavigation(BuildContext context){
+  void goToNavigationView(BuildContext context){
     if (_cameraScanResult.isNotEmpty){
       Navigator.push(
         context,
@@ -445,11 +445,12 @@ class _RentScooterState extends State<RentScooter> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24.0),
                     child: Center(
-                      child: RaisedButton(
-                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.3, vertical: 14.0),
-                          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                          textColor: Colors.white,
-                          color: Color(0xff00A8E5),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.3, vertical: 14.0),
+                            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                            onPrimary: Colors.white,
+                            primary: Color(0xff00A8E5),),
                           child: Text('SCAN NOW',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
