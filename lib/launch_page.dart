@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:skrrt_app/admin_page.dart';
+//unused imports
+//import 'package:skrrt_app/admin_page.dart';
 
 import 'login-module.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ class LaunchPage extends StatefulWidget {
 class StartState extends State<LaunchPage>{
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     startTimer();
   }

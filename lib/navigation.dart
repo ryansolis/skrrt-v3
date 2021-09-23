@@ -40,7 +40,7 @@ class _NavigationState extends State<Navigation> {
   }
   void save() async {
     rideID = await session.get("rideID");
-    var url = "http://192.168.1.4/skrrt/rideFinish.php";
+    var url = "http://192.168.1.12/skrrt/rideFinish.php";
     var data = { // save duration in secs, distance & destination
       "rideID": rideID.toString(),
       "endLocation": endLocation.toString(),
@@ -322,11 +322,11 @@ class _NavigationState extends State<Navigation> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            RaisedButton(
-                                padding: EdgeInsets.all(12.0),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(padding: EdgeInsets.all(12.0),
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                textColor: Colors.white,
-                                color: Color(0xff00A8E5),
+                                onPrimary: Colors.white,
+                                primary: Color(0xff00A8E5),),
                                 child: Text('DONE',
                                   style: TextStyle(
                                     fontFamily: 'Montserrat',

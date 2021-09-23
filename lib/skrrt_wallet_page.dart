@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:skrrt_app/appbar-ridebutton/ride_button.dart';
 import 'package:skrrt_app/appbar-ridebutton/skrrt-appbar.dart';
 import 'sidebar_page.dart';
+//unused imports
+//import 'dart:async';
 
 class SkrrtWallet extends StatefulWidget {
   @override
@@ -29,7 +29,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
   void getExpenses(int mo) async{
     var token = await session.get("token");
     //print(token);
-    var url = "http://192.168.1.14/skrrt/getExpenses.php";
+    var url = "http://192.168.1.12/skrrt/getExpenses.php";
     var data = {
       "userID": token.toString(),
       "monthS":"2020-"+mo.toString()+"-01",
@@ -70,7 +70,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
 
     var token = await session.get("token");
     //print(token);
-    var url = "http://192.168.1.14/skrrt/getStudentData.php";
+    var url = "http://192.168.1.12/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };
@@ -80,7 +80,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
     List userData = await jsonDecode(res.body);
 
     //print(userData.toString());
-    _wallet = userData[0]["wallet"];
+    _wallet = userData[0]["wallet"]; //temporary balance value //userData[0]["wallet"];
     await session.set("token",token);
     setState(() {});
   }

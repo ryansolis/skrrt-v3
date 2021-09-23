@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:skrrt_app/login-module.dart';
-import 'sign-up-module.dart';
-import 'new_user.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
+//unused imports
+// import 'package:skrrt_app/login-module.dart';
+// import 'sign-up-module.dart';
+// import 'new_user.dart';
+// import 'dart:async';
 
 class NewPass extends StatefulWidget {
   @override
@@ -86,8 +87,7 @@ class _NewPassState extends State<NewPass> {
             padding: EdgeInsets.only(bottom: btmpad1),
             child:
             IconButton(
-                icon: IconButton(
-                    icon: Icon(Icons.visibility,
+                icon: Icon(Icons.visibility,
                       size: 20,
                     ),
                     onPressed: () {
@@ -95,7 +95,6 @@ class _NewPassState extends State<NewPass> {
                         viewPass1 = !viewPass1;
                       });
                     }
-                )
             ),
           )
         ]
@@ -142,8 +141,7 @@ class _NewPassState extends State<NewPass> {
             padding: EdgeInsets.only(bottom: btmpad2),
             child:
             IconButton(
-                icon: IconButton(
-                    icon: Icon(Icons.visibility,
+                icon: Icon(Icons.visibility,
                       size: 20,
                     ),
                     onPressed: () {
@@ -151,7 +149,6 @@ class _NewPassState extends State<NewPass> {
                         viewPass2 = !viewPass2;
                       });
                     }
-                )
             ),
           )
         ]
@@ -212,11 +209,13 @@ class _NewPassState extends State<NewPass> {
                                     SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                                     _buildPassword2(),
                                     SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
-                                    RaisedButton(
-                                        padding: EdgeInsets.all(12.0),
-                                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
-                                        color: Color(0xff00A8E5),
-                                        disabledColor: Colors.blue,//add this to your code
+                                    ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          padding: EdgeInsets.all(12.0),
+                                          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(50.0)),
+                                          primary: Color(0xff00A8E5),
+                                          onSurface: Colors.blue,//add this to your code
+                                        ),
                                         child: Text(''
                                             'CONFIRM',
                                           style: TextStyle(
