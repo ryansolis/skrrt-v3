@@ -186,7 +186,7 @@ class _SideBarState extends State<SideBar> {
                         onTap: () {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) {
-                            return AdminPage();
+                            return AdminView();
                           }));
                         }
                     ),
