@@ -11,12 +11,12 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
 
 
-class AdminPage extends StatefulWidget {
+class AdminView extends StatefulWidget {
   @override
   _AdminPageState createState() => _AdminPageState();
 }
 
-class _AdminPageState extends State<AdminPage> {
+class _AdminPageState extends State<AdminView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var session = FlutterSession();
 
