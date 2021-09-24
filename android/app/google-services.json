@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "672349376975",
+    "firebase_url": "https://skrrt-d86f9-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "skrrt-d86f9",
+    "storage_bucket": "skrrt-d86f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672349376975:android:cd0b852cb36684375502ba",
+        "android_client_info": {
+          "package_name": "com.example.skrrt_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "672349376975-o963b28nlt56l8o6rbqp4j202cvpphs7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBolokaYNDFK0sDxS8FhwahVOpDDyVhTL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "672349376975-o963b28nlt56l8o6rbqp4j202cvpphs7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
