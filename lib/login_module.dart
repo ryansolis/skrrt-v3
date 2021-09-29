@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'sign-up-module.dart';
+import 'signup_module.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'forgot_pass.dart';

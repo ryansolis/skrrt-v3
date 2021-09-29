@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skrrt_app/home_page.dart';
+import 'package:skrrt_app/home_module.dart';
 
 class RideButton extends StatelessWidget {
   @override
@@ -19,7 +19,7 @@ class RideButton extends StatelessWidget {
         ),
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return Home();
+            return HomeView();
           }));
         },
       ),
