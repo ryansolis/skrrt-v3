@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:skrrt_app/admin_page.dart';
-import 'account_page.dart';
+import 'account_module.dart';
 import 'past_rides_page.dart';
 import 'skrrt_wallet_page.dart';
-import 'login-module.dart';
+import 'login_module.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 // unused imports
@@ -165,7 +165,7 @@ class _SideBarState extends State<SideBar> {
                       ),
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return Account();
+                          return AccountView();
                         }));
                       },
                     ),

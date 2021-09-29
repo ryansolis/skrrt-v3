@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'home_module.dart';
 
 class NewUser extends StatefulWidget {
   @override
@@ -223,7 +223,7 @@ class _NewUserState extends State<NewUser> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Home()),
+                                          builder: (context) => HomeView()),
                                     );
                                   }
                               ),
@@ -327,7 +327,7 @@ class _NewUserState extends State<NewUser> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => Home()),
+                                      MaterialPageRoute(builder: (context) => HomeView()),
                                     );
                                   }
                               ),

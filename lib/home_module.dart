@@ -16,12 +16,12 @@ import 'package:http/http.dart' as http;
 //import 'payment_page.dart';
 //import 'main.dart';
 
-class Home extends StatefulWidget {
+class HomeView extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<HomeView> {
   var session = FlutterSession();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _visible = false;

@@ -1,4 +1,4 @@
-import 'package:skrrt_app/home_page.dart';
+import 'package:skrrt_app/home_module.dart';
 import 'package:flutter/material.dart';
 //unused imports
 // import 'dart:async';
@@ -84,7 +84,7 @@ class SuccessfulRidePage extends State<SuccessfulRide>{
                           Navigator.popUntil(context, ModalRoute.withName('tohome'));
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Home()),
+                            MaterialPageRoute(builder: (context) => HomeView()),
                           );
                         }
                     ),

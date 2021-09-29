@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 //unused imports
 //import 'dart:async';
 
-class Account extends StatefulWidget {
+class AccountView extends StatefulWidget {
 
   @override
   _AccountState createState() => _AccountState();
@@ -16,7 +16,7 @@ class Account extends StatefulWidget {
 
 
 
-class _AccountState extends State<Account> {
+class _AccountState extends State<AccountView> {
 
   TextEditingController _changeUsername = TextEditingController();
   TextEditingController _changePass = TextEditingController();

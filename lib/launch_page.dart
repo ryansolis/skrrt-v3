@@ -2,7 +2,7 @@ import 'dart:async';
 //unused imports
 //import 'package:skrrt_app/admin_page.dart';
 
-import 'login-module.dart';
+import 'login_module.dart';
 import 'package:flutter/material.dart';
 
 class LaunchPage extends StatefulWidget {
