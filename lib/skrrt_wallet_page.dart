@@ -37,7 +37,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
   var _rideExpense = '0';
   var _prevExpense = '0';
 
-  void getExpenses(int mo) async {
+  void getUserExpenses(int mo) async {
     var token = await session.get("token");
     var url = "http://192.168.1.12/skrrt/getExpenses.php";
     var data = {
@@ -230,7 +230,7 @@ class _SkrrtWalletState extends State<SkrrtWallet> {
                                       );
                                     }).toList(),
                                     onChanged: (String newMonthSelected) {
-                                      getExpenses(
+                                      getUserExpenses(
                                           _month.indexOf(newMonthSelected) + 1);
                                       setState(() {
                                         this._currentMonthSelected =
