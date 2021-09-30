@@ -9,58 +9,57 @@ import 'package:fluttertoast/fluttertoast.dart';
 //import 'dart:async';
 
 class AccountView extends StatefulWidget {
-
   @override
   _AccountState createState() => _AccountState();
 }
 
-
-
 class _AccountState extends State<AccountView> {
-
   TextEditingController _changeUsername = TextEditingController();
   TextEditingController _changePass = TextEditingController();
-  var change1 = 0,change2 = 0;
+  var change1 = 0, change2 = 0;
   List userData;
   var session = FlutterSession();
   var token;
-  String _fullName="",fname="",lname="",_username="",pass="",_phoneNum="",_idNo="",_bdate="",_course,_year="",wallet = '';
-  String userChanged="", passChanged="";
-  void getUserData() async{
-
+  String _fullName = "",
+      fname = "",
+      lname = "",
+      _username = "",
+      pass = "",
+      _phoneNum = "",
+      _idNo = "",
+      _bdate = "",
+      _course,
+      _year = "",
+      wallet = '';
+  String userChanged = "", passChanged = "";
+  void getUserData() async {
     token = await session.get("token");
-    //print(token);
     var url = "http://192.168.1.12/skrrt/getStudentData.php";
     var data = {
       "userID": token.toString(),
     };
-    //print(data);
-    var res = await http.post(url,body: data);
-    //print(res.body);
+    var res = await http.post(url, body: data);
     userData = await jsonDecode(res.body);
-    //print(userData);
     fname = userData[0]['fname'];
     lname = userData[0]['lname'];
     _username = userData[0]['username'];
     pass = userData[0]['pass'];
     _phoneNum = userData[0]['phone'];
-    _idNo= userData[0]['idNo'];
-    _bdate= userData[0]['bdate'];
+    _idNo = userData[0]['idNo'];
+    _bdate = userData[0]['bdate'];
     _course = userData[0]['course'];
     _year = userData[0]['year'];
     wallet = userData[0]['wallet'];
-    _fullName = fname + " " +  lname;
-    //print(userData.toString());
+    _fullName = fname + " " + lname;
 
     _changeUsername.text = _username;
     _changePass.text = pass;
-    //print(_changeUsername.text);
-    //print(_changePass.text);
-    await session.set("token",token);
+
+    await session.set("token", token);
     setState(() {});
   }
 
-  void updateUser() async{
+  void updateUserData() async {
     print(token);
     print(userChanged);
     print(passChanged);
@@ -71,52 +70,50 @@ class _AccountState extends State<AccountView> {
       "pass": passChanged,
     };
     print(data);
-    await http.post(url,body: data);
-    Fluttertoast.showToast(msg: "Change Successful! Pls reload page.",toastLength: Toast.LENGTH_SHORT);
+    await http.post(url, body: data);
+    Fluttertoast.showToast(
+        msg: "Change Successful! Pls reload page.",
+        toastLength: Toast.LENGTH_SHORT);
   }
 
-  String getLengthPass(){
+  String getLengthPass() {
     int l = pass.length;
     String _hidePass = "";
-    for(int i = 0; i < l ;i++){
+    for (int i = 0; i < l; i++) {
       _hidePass += "●";
     }
     return _hidePass;
   }
 
-  confirm(BuildContext context){
-
-    return showDialog(context: context, builder: (context){
-      return AlertDialog(
-        title: Text("Confirmation"),
-        content: Text("Confirm changes to username and password?"),
-        actions: [
-          TextButton(
-            child: Text("No"),
-            onPressed: (){
-              Navigator.pop(context);
-            },
-          ),
-          TextButton(
-              child: Text("Yes"),
-              onPressed: () {
-                passChanged = _changePass.text;
-                userChanged = _changeUsername.text;
-                updateUser();
-                //Navigator.pop(context);
-                Navigator.pop(context);
-              }
-          )
-
-        ],
-        //elevation: 10.0,
-        backgroundColor: Colors.white,
-      );
-    });
-
+  confirm(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Confirmation"),
+            content: Text("Confirm changes to username and password?"),
+            actions: [
+              TextButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                  child: Text("Yes"),
+                  onPressed: () {
+                    passChanged = _changePass.text;
+                    userChanged = _changeUsername.text;
+                    updateUserData();
+                    Navigator.pop(context);
+                  })
+            ],
+            backgroundColor: Colors.white,
+          );
+        });
   }
 
-  Widget _buildUsername(){
+  Widget _buildUsername() {
     return TextFormField(
       style: TextStyle(color: Colors.white),
       controller: _changeUsername,
@@ -125,14 +122,10 @@ class _AccountState extends State<AccountView> {
             borderSide: BorderSide(color: Colors.white),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white,),
+            borderSide: BorderSide(
+              color: Colors.white,
+            ),
           ),
-          //hintText: _username,
-//          hintStyle: TextStyle(
-//            fontFamily: 'Quicksand',
-//            fontSize: 16.0,
-//            color: Colors.white,
-//          ),
           prefixIcon: Padding(
             padding: EdgeInsets.only(right: 15),
             child: Icon(
@@ -140,10 +133,8 @@ class _AccountState extends State<AccountView> {
               color: Colors.white,
               size: 30,
             ),
-          )
-      ),
+          )),
       keyboardType: TextInputType.text,
-
     );
   }
 
@@ -156,15 +147,10 @@ class _AccountState extends State<AccountView> {
           borderSide: BorderSide(color: Colors.white),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white,),
+          borderSide: BorderSide(
+            color: Colors.white,
+          ),
         ),
-        //labelText: pass,
-        //hintText: getLengthPass(),
-//        hintStyle: TextStyle(
-//          fontFamily: 'Quicksand',
-//          fontSize: 16.0,
-//          color: Colors.white,
-//        ),
         prefixIcon: Padding(
           padding: EdgeInsets.only(right: 15),
           child: Icon(
@@ -178,6 +164,7 @@ class _AccountState extends State<AccountView> {
       obscureText: true,
     );
   }
+
   @override
   void initState() {
     super.initState();
@@ -189,7 +176,6 @@ class _AccountState extends State<AccountView> {
 
   @override
   Widget build(BuildContext context) {
-    //getUserData();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -198,7 +184,7 @@ class _AccountState extends State<AccountView> {
         leading: IconButton(
           icon: Icon(Icons.menu),
           color: Colors.black,
-          onPressed: (){
+          onPressed: () {
             _scaffoldKey.currentState.openDrawer();
           },
         ),
@@ -226,28 +212,25 @@ class _AccountState extends State<AccountView> {
                 height: 200,
                 padding: EdgeInsets.all(15.0),
                 child: Center(
-                  child: Column(
-                      children: <Widget>[
-                        Image(
-                          width: 200,
-                          height: 120,
-                          image: AssetImage('assets/jess-brobrero.png'),
+                  child: Column(children: <Widget>[
+                    Image(
+                      width: 200,
+                      height: 120,
+                      image: AssetImage('assets/jess-brobrero.png'),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Text(
+                        "$_fullName",
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            "$_fullName",
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                            ),
-                          ),
-                        ),
-                      ]
-                  ),
-                )
-            ),
+                      ),
+                    ),
+                  ]),
+                )),
             Container(
               margin: EdgeInsets.all(20),
               padding: EdgeInsets.all(15),
@@ -268,17 +251,18 @@ class _AccountState extends State<AccountView> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(20, 10, 20,0),
+                    margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         _buildUsername(),
-                        SizedBox(height:10),
+                        SizedBox(height: 10),
                         _buildPassword(),
-                        SizedBox(height:20),
+                        SizedBox(height: 20),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
                             primary: Colors.white,
                             onSurface: Colors.white,
                           ),
@@ -289,7 +273,7 @@ class _AccountState extends State<AccountView> {
                               fontFamily: 'Montserrat',
                             ),
                           ),
-                          onPressed: (){
+                          onPressed: () {
                             confirm(context);
                           },
                         ),
@@ -319,12 +303,11 @@ class _AccountState extends State<AccountView> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(25,25,0,0),
+                    margin: EdgeInsets.fromLTRB(25, 25, 0, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-
                         Text(
                           '$_fullName',
                           style: TextStyle(
@@ -333,7 +316,9 @@ class _AccountState extends State<AccountView> {
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           '$_phoneNum',
                           style: TextStyle(
@@ -342,7 +327,9 @@ class _AccountState extends State<AccountView> {
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           '$_bdate',
                           style: TextStyle(
@@ -377,12 +364,11 @@ class _AccountState extends State<AccountView> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(25,25,0,0),
+                    margin: EdgeInsets.fromLTRB(25, 25, 0, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-
                         Text(
                           '$_idNo',
                           style: TextStyle(
@@ -391,7 +377,9 @@ class _AccountState extends State<AccountView> {
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           '$_course' + ' - ' + '$_year',
                           style: TextStyle(
@@ -400,7 +388,6 @@ class _AccountState extends State<AccountView> {
                             fontSize: 16,
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -411,7 +398,6 @@ class _AccountState extends State<AccountView> {
         ),
       ),
       floatingActionButton: RideButton(),
-
     );
   }
 }
