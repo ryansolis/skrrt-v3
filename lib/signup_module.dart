@@ -1,13 +1,19 @@
 //import 'dart:io';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:fluttertoast/fluttertoast.dart' as tst;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
+import 'package:connectivity/connectivity.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:skrrt_app/widgets/utils.dart';
+
+//import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'dart:convert';
+//import 'dart:convert';
 
 import 'package:telephony/telephony.dart';
 import 'dart:math';
@@ -28,6 +34,21 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpController extends State<SignUpView> {
+  // final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  // void showSnackbar(String title) {
+  //   final snackbar = SnackBar(
+  //       content: Text(
+  //     title,
+  //     textAlign: TextAlign.center,
+  //     style: TextStyle(fontSize: 15),
+  //   ));
+  //   // ignore: deprecated_member_use
+  //   scaffoldKey.currentState.showSnackBar(snackbar);
+  // }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   TextEditingController fname = TextEditingController();
   TextEditingController lname = TextEditingController();
   TextEditingController idno = TextEditingController();
@@ -45,27 +66,61 @@ class _SignUpController extends State<SignUpView> {
   final Telephony telephony = Telephony.instance;
 
   void createNewUser() async {
-    var url =
-        "http://192.168.1.12/skrrt/register.php"; //localhost, change 192.168.1.9 to ur own localhost
-    var data = {
-      "firstName": fname.text,
-      "lastName": lname.text,
-      "idNo": idno.text,
-      "status": status,
-      "username": username.text,
-      "password": pass.text,
-      "phoneNo": phone.text,
-      "dateOfBirth": dateCtl.text,
-      "course": drop1value,
-      "year": drop2value,
-      "dept": drop2value,
-      "college": drop1value,
-    };
-    var res = await http.post(url, body: data);
-    if (jsonDecode(res.body) == "okay") {
-      print("YESSSSSSS");
-    } else {
-      print("NOOOOOO");
+    //print("YES1");
+    //  var url = "http://192.168.1.12/skrrt/register.php";  //localhost, change 192.168.1.9 to ur own localhost
+    //  var data = {
+    //          "firstName": fname.text,
+    //          "lastName": lname.text,
+    //          "idNo": idno.text,
+    //          "status": status,
+    //          "username": username.text,
+    //          "password": pass.text,
+    //          "phoneNo": phone.text,
+    //          "dateOfBirth": dateCtl.text,
+    //          "course": drop1value,
+    //          "year": drop2value,
+    //          "dept": drop2value,
+    //          "college": drop1value,
+    //        };
+    //  //print("YES2");
+    //  var res = await http.post(url,body: data);
+    //  //print("YES3");
+    //  if(jsonDecode(res.body) == "okay"){
+    //    print("YESSSSSSS");
+    //  }
+    //  else{
+    //    print("NOOOOOO");
+    //  }
+
+    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+      email: fname.text + '.' + lname.text + '@cit.edu',
+      password: pass.text,
+    )
+        //         .catchError((ex) {
+        //   PlatformException thisEx = ex;
+        //   showSnackbar(thisEx.message);
+        // })
+        )
+        .user;
+
+    if (user != null) {
+      DatabaseReference newUserRef =
+          FirebaseDatabase.instance.reference().child('users/${user.uid}');
+
+      Map userMap = {
+        'firstName': fname.text,
+        'lastName': lname.text,
+        'idNo': idno.text,
+        'status': status,
+        'username': username.text,
+        'phoneNo': phone.text,
+        'dateOfBirth': dateCtl.text,
+        'course': drop1value,
+        'year': drop2value,
+        'dept': drop2value,
+        'college': drop1value,
+      };
+      newUserRef.set(userMap);
     }
   }
 
@@ -118,10 +173,10 @@ class _SignUpController extends State<SignUpView> {
   }
 
   void toastMessage(String message) {
-    Fluttertoast.showToast(
+    tst.Fluttertoast.showToast(
         msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
+        toastLength: tst.Toast.LENGTH_SHORT,
+        gravity: tst.ToastGravity.TOP,
         timeInSecForIos: 1,
         fontSize: 16.0);
   }
@@ -204,15 +259,38 @@ class _SignUpController extends State<SignUpView> {
     }
   }
 
-  next() {
+  bool disconnected = false;
+
+  void showConnectivitySnackBar(ConnectivityResult result) {
+    final hasInternet = result != ConnectivityResult.none;
+    final message = hasInternet
+        ? 'You now have your connection back'
+        : 'No internet connection';
+    final color =
+        hasInternet ? Color.fromARGB(255, 0x00, 0xA8, 0xE5) : Colors.red;
+
+    Utils.showTopSnackBar(context, message, color);
+  }
+
+  next() async {
     btmpad = 0;
     viewPass = true;
     isntvalid = false;
+    final result = await Connectivity().checkConnectivity();
 
-    currentStep + 1 != steps.length ? goTo(currentStep + 1) : fieldFin();
-    if (currentStep + 1 == steps.length && count == 0) {
-      verificationRequest();
-      count++;
+    if (result != ConnectivityResult.none) {
+      currentStep + 1 != steps.length ? goTo(currentStep + 1) : fieldFin();
+      if (currentStep + 1 == steps.length && count == 0) {
+        verificationRequest();
+        count++;
+      }
+      if (disconnected == true) {
+        showConnectivitySnackBar(result);
+        disconnected = false;
+      }
+    } else {
+      showConnectivitySnackBar(result);
+      disconnected = true;
     }
   }
 
@@ -228,15 +306,26 @@ class _SignUpController extends State<SignUpView> {
     setState(() => currentStep = step);
   }
 
-  cancel() {
+  cancel() async {
     btmpad = 0;
     viewPass = true;
-    if (currentStep > 0) {
-      goTo(currentStep - 1);
+    final result = await Connectivity().checkConnectivity();
+
+    if (result != ConnectivityResult.none) {
+      if (currentStep > 0) {
+        goTo(currentStep - 1);
+      } else {
+        Navigator.pop(
+          context,
+        );
+      }
+      if (disconnected == true) {
+        showConnectivitySnackBar(result);
+        disconnected = false;
+      }
     } else {
-      Navigator.pop(
-        context,
-      );
+      showConnectivitySnackBar(result);
+      disconnected = true;
     }
   }
 
@@ -368,6 +457,12 @@ class _SignUpController extends State<SignUpView> {
                             iconSize: 20,
                             onPressed: () {},
                           ),
+                          /*
+                        onPressed: () {
+                          setState(() {
+                            _volume += 10;
+                          });
+                        },*/
                         ),
                         onTap: () async {
                           DateTime date = DateTime(1900);
@@ -491,6 +586,11 @@ class _SignUpController extends State<SignUpView> {
                               fontFamily: 'Quicksand',
                               color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                             ),
+
+                            /*underline: Container(
+                          height: 1.1,
+                          color: Colors.grey,
+                        ),*/
                             onChanged: (String newValue) {
                               setState(() {
                                 drop1value = newValue;
@@ -531,6 +631,10 @@ class _SignUpController extends State<SignUpView> {
                               fontFamily: 'Quicksand',
                               color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                             ),
+                            /*underline: Container(
+                          height: 1.1,
+                          color: Colors.grey,
+                        ),*/
                             onChanged: (String newValue) {
                               setState(() {
                                 drop2value = newValue;
@@ -780,14 +884,16 @@ class _SignUpController extends State<SignUpView> {
                           letterSpacing: 1.0,
                         ),
                       ),
+                      //Vince started here
                       Text(
-                        phone.text,
+                        phone.text, //current dummy text for phone number
                         style: TextStyle(
                           fontFamily: 'Quicksand',
                           fontSize: 16.0,
                           letterSpacing: 2.0,
                         ),
                       ),
+                      //SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                       PinInputTextField(
                         controller: pin,
                         pinLength: 4,
@@ -838,8 +944,19 @@ class _SignUpController extends State<SignUpView> {
                             color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
                           ),
                         ),
-                        onPressed: () {
-                          verificationRequest();
+                        onPressed: () async {
+                          final result =
+                              await Connectivity().checkConnectivity();
+                          if (result != ConnectivityResult.none) {
+                            verificationRequest();
+                            if (disconnected == true) {
+                              showConnectivitySnackBar(result);
+                              disconnected = false;
+                            }
+                          } else {
+                            showConnectivitySnackBar(result);
+                            disconnected = true;
+                          }
                         },
                       ),
                       SizedBox(
