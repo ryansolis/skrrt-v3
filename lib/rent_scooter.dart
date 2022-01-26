@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:http/http.dart' as http;
 import 'sidebar_page.dart';
-//import 'navigation.dart';
+import 'navigation.dart';
 import 'dart:convert';
 //import 'package:fluttertoast/fluttertoast.dart'; unused import
 
@@ -107,10 +107,10 @@ class _RentScooterState extends State<RentScooter> {
   }
   void goToNavigationView(BuildContext context){
     if (_cameraScanResult.isNotEmpty){
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => Navigation()),
-      // );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Navigation()),
+      );
     }
   }
 
@@ -462,11 +462,11 @@ class _RentScooterState extends State<RentScooter> {
                             rideScooter();
                             setAvail();
                             Navigator.pop(context);
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => Navigation()),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Navigation()),
+                              );
                             // _scan();
                             // if (_cameraScanResult.isNotEmpty){
                             //   Navigator.pop(context);
