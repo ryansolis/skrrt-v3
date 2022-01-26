@@ -24,7 +24,7 @@ class _LoginController extends State<LoginView> {
   //String _username;
   //String _password;
   var session = FlutterSession();
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController _email = TextEditingController();
@@ -36,14 +36,12 @@ class _LoginController extends State<LoginView> {
   bool disconnected = false;
   bool errorCred = false;
 
-  bool validateAndSave() {
-    final form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
-  }
+  // void userLogin() async{
+  //   var url = "http://192.168.1.4/skrrt/login.php";
+  //   var data = {
+  //   "username": _user.text,
+  //   "pass":_pass.text,
+  //   };
 
   void showConnectivitySnackBar(ConnectivityResult result) {
     final hasInternet = result != ConnectivityResult.none;
@@ -81,23 +79,23 @@ class _LoginController extends State<LoginView> {
     //   }
     // }
 
-    if (validateAndSave()) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => ProgressDialog(
+        status: 'Logging you in',
+      ),
+    );
+
+    if (errorCred != true) {
       try {
-        FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+        final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
           email: _email.text,
           password: _pass.text,
         ))
             .user;
 
         if (user != null) {
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (BuildContext context) => ProgressDialog(
-              status: 'Logging you in',
-            ),
-          );
-
           DatabaseReference userRef =
               FirebaseDatabase.instance.reference().child('users/${user.uid}');
 
@@ -113,10 +111,7 @@ class _LoginController extends State<LoginView> {
               });
         }
       } catch (err) {
-        print('Error: $err');
-        Fluttertoast.showToast(
-            msg: "Incorrect Email or Password!",
-            toastLength: Toast.LENGTH_SHORT);
+        // other types of Exceptions
       }
     }
   }
@@ -144,13 +139,16 @@ class _LoginController extends State<LoginView> {
         color: Color.fromARGB(255, 0x00, 0xA8, 0xE5),
       ),
       keyboardType: TextInputType.text,
-      validator: (value) {
-        if (value.isEmpty)
-          return 'Email can\'t be empty';
-        else
+      validator: (email) {
+        if (email.isEmpty) {
+          errorCred = true;
+          return 'Email is required.';
+        } else {
+          errorCred = false;
           return null;
+        }
       },
-      onSaved: (value) => _email.text = value,
+      //onSaved: (email) => _email = email as TextEditingController,
     );
   }
 
@@ -180,13 +178,16 @@ class _LoginController extends State<LoginView> {
         ),
         keyboardType: TextInputType.text,
         obscureText: viewPass,
-        validator: (value) {
-          if (value.isEmpty)
-            return 'Password can\'t be empty';
-          else
+        validator: (password) {
+          if (password.isEmpty) {
+            setState(() {
+              btmpad = 25;
+            });
+            return 'Password is required.';
+          } else
             return null;
         },
-        onSaved: (value) => _pass.text = value,
+        //onSaved: (password) => _pass = password as TextEditingController,
       ),
       Padding(
         padding: EdgeInsets.only(bottom: btmpad),
@@ -275,7 +276,11 @@ class _LoginController extends State<LoginView> {
                                       final result = await Connectivity()
                                           .checkConnectivity();
                                       if (result != ConnectivityResult.none) {
-                                        userLogin();
+                                        if (_formKey.currentState.validate()) {
+                                          _formKey.currentState.save();
+                                          userLogin();
+                                        }
+
                                         if (disconnected == true) {
                                           showConnectivitySnackBar(result);
                                           disconnected = false;
