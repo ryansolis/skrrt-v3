@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'launch_page.dart';
 import 'new_user.dart';
 import 'dart:io';
@@ -21,7 +22,6 @@ import 'dart:io';
 //   ));
 // }
 
-
 //new main
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,16 +36,19 @@ Future<void> main() async {
         : const FirebaseOptions(
             googleAppID: '1:672349376975:android:cd0b852cb36684375502ba',
             apiKey: 'AIzaSyBolokaYNDFK0sDxS8FhwahVOpDDyVhTL4',
-            databaseURL: 'https://skrrt-d86f9-default-rtdb.asia-southeast1.firebasedatabase.app',
+            databaseURL:
+                'https://skrrt-d86f9-default-rtdb.asia-southeast1.firebasedatabase.app',
           ),
   );
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: "Skrrt",
-    home: LaunchPage(),
-    routes:{
-      'tohome':(context) => NewUser(),
-    }
+  runApp(OverlaySupport(
+    child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Skrrt",
+        home: LaunchPage(),
+        routes: {
+          'tohome': (context) => NewUser(),
+        }),
   ));
 }
+
 
